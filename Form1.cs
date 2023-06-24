@@ -28,6 +28,5 @@ namespace actions_with_costs
             //// Set the form to cover the entire screen
             //this.Bounds = Screen.PrimaryScreen.Bounds;
         }
-
     }
 }
