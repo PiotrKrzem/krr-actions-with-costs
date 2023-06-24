@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows;
 
 namespace actions_with_costs
 {
@@ -28,6 +29,17 @@ namespace actions_with_costs
             addStatementButton.Enabled = false;
             deleteFluentButton.Enabled = false;
             deleteActionButton.Enabled = false;
+
+            List<Item> items = new List<Item>();
+            items.Add(new Item() { Text = "Initially statement", Value = "initially" });
+            items.Add(new Item() { Text = "Value statement", Value = "value" });
+            items.Add(new Item() { Text = "Effect statement", Value = "effect" });
+
+            statementsComboBox.DataSource = items;
+            statementsComboBox.DisplayMember = "Text";
+            statementsComboBox.ValueMember = "Value";
+
+            createInitialStatements();
         }
 
         private void addFluentTextBox_TextChanged(object sender, EventArgs e)
@@ -103,5 +115,34 @@ namespace actions_with_costs
         {
             deleteActionButton.Enabled = allActionsListView.CheckedItems.Count > 0;
         }
+
+        private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            //if(statementsComboBox.)
+
+        }
+        private void createInitialStatements()
+        {
+            Label label = new Label();
+            label.Text = "initially";
+            label.Font = new Font("Calibri Light", 13);
+            TextBox textBox = new TextBox();
+            statementsPanel.Controls.AddRange(new Control[] { label, textBox });
+        }
+        private void createValueStatements()
+        {
+         
+        }
+        private void createEffectStatements()
+        {
+                
+        }
+    }
+
+    public class Item
+    {
+        public Item() { }
+        public string Value { get; set; }
+        public string Text { get; set; }
     }
 }
