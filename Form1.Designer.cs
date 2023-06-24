@@ -567,6 +567,7 @@ namespace actions_with_costs
             // statementsComboBox
             // 
             this.statementsComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statementsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.statementsComboBox.Font = new System.Drawing.Font("Calibri Light", 13F);
             this.statementsComboBox.FormattingEnabled = true;
             this.statementsComboBox.Location = new System.Drawing.Point(0, 0);
@@ -755,10 +756,10 @@ namespace actions_with_costs
             // 
             this.statementsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statementsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.statementsPanel.Location = new System.Drawing.Point(0, 126);
-            this.statementsPanel.Margin = new System.Windows.Forms.Padding(0, 12, 3, 3);
+            this.statementsPanel.Location = new System.Drawing.Point(3, 126);
+            this.statementsPanel.Margin = new System.Windows.Forms.Padding(3, 12, 3, 3);
             this.statementsPanel.Name = "statementsPanel";
-            this.statementsPanel.Size = new System.Drawing.Size(401, 190);
+            this.statementsPanel.Size = new System.Drawing.Size(398, 190);
             this.statementsPanel.TabIndex = 7;
             // 
             // Form1

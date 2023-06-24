@@ -11,15 +11,29 @@ using System.Windows;
 
 namespace actions_with_costs
 {
+
     public partial class Form1 : Form
     {
         public List<string> allFluents;
         public List<string> allActions;
+        private TextBox initiallyCondition;
+        private TextBox afterPostcondition;
+        private TextBox afterActions;
+        private TextBox causesAction;
+        private TextBox causesPostcondition;
+        private TextBox causesPrecondition;
+        private TextBox causesCost;
+        private int fontSize = 10;
+        private string fontType = "Calibri Light";
+        private int offset = 20;
+        private Font font;
+
         public Form1()
         {
             InitializeComponent();
             allFluents = new List<string>();
             allActions = new List<string>();
+            font = new Font(fontType, fontSize);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -118,24 +132,75 @@ namespace actions_with_costs
 
         private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            //if(statementsComboBox.)
-
+            if (statementsComboBox.SelectedValue.ToString() == "initially")
+            {
+                createInitialStatements();
+            }
+            else if (statementsComboBox.SelectedValue.ToString() == "value")
+            {
+                createValueStatements();
+            }
+            else
+            {
+                createEffectStatements();
+            }
         }
         private void createInitialStatements()
         {
+            statementsPanel.Controls.Clear();
             Label label = new Label();
             label.Text = "initially";
-            label.Font = new Font("Calibri Light", 13);
-            TextBox textBox = new TextBox();
-            statementsPanel.Controls.AddRange(new Control[] { label, textBox });
+            label.Font = font;
+            initiallyCondition = new TextBox();
+            initiallyCondition.Font = font;
+            initiallyCondition.Width = statementsPanel.Width - offset;
+
+            statementsPanel.Controls.AddRange(new Control[] { label, initiallyCondition });
         }
         private void createValueStatements()
         {
-         
+            statementsPanel.Controls.Clear();
+            Label label = new Label();
+            label.Text = "after";
+            label.Font = font;
+
+            afterPostcondition = new TextBox();
+            afterPostcondition.Font = font;
+            afterPostcondition.Width = statementsPanel.Width - offset;
+            afterActions = new TextBox();
+            afterActions.Font = font;
+            afterActions.Width = statementsPanel.Width - offset;
+
+            statementsPanel.Controls.AddRange(new Control[] { afterPostcondition, label, afterActions });
         }
         private void createEffectStatements()
         {
-                
+            statementsPanel.Controls.Clear();
+            Label labelCauses = new Label();
+            labelCauses.Text = "causes";
+            labelCauses.Font = font;
+            Label labelIf = new Label();
+            labelIf.Text = "if";
+            labelIf.Font = font;
+            Label labelCost = new Label();
+            labelCost.Text = "cost";
+            labelCost.Font = font;
+
+            causesAction = new TextBox();
+            causesAction.Font = font;
+            causesAction.Width = statementsPanel.Width - offset;
+            causesPrecondition = new TextBox();
+            causesPrecondition.Font = font;
+            causesPrecondition.Width = statementsPanel.Width - offset;
+            causesPostcondition = new TextBox();
+            causesPostcondition.Font = font;
+            causesPostcondition.Width = statementsPanel.Width - offset;
+            causesCost = new TextBox();
+            causesCost.Font = font;
+            causesCost.Width = statementsPanel.Width - offset;
+
+            statementsPanel.Controls.AddRange(new Control[] { causesAction, labelCauses, causesPostcondition, 
+                                                labelIf, causesPrecondition, labelCost, causesCost });
         }
     }
 
