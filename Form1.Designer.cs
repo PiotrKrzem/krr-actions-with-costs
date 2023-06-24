@@ -66,8 +66,7 @@ namespace actions_with_costs
             this.panel5 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.panel6 = new System.Windows.Forms.Panel();
-            this.allFluentsList = new System.Windows.Forms.ListView();
-            this.allActionsList = new System.Windows.Forms.ListView();
+            this.allActionsListView = new System.Windows.Forms.ListView();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
@@ -80,7 +79,8 @@ namespace actions_with_costs
             this.panel14 = new System.Windows.Forms.Panel();
             this.panel15 = new System.Windows.Forms.Panel();
             this.panel16 = new System.Windows.Forms.Panel();
-            this.allStatementsList = new System.Windows.Forms.ListView();
+            this.allStatementsListView = new System.Windows.Forms.ListView();
+            this.allFluentsListView = new System.Windows.Forms.ListView();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -176,6 +176,7 @@ namespace actions_with_costs
             this.addActionButton.TabIndex = 2;
             this.addActionButton.Text = "Add";
             this.addActionButton.UseVisualStyleBackColor = true;
+            this.addActionButton.Click += new System.EventHandler(this.addActionButton_Click);
             // 
             // label1
             // 
@@ -194,6 +195,7 @@ namespace actions_with_costs
             this.addFluentTextBox.Name = "addFluentTextBox";
             this.addFluentTextBox.Size = new System.Drawing.Size(259, 20);
             this.addFluentTextBox.TabIndex = 0;
+            this.addFluentTextBox.TextChanged += new System.EventHandler(this.addFluentTextBox_TextChanged);
             // 
             // groupBox2
             // 
@@ -263,6 +265,7 @@ namespace actions_with_costs
             this.addFluentButton.TabIndex = 4;
             this.addFluentButton.Text = "Add";
             this.addFluentButton.UseVisualStyleBackColor = true;
+            this.addFluentButton.Click += new System.EventHandler(this.addFluentButton_Click);
             // 
             // addActionTextBox
             // 
@@ -271,6 +274,7 @@ namespace actions_with_costs
             this.addActionTextBox.Name = "addActionTextBox";
             this.addActionTextBox.Size = new System.Drawing.Size(259, 20);
             this.addActionTextBox.TabIndex = 5;
+            this.addActionTextBox.TextChanged += new System.EventHandler(this.addActionTextBox_TextChanged);
             // 
             // listView1
             // 
@@ -502,7 +506,7 @@ namespace actions_with_costs
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel5, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.allFluentsList, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.allFluentsListView, 0, 1);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 16);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
@@ -526,7 +530,7 @@ namespace actions_with_costs
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.Controls.Add(this.panel6, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.allActionsList, 0, 1);
+            this.tableLayoutPanel5.Controls.Add(this.allActionsListView, 0, 1);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(12, 16);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
@@ -545,25 +549,18 @@ namespace actions_with_costs
             this.panel6.Size = new System.Drawing.Size(573, 38);
             this.panel6.TabIndex = 0;
             // 
-            // allFluentsList
+            // allActionsListView
             // 
-            this.allFluentsList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allFluentsList.HideSelection = false;
-            this.allFluentsList.Location = new System.Drawing.Point(3, 47);
-            this.allFluentsList.Name = "allFluentsList";
-            this.allFluentsList.Size = new System.Drawing.Size(384, 222);
-            this.allFluentsList.TabIndex = 9;
-            this.allFluentsList.UseCompatibleStateImageBehavior = false;
-            // 
-            // allActionsList
-            // 
-            this.allActionsList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allActionsList.HideSelection = false;
-            this.allActionsList.Location = new System.Drawing.Point(3, 47);
-            this.allActionsList.Name = "allActionsList";
-            this.allActionsList.Size = new System.Drawing.Size(573, 222);
-            this.allActionsList.TabIndex = 1;
-            this.allActionsList.UseCompatibleStateImageBehavior = false;
+            this.allActionsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.allActionsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
+            this.allActionsListView.HideSelection = false;
+            this.allActionsListView.Location = new System.Drawing.Point(3, 56);
+            this.allActionsListView.Margin = new System.Windows.Forms.Padding(3, 12, 3, 3);
+            this.allActionsListView.Name = "allActionsListView";
+            this.allActionsListView.Size = new System.Drawing.Size(573, 213);
+            this.allActionsListView.TabIndex = 1;
+            this.allActionsListView.UseCompatibleStateImageBehavior = false;
+            this.allActionsListView.View = System.Windows.Forms.View.List;
             // 
             // tableLayoutPanel6
             // 
@@ -691,7 +688,7 @@ namespace actions_with_costs
             // 
             // panel16
             // 
-            this.panel16.Controls.Add(this.allStatementsList);
+            this.panel16.Controls.Add(this.allStatementsListView);
             this.panel16.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel16.Location = new System.Drawing.Point(3, 51);
             this.panel16.Name = "panel16";
@@ -699,15 +696,30 @@ namespace actions_with_costs
             this.panel16.Size = new System.Drawing.Size(906, 169);
             this.panel16.TabIndex = 5;
             // 
-            // allStatementsList
+            // allStatementsListView
             // 
-            this.allStatementsList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allStatementsList.HideSelection = false;
-            this.allStatementsList.Location = new System.Drawing.Point(12, 0);
-            this.allStatementsList.Name = "allStatementsList";
-            this.allStatementsList.Size = new System.Drawing.Size(894, 169);
-            this.allStatementsList.TabIndex = 0;
-            this.allStatementsList.UseCompatibleStateImageBehavior = false;
+            this.allStatementsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.allStatementsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
+            this.allStatementsListView.HideSelection = false;
+            this.allStatementsListView.Location = new System.Drawing.Point(12, 0);
+            this.allStatementsListView.Name = "allStatementsListView";
+            this.allStatementsListView.Size = new System.Drawing.Size(894, 169);
+            this.allStatementsListView.TabIndex = 0;
+            this.allStatementsListView.UseCompatibleStateImageBehavior = false;
+            this.allStatementsListView.View = System.Windows.Forms.View.List;
+            // 
+            // allFluentsListView
+            // 
+            this.allFluentsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.allFluentsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
+            this.allFluentsListView.HideSelection = false;
+            this.allFluentsListView.Location = new System.Drawing.Point(3, 56);
+            this.allFluentsListView.Margin = new System.Windows.Forms.Padding(3, 12, 3, 3);
+            this.allFluentsListView.Name = "allFluentsListView";
+            this.allFluentsListView.Size = new System.Drawing.Size(384, 213);
+            this.allFluentsListView.TabIndex = 9;
+            this.allFluentsListView.UseCompatibleStateImageBehavior = false;
+            this.allFluentsListView.View = System.Windows.Forms.View.List;
             // 
             // Form1
             // 
@@ -811,8 +823,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.ListView allFluentsList;
-        private System.Windows.Forms.ListView allActionsList;
+        private System.Windows.Forms.ListView allActionsListView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel8;
@@ -825,7 +836,8 @@ namespace actions_with_costs
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.Panel panel15;
         private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.ListView allStatementsList;
+        private System.Windows.Forms.ListView allStatementsListView;
+        private System.Windows.Forms.ListView allFluentsListView;
     }
 }
 
