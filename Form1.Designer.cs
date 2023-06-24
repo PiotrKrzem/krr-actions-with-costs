@@ -81,6 +81,8 @@ namespace actions_with_costs
             this.panel16 = new System.Windows.Forms.Panel();
             this.allStatementsListView = new System.Windows.Forms.ListView();
             this.allFluentsListView = new System.Windows.Forms.ListView();
+            this.deleteFluentButton = new System.Windows.Forms.Button();
+            this.deleteActionButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -507,12 +509,14 @@ namespace actions_with_costs
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.Controls.Add(this.panel5, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.allFluentsListView, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.deleteFluentButton, 0, 2);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(12, 16);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 2;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.37011F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.62989F));
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.59504F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.40496F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel4.Size = new System.Drawing.Size(390, 272);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
@@ -522,21 +526,23 @@ namespace actions_with_costs
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 3);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(384, 38);
+            this.panel5.Size = new System.Drawing.Size(384, 39);
             this.panel5.TabIndex = 8;
             // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 1;
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Controls.Add(this.deleteActionButton, 0, 2);
             this.tableLayoutPanel5.Controls.Add(this.panel6, 0, 0);
             this.tableLayoutPanel5.Controls.Add(this.allActionsListView, 0, 1);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel5.Location = new System.Drawing.Point(12, 16);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 2;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.37011F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.62989F));
+            this.tableLayoutPanel5.RowCount = 3;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.81818F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(579, 272);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
@@ -551,16 +557,18 @@ namespace actions_with_costs
             // 
             // allActionsListView
             // 
+            this.allActionsListView.CheckBoxes = true;
             this.allActionsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.allActionsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
             this.allActionsListView.HideSelection = false;
             this.allActionsListView.Location = new System.Drawing.Point(3, 56);
             this.allActionsListView.Margin = new System.Windows.Forms.Padding(3, 12, 3, 3);
             this.allActionsListView.Name = "allActionsListView";
-            this.allActionsListView.Size = new System.Drawing.Size(573, 213);
+            this.allActionsListView.Size = new System.Drawing.Size(573, 183);
             this.allActionsListView.TabIndex = 1;
             this.allActionsListView.UseCompatibleStateImageBehavior = false;
             this.allActionsListView.View = System.Windows.Forms.View.List;
+            this.allActionsListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.allActionsListView_ItemChecked);
             // 
             // tableLayoutPanel6
             // 
@@ -710,16 +718,40 @@ namespace actions_with_costs
             // 
             // allFluentsListView
             // 
+            this.allFluentsListView.CheckBoxes = true;
             this.allFluentsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.allFluentsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
             this.allFluentsListView.HideSelection = false;
-            this.allFluentsListView.Location = new System.Drawing.Point(3, 56);
+            this.allFluentsListView.Location = new System.Drawing.Point(3, 57);
             this.allFluentsListView.Margin = new System.Windows.Forms.Padding(3, 12, 3, 3);
             this.allFluentsListView.Name = "allFluentsListView";
-            this.allFluentsListView.Size = new System.Drawing.Size(384, 213);
+            this.allFluentsListView.Size = new System.Drawing.Size(384, 182);
             this.allFluentsListView.TabIndex = 9;
             this.allFluentsListView.UseCompatibleStateImageBehavior = false;
             this.allFluentsListView.View = System.Windows.Forms.View.List;
+            this.allFluentsListView.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.allFluentsListView_ItemChecked);
+            // 
+            // deleteFluentButton
+            // 
+            this.deleteFluentButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.deleteFluentButton.Location = new System.Drawing.Point(312, 245);
+            this.deleteFluentButton.Name = "deleteFluentButton";
+            this.deleteFluentButton.Size = new System.Drawing.Size(75, 24);
+            this.deleteFluentButton.TabIndex = 10;
+            this.deleteFluentButton.Text = "Delete";
+            this.deleteFluentButton.UseVisualStyleBackColor = true;
+            this.deleteFluentButton.Click += new System.EventHandler(this.deleteFluentButton_Click);
+            // 
+            // deleteActionButton
+            // 
+            this.deleteActionButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.deleteActionButton.Location = new System.Drawing.Point(501, 245);
+            this.deleteActionButton.Name = "deleteActionButton";
+            this.deleteActionButton.Size = new System.Drawing.Size(75, 24);
+            this.deleteActionButton.TabIndex = 11;
+            this.deleteActionButton.Text = "Delete";
+            this.deleteActionButton.UseVisualStyleBackColor = true;
+            this.deleteActionButton.Click += new System.EventHandler(this.deleteActionButton_Click);
             // 
             // Form1
             // 
@@ -838,6 +870,8 @@ namespace actions_with_costs
         private System.Windows.Forms.Panel panel16;
         private System.Windows.Forms.ListView allStatementsListView;
         private System.Windows.Forms.ListView allFluentsListView;
+        private System.Windows.Forms.Button deleteFluentButton;
+        private System.Windows.Forms.Button deleteActionButton;
     }
 }
 

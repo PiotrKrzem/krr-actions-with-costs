@@ -26,6 +26,8 @@ namespace actions_with_costs
             addFluentButton.Enabled = false;
             addActionButton.Enabled = false;
             addStatementButton.Enabled = false;
+            deleteFluentButton.Enabled = false;
+            deleteActionButton.Enabled = false;
         }
 
         private void addFluentTextBox_TextChanged(object sender, EventArgs e)
@@ -66,6 +68,40 @@ namespace actions_with_costs
                 string message = "This action was already added";
                 MessageBox.Show(message, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+        }
+
+        private void deleteFluentButton_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in allFluentsListView.CheckedItems)
+            {
+                allFluentsListView.Items.Remove(item);
+            }
+            allFluents = allFluentsListView.Items.Cast<ListViewItem>()
+                                 .Select(item => item.Text)
+                                 .ToList();
+            deleteFluentButton.Enabled = false;
+        }
+
+        private void deleteActionButton_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem item in allActionsListView.CheckedItems)
+            {
+                allActionsListView.Items.Remove(item);
+            }
+            allActions = allActionsListView.Items.Cast<ListViewItem>()
+                                 .Select(item => item.Text)
+                                 .ToList();
+            deleteActionButton.Enabled = false;
+        }
+
+        private void allFluentsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            deleteFluentButton.Enabled = allFluentsListView.CheckedItems.Count > 0;
+        }
+
+        private void allActionsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            deleteActionButton.Enabled = allActionsListView.CheckedItems.Count > 0;
         }
     }
 }
