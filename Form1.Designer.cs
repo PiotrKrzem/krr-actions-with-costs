@@ -583,6 +583,7 @@ namespace actions_with_costs
             this.addStatementButton.TabIndex = 6;
             this.addStatementButton.Text = "Add";
             this.addStatementButton.UseVisualStyleBackColor = true;
+            this.addStatementButton.Click += new System.EventHandler(this.addStatementButton_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -688,6 +689,7 @@ namespace actions_with_costs
             // 
             // allStatementsListView
             // 
+            this.allStatementsListView.CheckBoxes = true;
             this.allStatementsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.allStatementsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
             this.allStatementsListView.HideSelection = false;

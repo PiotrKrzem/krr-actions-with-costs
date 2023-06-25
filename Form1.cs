@@ -15,8 +15,9 @@ namespace actions_with_costs
     public partial class Form1 : Form
     {
         public List<string> allFluents;
+        public List<string> positiveNegativeFluents;
         public List<string> allActions;
-        private TextBox initiallyCondition;
+        private ComboBox initiallyCondition;
         private TextBox afterPostcondition;
         private TextBox afterActions;
         private TextBox causesAction;
@@ -33,6 +34,7 @@ namespace actions_with_costs
             InitializeComponent();
             allFluents = new List<string>();
             allActions = new List<string>();
+            positiveNegativeFluents = new List<string>();
             font = new Font(fontType, fontSize);
         }
 
@@ -40,7 +42,7 @@ namespace actions_with_costs
         {
             addFluentButton.Enabled = false;
             addActionButton.Enabled = false;
-            addStatementButton.Enabled = false;
+            //addStatementButton.Enabled = false;
             deleteFluentButton.Enabled = false;
             deleteActionButton.Enabled = false;
 
@@ -53,6 +55,7 @@ namespace actions_with_costs
             statementsComboBox.DisplayMember = "Text";
             statementsComboBox.ValueMember = "Value";
 
+            initializeComboBoxes();
             createInitialStatements();
         }
 
@@ -73,6 +76,7 @@ namespace actions_with_costs
                 allFluents.Add(addFluentTextBox.Text);
                 allFluentsListView.Items.Add(addFluentTextBox.Text);
                 addFluentTextBox.Text = String.Empty;
+                buildPositiveNegativeFluents();
             }
             else
             {
@@ -106,6 +110,7 @@ namespace actions_with_costs
                                  .Select(item => item.Text)
                                  .ToList();
             deleteFluentButton.Enabled = false;
+            buildPositiveNegativeFluents();
         }
 
         private void deleteActionButton_Click(object sender, EventArgs e)
@@ -145,17 +150,27 @@ namespace actions_with_costs
                 createEffectStatements();
             }
         }
+        private void initializeComboBoxes()
+        {
+            initiallyCondition = new ComboBox();
+            initiallyCondition.Font = font;
+            initiallyCondition.Width = statementsPanel.Width - offset;
+            initiallyCondition.Items.Clear();
+            initiallyCondition.Items.AddRange(positiveNegativeFluents.ToArray());
+        }
         private void createInitialStatements()
         {
             statementsPanel.Controls.Clear();
             Label label = new Label();
             label.Text = "initially";
             label.Font = font;
-            initiallyCondition = new TextBox();
-            initiallyCondition.Font = font;
-            initiallyCondition.Width = statementsPanel.Width - offset;
+            //initiallyCondition.SelectionChangeCommitted += new EventHandler(initiallyCondition_SelectionChangeCommitted);
 
             statementsPanel.Controls.AddRange(new Control[] { label, initiallyCondition });
+        }
+        private void initiallyCondition_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            
         }
         private void createValueStatements()
         {
@@ -201,6 +216,28 @@ namespace actions_with_costs
 
             statementsPanel.Controls.AddRange(new Control[] { causesAction, labelCauses, causesPostcondition, 
                                                 labelIf, causesPrecondition, labelCost, causesCost });
+        }
+        private void buildPositiveNegativeFluents()
+        {
+            positiveNegativeFluents = new List<string>();
+            foreach (string item in allFluents)
+            {
+                positiveNegativeFluents.Add(item);
+                string negated = "~" + item;
+                positiveNegativeFluents.Add(negated);
+            }
+            initiallyCondition.Items.Clear();
+            initiallyCondition.Items.AddRange(positiveNegativeFluents.ToArray());
+        }
+
+        private void addStatementButton_Click(object sender, EventArgs e)
+        {
+            if (statementsComboBox.SelectedValue.ToString() == "initially")
+            {
+                string statement = "initially " + initiallyCondition.Text;
+                allStatementsListView.Items.Add(statement);
+                initiallyCondition.Text = "";
+            }
         }
     }
 
