@@ -18,10 +18,10 @@ namespace actions_with_costs
         public List<string> positiveNegativeFluents;
         public List<string> allActions;
         private ComboBox initiallyCondition;
-        private TextBox afterPostcondition;
+        private ComboBox afterPostcondition;
         private TextBox afterActions;
-        private TextBox causesAction;
-        private TextBox causesPostcondition;
+        private ComboBox causesAction;
+        private ComboBox causesPostcondition;
         private TextBox causesPrecondition;
         private TextBox causesCost;
         private int fontSize = 10;
@@ -92,6 +92,8 @@ namespace actions_with_costs
                 allActions.Add(addActionTextBox.Text);
                 allActionsListView.Items.Add(addActionTextBox.Text);
                 addActionTextBox.Text = String.Empty;
+                causesAction.Items.Clear();
+                causesAction.Items.AddRange(allActions.ToArray());
             }
             else
             {
@@ -123,6 +125,8 @@ namespace actions_with_costs
                                  .Select(item => item.Text)
                                  .ToList();
             deleteActionButton.Enabled = false;
+            causesAction.Items.Clear();
+            causesAction.Items.AddRange(allActions.ToArray());
         }
 
         private void allFluentsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -157,6 +161,24 @@ namespace actions_with_costs
             initiallyCondition.Width = statementsPanel.Width - offset;
             initiallyCondition.Items.Clear();
             initiallyCondition.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            afterPostcondition = new ComboBox();
+            afterPostcondition.Font = font;
+            afterPostcondition.Width = statementsPanel.Width - offset;
+            afterPostcondition.Items.Clear();
+            afterPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            causesAction = new ComboBox();
+            causesAction.Font = font;
+            causesAction.Width = statementsPanel.Width - offset;
+            causesAction.Items.Clear();
+            causesAction.Items.AddRange(allActions.ToArray());
+
+            causesPostcondition = new ComboBox();
+            causesPostcondition.Font = font;
+            causesPostcondition.Width = statementsPanel.Width - offset;
+            causesPostcondition.Items.Clear();
+            causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
         }
         private void createInitialStatements()
         {
@@ -179,9 +201,6 @@ namespace actions_with_costs
             label.Text = "after";
             label.Font = font;
 
-            afterPostcondition = new TextBox();
-            afterPostcondition.Font = font;
-            afterPostcondition.Width = statementsPanel.Width - offset;
             afterActions = new TextBox();
             afterActions.Font = font;
             afterActions.Width = statementsPanel.Width - offset;
@@ -201,15 +220,9 @@ namespace actions_with_costs
             labelCost.Text = "cost";
             labelCost.Font = font;
 
-            causesAction = new TextBox();
-            causesAction.Font = font;
-            causesAction.Width = statementsPanel.Width - offset;
             causesPrecondition = new TextBox();
             causesPrecondition.Font = font;
             causesPrecondition.Width = statementsPanel.Width - offset;
-            causesPostcondition = new TextBox();
-            causesPostcondition.Font = font;
-            causesPostcondition.Width = statementsPanel.Width - offset;
             causesCost = new TextBox();
             causesCost.Font = font;
             causesCost.Width = statementsPanel.Width - offset;
@@ -228,6 +241,10 @@ namespace actions_with_costs
             }
             initiallyCondition.Items.Clear();
             initiallyCondition.Items.AddRange(positiveNegativeFluents.ToArray());
+            afterPostcondition.Items.Clear();
+            afterPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
+            causesPostcondition.Items.Clear();
+            causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
         }
 
         private void addStatementButton_Click(object sender, EventArgs e)
@@ -237,6 +254,24 @@ namespace actions_with_costs
                 string statement = "initially " + initiallyCondition.Text;
                 allStatementsListView.Items.Add(statement);
                 initiallyCondition.Text = "";
+            }
+            else if (statementsComboBox.SelectedValue.ToString() == "value")
+            {
+                string statement = afterPostcondition.Text + " after " + afterActions.Text;
+                allStatementsListView.Items.Add(statement);
+                afterPostcondition.Text = "";
+                afterActions.Text = "";
+            }
+            else
+            {
+                string statement = causesAction.Text + " causes " + causesPostcondition.Text + 
+                                    " if " + causesPrecondition.Text + " cost " + causesCost.Text;
+                allStatementsListView.Items.Add(statement);
+                causesAction.Text = "";
+                causesPostcondition.Text = "";
+                causesPrecondition.Text = "";
+                causesCost.Text = "";
+
             }
         }
     }
