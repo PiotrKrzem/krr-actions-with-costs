@@ -54,13 +54,21 @@ namespace actions_with_costs
             this.label3 = new System.Windows.Forms.Label();
             this.allFluentsCheckBox = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.initialStateComboBox = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.actionsQueryComboBox = new System.Windows.Forms.ComboBox();
+            this.valueQueryComboBox = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.queryTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.queryResultRichTextBox = new System.Windows.Forms.RichTextBox();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.addStatementButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.statementsPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.sfComboBox1 = new Syncfusion.WinForms.ListView.SfComboBox();
             this.statementsComboBox = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
             this.allStatementsListView = new System.Windows.Forms.CheckedListBox();
@@ -86,6 +94,8 @@ namespace actions_with_costs
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel11.SuspendLayout();
             this.tableLayoutPanel14.SuspendLayout();
+            this.statementsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.sfComboBox1)).BeginInit();
             this.tableLayoutPanel17.SuspendLayout();
             this.tableLayoutPanel18.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -442,11 +452,23 @@ namespace actions_with_costs
             // tableLayoutPanel6
             // 
             this.tableLayoutPanel6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel6.ColumnCount = 7;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 56.18375F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 43.81625F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 127F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 65F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 158F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 61F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 97F));
+            this.tableLayoutPanel6.Controls.Add(this.initialStateComboBox, 6, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label11, 5, 0);
+            this.tableLayoutPanel6.Controls.Add(this.actionsQueryComboBox, 4, 0);
+            this.tableLayoutPanel6.Controls.Add(this.valueQueryComboBox, 2, 0);
+            this.tableLayoutPanel6.Controls.Add(this.label10, 3, 0);
             this.tableLayoutPanel6.Controls.Add(this.label8, 0, 1);
             this.tableLayoutPanel6.Controls.Add(this.label7, 0, 0);
+            this.tableLayoutPanel6.Controls.Add(this.queryTypeComboBox, 1, 0);
+            this.tableLayoutPanel6.Controls.Add(this.queryResultRichTextBox, 1, 1);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(3, 587);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
@@ -456,6 +478,52 @@ namespace actions_with_costs
             this.tableLayoutPanel6.Size = new System.Drawing.Size(791, 60);
             this.tableLayoutPanel6.TabIndex = 3;
             // 
+            // initialStateComboBox
+            // 
+            this.initialStateComboBox.FormattingEnabled = true;
+            this.initialStateComboBox.Location = new System.Drawing.Point(696, 3);
+            this.initialStateComboBox.Name = "initialStateComboBox";
+            this.initialStateComboBox.Size = new System.Drawing.Size(91, 21);
+            this.initialStateComboBox.TabIndex = 15;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label11.Location = new System.Drawing.Point(635, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(55, 30);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "FROM";
+            // 
+            // actionsQueryComboBox
+            // 
+            this.actionsQueryComboBox.FormattingEnabled = true;
+            this.actionsQueryComboBox.Location = new System.Drawing.Point(477, 3);
+            this.actionsQueryComboBox.Name = "actionsQueryComboBox";
+            this.actionsQueryComboBox.Size = new System.Drawing.Size(152, 21);
+            this.actionsQueryComboBox.TabIndex = 13;
+            // 
+            // valueQueryComboBox
+            // 
+            this.valueQueryComboBox.FormattingEnabled = true;
+            this.valueQueryComboBox.Location = new System.Drawing.Point(285, 3);
+            this.valueQueryComboBox.Name = "valueQueryComboBox";
+            this.valueQueryComboBox.Size = new System.Drawing.Size(121, 21);
+            this.valueQueryComboBox.TabIndex = 12;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label10.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label10.Location = new System.Drawing.Point(412, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 30);
+            this.label10.TabIndex = 11;
+            this.label10.Text = "AFTER";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -463,7 +531,7 @@ namespace actions_with_costs
             this.label8.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label8.Location = new System.Drawing.Point(3, 30);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(389, 30);
+            this.label8.Size = new System.Drawing.Size(153, 30);
             this.label8.TabIndex = 9;
             this.label8.Text = "QUERY RESULT:";
             // 
@@ -474,9 +542,28 @@ namespace actions_with_costs
             this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label7.Location = new System.Drawing.Point(3, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(389, 30);
+            this.label7.Size = new System.Drawing.Size(153, 30);
             this.label7.TabIndex = 9;
             this.label7.Text = "QUERY:";
+            // 
+            // queryTypeComboBox
+            // 
+            this.queryTypeComboBox.FormattingEnabled = true;
+            this.queryTypeComboBox.Location = new System.Drawing.Point(162, 3);
+            this.queryTypeComboBox.Name = "queryTypeComboBox";
+            this.queryTypeComboBox.Size = new System.Drawing.Size(117, 21);
+            this.queryTypeComboBox.TabIndex = 10;
+            // 
+            // queryResultRichTextBox
+            // 
+            this.tableLayoutPanel6.SetColumnSpan(this.queryResultRichTextBox, 6);
+            this.queryResultRichTextBox.Location = new System.Drawing.Point(162, 33);
+            this.queryResultRichTextBox.Multiline = false;
+            this.queryResultRichTextBox.Name = "queryResultRichTextBox";
+            this.queryResultRichTextBox.ReadOnly = true;
+            this.queryResultRichTextBox.Size = new System.Drawing.Size(626, 24);
+            this.queryResultRichTextBox.TabIndex = 16;
+            this.queryResultRichTextBox.Text = "";
             // 
             // tableLayoutPanel11
             // 
@@ -542,6 +629,7 @@ namespace actions_with_costs
             // statementsPanel
             // 
             this.statementsPanel.BackColor = System.Drawing.Color.White;
+            this.statementsPanel.Controls.Add(this.sfComboBox1);
             this.statementsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statementsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.statementsPanel.Location = new System.Drawing.Point(3, 80);
@@ -549,6 +637,16 @@ namespace actions_with_costs
             this.statementsPanel.Name = "statementsPanel";
             this.statementsPanel.Size = new System.Drawing.Size(304, 226);
             this.statementsPanel.TabIndex = 7;
+            // 
+            // sfComboBox1
+            // 
+            this.sfComboBox1.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
+            this.sfComboBox1.Location = new System.Drawing.Point(3, 3);
+            this.sfComboBox1.Name = "sfComboBox1";
+            this.sfComboBox1.Size = new System.Drawing.Size(8, 8);
+            this.sfComboBox1.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.sfComboBox1.TabIndex = 0;
+            this.sfComboBox1.TabStop = false;
             // 
             // statementsComboBox
             // 
@@ -750,6 +848,8 @@ namespace actions_with_costs
             this.tableLayoutPanel11.ResumeLayout(false);
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel14.PerformLayout();
+            this.statementsPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.sfComboBox1)).EndInit();
             this.tableLayoutPanel17.ResumeLayout(false);
             this.tableLayoutPanel18.ResumeLayout(false);
             this.tableLayoutPanel18.PerformLayout();
@@ -807,6 +907,14 @@ namespace actions_with_costs
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label9;
+        private Syncfusion.WinForms.ListView.SfComboBox sfComboBox1;
+        private System.Windows.Forms.ComboBox initialStateComboBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox actionsQueryComboBox;
+        private System.Windows.Forms.ComboBox valueQueryComboBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox queryTypeComboBox;
+        private System.Windows.Forms.RichTextBox queryResultRichTextBox;
     }
 }
 
