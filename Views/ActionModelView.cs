@@ -353,6 +353,66 @@ namespace actions_with_costs
         }
     }
 
+    class Query
+    {
+        public QuerySFComboBox queryActions;
+        public QueryComboBox initialStateSelectBox;
+
+        public Query(FlowLayoutPanel queryPanel)
+        {
+            this.queryActions = new QuerySFComboBox(queryPanel);
+            this.initialStateSelectBox = new QueryComboBox(queryPanel);
+        }
+        public virtual void createQueryObject(FlowLayoutPanel queryPanel) { }
+        public virtual string createQueryText() { return "<error query>"; }
+    }
+    class ValueQuery : Query
+    {
+        public QueryComboBox fluentSelectBox;
+
+        public ValueQuery(FlowLayoutPanel queryPanel, List<string> positiveNegativeFluents) : base(queryPanel)
+        {
+            this.fluentSelectBox = new QueryComboBox(queryPanel, positiveNegativeFluents);
+        }
+        public override void createQueryObject(FlowLayoutPanel queryPanel)
+        {
+            queryPanel.Controls.Clear();
+            queryPanel.Controls.AddRange(new Control[] {
+                fluentSelectBox,
+                StatementConstants.createStatementLabel("after"),
+                queryActions,
+                StatementConstants.createStatementLabel("from initial state"),
+                initialStateSelectBox});
+        }
+
+        public override string createQueryText()
+        {
+            return fluentSelectBox.Text + " after " + queryActions.Text + " from " + initialStateSelectBox.Text;
+        }
+    }
+    class CostQuery : Query
+    {
+        public QueryNumericUpDown costSelectBox;
+        public CostQuery(FlowLayoutPanel queryPanel) : base(queryPanel)
+        {
+            this.costSelectBox = new QueryNumericUpDown(queryPanel);
+        }
+        public override void createQueryObject(FlowLayoutPanel queryPanel)
+        {
+            queryPanel.Controls.Clear();
+            queryPanel.Controls.AddRange(new Control[] {
+                costSelectBox,
+                StatementConstants.createStatementLabel("after"),
+                queryActions,
+                StatementConstants.createStatementLabel("from initial state"),
+                initialStateSelectBox});
+        }
+
+        public override string createQueryText()
+        {
+            return costSelectBox.Text + " after " + queryActions.Text + " from " + initialStateSelectBox.Text;
+        }
+    }
 
     /// <summary>
     /// Class contains functionalities used in the Action Model section.
@@ -384,6 +444,15 @@ namespace actions_with_costs
         // Elements displayed with regard to model consistency
         public Label inconsistentDomainLabel;
 
+        // Elements of query
+        public FlowLayoutPanel queryPanel;
+        public ComboBox queryTypeComboBox;
+        public Button queryExecuteButton;
+
+        // Queries objects
+        public ValueQuery valueQuery;
+        public CostQuery costQuery;
+
         public ActionModelView(
             ref FlowLayoutPanel statementsPanel,
             ref ComboBox statementsComboBox,
@@ -395,7 +464,12 @@ namespace actions_with_costs
             ref SfComboBox programExecuteComboBox,
             ref SfComboBox programInitialStateComboBox,
             ref Button programExecuteButton,
-            ref Button displayVisualizationButton)
+            ref Button displayVisualizationButton,
+            // ==================================
+            ref FlowLayoutPanel queryPanel,
+            ref ComboBox queryTypeComboBox,
+            ref Button queryExecuteButton
+            )
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
@@ -407,12 +481,19 @@ namespace actions_with_costs
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
             this.displayVisualizationButton = displayVisualizationButton;
+            this.queryPanel = queryPanel;
+            this.queryTypeComboBox = queryTypeComboBox;
+            this.queryExecuteButton = queryExecuteButton;
 
             this.initialStatesOfModels = new List<State>();
 
             initiallyStatementObject = new InitiallyStatementObject(statementsPanel, positiveNegativeFluents);
             afterStatementObject = new AfterStatementObject(statementsPanel, positiveNegativeFluents);
             effectStatementObject = new EffectStatementObject(statementsPanel, positiveNegativeFluents);
+
+            valueQuery = new ValueQuery(queryPanel, positiveNegativeFluents);
+            costQuery = new CostQuery(queryPanel);
+
         }
 
         /// <summary>
@@ -422,6 +503,12 @@ namespace actions_with_costs
         {
             StatementObject statementObject = getStatementObjectForType();
             statementObject.createStatementObject(statementsPanel);
+        }
+
+        public void createQueryObject()
+        {
+            Query query = getQueryForType();
+            query.createQueryObject(queryPanel);
         }
 
         /// <summary>
@@ -614,6 +701,83 @@ namespace actions_with_costs
             return isRestrictedByAfter ? allConsistentInitialStates.Count > 0 : currentConsistencyState;
         }
 
+        public void executeQuery()
+        {
+            List<Literal> literal_state;
+            Query q;
+            int final_cost = 0;
+            if (queryTypeComboBox.SelectedValue.ToString() == "value")
+            {
+                q = valueQuery;
+            }
+            else
+            {
+                q = costQuery;
+            }
+            /*
+            literal_state = q.initialStateSelectBox;
+            State state = new State(literal_state);
+            List<CausesStatement> causesStatements = allStatements
+                .FindAll(statement => statement.Type == StatementType.CAUSES)
+                .Cast<CausesStatement>()
+                .ToList();
+            
+            while(true) {
+                List<CausesStatement> causesWithEffects = null;// causesStatements.FindAll(causes => causes.doesMeetPreconditions(currentState.Literals));
+                if (causesWithEffects.Count() == 0) break;
+                if (causesWithEffects.Count() > 1) throw new Exception("Non-deterministic execution of the query");
+                final_cost += causesWithEffects.First().Cost;
+                var groupedCauses = causesWithEffects.GroupBy(statement => statement.Action).ToList();
+                foreach (var causeGroup in groupedCauses)
+                {
+                    List<Literal> effectsOfAction = causeGroup.Select(statement => statement.Postcondition).ToList();
+                    foreach(Literal effect in effectsOfAction)
+                    {
+                        Literal negatedEffect = new Literal(effect);
+                        negatedEffect.IfHolds = !effect.IfHolds;
+                        if (state.Literals.Contains(effect))
+                        {
+                            continue;
+                        } else if(state.Literals.Contains(negatedEffect))
+                        {
+                            state.Literals.Remove(negatedEffect);
+                            state.Literals.Add(effect);
+                        } else
+                        {
+                            state.Literals.Add(effect);
+                        }
+                    }
+                }
+            }
+            */
+            String output = q.createQueryText() + " -> ";
+            if (queryTypeComboBox.SelectedValue.ToString() == "value")
+            {
+                /* 
+                if (valueQuery.fluentSelectBox.Text.Contains(state))
+                {
+                    output += "QUERY CORRECT";
+                } else
+                {
+                    output += "QUERY INCORRECT";
+                }
+                */
+            }
+            else
+            {
+                if ((int)costQuery.costSelectBox.Value >= final_cost)
+                {
+                    output += "QUERY CORRECT";
+                }
+                else
+                {
+                    output += "QUERY INCORRECT";
+                }
+            }
+            MessageBox.Show(output, "Query Result",
+                MessageBoxButtons.OK, MessageBoxIcon.Asterisk); // MessageBoxIcon.Error
+        }
+
 
         public List<State> getInitialStates(List<InitiallyStatement> initiallyStatements, List<string> allFluents)
         {
@@ -662,6 +826,7 @@ namespace actions_with_costs
             programExecuteComboBox.Enabled = functionsState;
             programInitialStateComboBox.Enabled = functionsState;
             displayVisualizationButton.Enabled = functionsState;
+            queryExecuteButton.Enabled = functionsState;
         }
 
         private StatementObject getStatementObjectForType()
@@ -677,6 +842,18 @@ namespace actions_with_costs
             else
             {
                 return effectStatementObject;
+            }
+        }
+
+        private Query getQueryForType()
+        {
+            if (queryTypeComboBox.SelectedValue.ToString() == "value")
+            {
+                return valueQuery;
+            }
+            else
+            {
+                return costQuery;
             }
         }
     }
