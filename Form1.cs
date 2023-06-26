@@ -113,13 +113,70 @@ namespace actions_with_costs
             fluentActionView.updateRemoveButtonState(ModelElementType.ACTION, e);
         private void executeProgramButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(initialStateProgramComboBox.Text);
+            List<CausesStatement> causesStatements = allStatements
+              .FindAll(statement => statement.Type == StatementType.CAUSES)
+              .Cast<CausesStatement>()
+              .ToList();
+
+            int currentCost = 0;
             List<Literal> initialState = new List<Literal>();
+            List<Literal> currentState = new List<Literal>();
             string[] fluents = initialStateProgramComboBox.Text.Split(',');
-            foreach(string w in fluents)
+            foreach(string f in fluents)
             {
-                initialState.Add(new Literal(w.Replace("~", ""), w.Contains("~")));
+                initialState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
+                currentState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
             }
+
+            List<string> actionsList = new List<string>();
+            string[] actions = executeProgramComboBox.Text.Split(',');
+            foreach (string a in actions)
+            {
+                actionsList.Add(a);
+            }
+
+            foreach(string action in actionsList)
+            {
+                List<Literal> allPostconditions = new List<Literal>();
+                List<CausesStatement> matchedCausesStatements = causesStatements
+                    .FindAll(statement => statement.Action == action)
+                    .ToList();
+
+                foreach (CausesStatement statement in matchedCausesStatements)
+                {
+                    if(statement.Precondition.Count == 0)
+                    {
+                        allPostconditions.Add(statement.Postcondition);
+                        currentCost += statement.Cost;
+                    }
+                    else
+                    {
+                        bool ifPreconditionHolds = statement.Precondition.All(l => l.ExistsInCollection(currentState));
+                        if (ifPreconditionHolds)
+                        {
+                            allPostconditions.Add(statement.Postcondition);
+                            currentCost += statement.Cost;
+                        }
+                    }
+                }
+                foreach(Literal literal in allPostconditions)
+                {
+                    currentState
+                       .Where(l => l.Fluent == literal.Fluent)
+                       .Select(l => l.IfHolds = literal.IfHolds)
+                       .ToList();
+                }
+            }
+            string state = String.Empty;
+            foreach (Literal l in currentState)
+            {
+                state += ",";
+                state += l.ToString();
+            }
+            state = state.Remove(0, 1);
+            finalState.Text = state;
+            finalCost.Text = currentCost.ToString();
+
         }
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -130,8 +187,31 @@ namespace actions_with_costs
         private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e) =>
             actionModelView.createStatementObject();
 
-        private void addStatementButton_Click(object sender, EventArgs e) =>
+        private void addStatementButton_Click(object sender, EventArgs e)
+        {
             initialStates = actionModelView.addStatement(ref allStatements, allFluents, allActions);
+
+            List<InitiallyStatement> initiallyStatements = allStatements
+            .FindAll(statement => statement.Type == StatementType.INITIALLY)
+            .Cast<InitiallyStatement>()
+            .ToList();
+
+            List<string> allInitialStatesStringified = new List<string>();
+            List<State> allInitialStates = actionModelView.getInitialStates(initiallyStatements, allFluents);
+            foreach(State s in allInitialStates)
+            {
+                string state = String.Empty;
+                foreach(Literal l in s.Literals)
+                {
+                    state += ",";
+                    state += l.ToString();
+                }
+                state = state.Remove(0, 1);
+                allInitialStatesStringified.Add(state);
+            }
+            initialStateProgramComboBox.DataSource = allInitialStatesStringified;
+            initialStateProgramComboBox.SelectedItems.Clear();
+        }
 
         private void allStatementsCheckBox_ItemCheck(object sender, ItemCheckEventArgs e) =>
             actionModelView.updateRemoveButtonState(e);

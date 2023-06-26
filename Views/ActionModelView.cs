@@ -615,7 +615,7 @@ namespace actions_with_costs
         }
 
 
-        private List<State> getInitialStates(List<InitiallyStatement> initiallyStatements, List<string> allFluents)
+        public List<State> getInitialStates(List<InitiallyStatement> initiallyStatements, List<string> allFluents)
         {
             List<Literal> initialState = initiallyStatements.Select(st => st.Condition).ToList();
             List<string> distinctFluents = initialState.GroupBy(literal => literal.Fluent).Select(group => group.Key).ToList();

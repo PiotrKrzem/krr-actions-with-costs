@@ -22,6 +22,11 @@ namespace actions_with_costs
             Fluent = fluent;
             IfHolds = !ifHolds;
         }
+        public Literal(Literal literal)
+        {
+            Fluent = literal.Fluent;
+            IfHolds = literal.IfHolds;
+        }
         public string Fluent { get; set; }
         public bool IfHolds { get; set; }
 
@@ -36,7 +41,18 @@ namespace actions_with_costs
         {
             return IfHolds ? Fluent : "~" + Fluent;
         }
-
+        public bool ExistsInCollection(List<Literal> literals)
+        {
+            bool ifExists = false;
+            foreach(Literal l in literals)
+            {
+                if (this.Equals(l))
+                {
+                    ifExists = true;
+                }
+            }
+            return ifExists;
+        }
 
         /// <summary>
         /// Method verifies if given literal is complementary to this one.
