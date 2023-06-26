@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows;
+using Syncfusion.WinForms.ListView;
+using Syncfusion.WinForms.ListView.Enums;
 
 namespace actions_with_costs
 {
@@ -17,13 +19,14 @@ namespace actions_with_costs
         public List<string> allFluents;
         public List<string> positiveNegativeFluents;
         public List<string> allActions;
+        public List<Statement> allStatements;
         private ComboBox initiallyCondition;
         private ComboBox afterPostcondition;
-        private TextBox afterActions;
+        private SfComboBox afterActions;
         private ComboBox causesAction;
         private ComboBox causesPostcondition;
-        private TextBox causesPrecondition;
-        private TextBox causesCost;
+        private SfComboBox causesPrecondition;
+        private NumericUpDown causesCost;
         private int fontSize = 10;
         private string fontType = "Calibri Light";
         private int offset = 20;
@@ -33,8 +36,9 @@ namespace actions_with_costs
         {
             InitializeComponent();
             allFluents = new List<string>();
-            allActions = new List<string>();
             positiveNegativeFluents = new List<string>();
+            allActions = new List<string>();
+            allStatements = new List<Statement>();
             font = new Font(fontType, fontSize);
         }
 
@@ -45,6 +49,7 @@ namespace actions_with_costs
             //addStatementButton.Enabled = false;
             deleteFluentButton.Enabled = false;
             deleteActionButton.Enabled = false;
+            //deleteStatementButton.Enabled = false;
 
             List<Item> items = new List<Item>();
             items.Add(new Item() { Text = "Initially statement", Value = "initially" });
@@ -94,6 +99,7 @@ namespace actions_with_costs
                 addActionTextBox.Text = String.Empty;
                 causesAction.Items.Clear();
                 causesAction.Items.AddRange(allActions.ToArray());
+                afterActions.DataSource = allActions.ToList();
             }
             else
             {
@@ -127,6 +133,22 @@ namespace actions_with_costs
             deleteActionButton.Enabled = false;
             causesAction.Items.Clear();
             causesAction.Items.AddRange(allActions.ToArray());
+            afterActions.DataSource = allActions.ToList();
+        }
+        private void deleteStatementButton_Click(object sender, EventArgs e)
+        {
+            //foreach(ListViewItem item in allStatementsListView.CheckedItems)
+            //{
+            //    allStatementsListView.Items.Remove(item);
+            //    foreach (Statement statement in allStatements)
+            //    {
+            //        if (statement.Text.Equals(item.Text))
+            //        {
+            //            allStatements.Remove(statement);
+            //        }
+            //    }
+            //}
+            //MessageBox.Show(allStatements.Count.ToString());
         }
 
         private void allFluentsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
@@ -168,6 +190,11 @@ namespace actions_with_costs
             afterPostcondition.Items.Clear();
             afterPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
 
+            afterActions = new SfComboBox();
+            afterActions.Font = font;
+            afterActions.Width = statementsPanel.Width - offset;
+            afterActions.ComboBoxMode = ComboBoxMode.MultiSelection;
+
             causesAction = new ComboBox();
             causesAction.Font = font;
             causesAction.Width = statementsPanel.Width - offset;
@@ -179,6 +206,11 @@ namespace actions_with_costs
             causesPostcondition.Width = statementsPanel.Width - offset;
             causesPostcondition.Items.Clear();
             causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            causesPrecondition = new SfComboBox();
+            causesPrecondition.Font = font;
+            causesPrecondition.Width = statementsPanel.Width - offset;
+            causesPrecondition.ComboBoxMode = ComboBoxMode.MultiSelection;
         }
         private void createInitialStatements()
         {
@@ -201,10 +233,6 @@ namespace actions_with_costs
             label.Text = "after";
             label.Font = font;
 
-            afterActions = new TextBox();
-            afterActions.Font = font;
-            afterActions.Width = statementsPanel.Width - offset;
-
             statementsPanel.Controls.AddRange(new Control[] { afterPostcondition, label, afterActions });
         }
         private void createEffectStatements()
@@ -220,12 +248,10 @@ namespace actions_with_costs
             labelCost.Text = "cost";
             labelCost.Font = font;
 
-            causesPrecondition = new TextBox();
-            causesPrecondition.Font = font;
-            causesPrecondition.Width = statementsPanel.Width - offset;
-            causesCost = new TextBox();
+            causesCost = new NumericUpDown();
             causesCost.Font = font;
             causesCost.Width = statementsPanel.Width - offset;
+            causesCost.Value = 0;
 
             statementsPanel.Controls.AddRange(new Control[] { causesAction, labelCauses, causesPostcondition, 
                                                 labelIf, causesPrecondition, labelCost, causesCost });
@@ -245,33 +271,54 @@ namespace actions_with_costs
             afterPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
             causesPostcondition.Items.Clear();
             causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
+            causesPrecondition.DataSource = positiveNegativeFluents.ToList();
+            causesPrecondition.SelectedItems.Clear();
         }
 
         private void addStatementButton_Click(object sender, EventArgs e)
         {
             if (statementsComboBox.SelectedValue.ToString() == "initially")
             {
-                string statement = "initially " + initiallyCondition.Text;
-                allStatementsListView.Items.Add(statement);
+                string statementText = "initially " + initiallyCondition.Text;
+                allStatementsListView.Items.Add(statementText);
+                InitiallyStatement statement = new InitiallyStatement("initially", statementText, initiallyCondition.Text);
+                allStatements.Add(statement);
                 initiallyCondition.Text = "";
             }
             else if (statementsComboBox.SelectedValue.ToString() == "value")
             {
-                string statement = afterPostcondition.Text + " after " + afterActions.Text;
-                allStatementsListView.Items.Add(statement);
+                string statementText = afterPostcondition.Text + " after " + afterActions.Text;
+                allStatementsListView.Items.Add(statementText);
+                AfterStatement statement = new AfterStatement("after", statementText, afterPostcondition.Text, afterActions.Text);
+                allStatements.Add(statement);
                 afterPostcondition.Text = "";
-                afterActions.Text = "";
+                afterActions.SelectedItems.Clear();
             }
             else
             {
-                string statement = causesAction.Text + " causes " + causesPostcondition.Text + 
-                                    " if " + causesPrecondition.Text + " cost " + causesCost.Text;
-                allStatementsListView.Items.Add(statement);
+                string statementText;
+                if (causesPrecondition.Text != String.Empty)
+                {
+                    statementText = causesAction.Text + " causes " + causesPostcondition.Text +
+                                 " if " + causesPrecondition.Text + " cost " + causesCost.Text;
+                }
+                else
+                {
+                    statementText = causesAction.Text + " causes " + causesPostcondition.Text + " cost " + causesCost.Text;
+                }        
+                allStatementsListView.Items.Add(statementText);
+                CausesStatement statement = new CausesStatement("causes", statementText, causesAction.Text, causesPostcondition.Text, 
+                                                                            causesPrecondition.Text, Convert.ToInt32(causesCost.Value));
+                allStatements.Add(statement);
                 causesAction.Text = "";
                 causesPostcondition.Text = "";
-                causesPrecondition.Text = "";
-                causesCost.Text = "";
-
+                causesPrecondition.SelectedItems.Clear();
+                causesCost.Value = 0;
+                //MessageBox.Show(statement.Postcondition.Fluent);
+                //MessageBox.Show(statement.Postcondition.IfHolds.ToString());
+                //MessageBox.Show(statement.Precondition[0].Fluent);
+                //MessageBox.Show(statement.Precondition[0].IfHolds.ToString());
+                //MessageBox.Show(statement.Cost.ToString());
             }
         }
     }
