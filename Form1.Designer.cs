@@ -68,7 +68,8 @@ namespace actions_with_costs
             this.inconsistentDomainLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.button4 = new System.Windows.Forms.Button();
+            this.executeProgramButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -76,6 +77,8 @@ namespace actions_with_costs
             this.visualizationButton = new System.Windows.Forms.Button();
             this.deleteStatementButton = new System.Windows.Forms.Button();
             this.deleteAllStatementsButton = new System.Windows.Forms.Button();
+            this.executeProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
+            this.initialStateProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -92,8 +95,11 @@ namespace actions_with_costs
             this.tableLayoutPanel17.SuspendLayout();
             this.tableLayoutPanel18.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.executeProgramComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -647,7 +653,8 @@ namespace actions_with_costs
             this.tableLayoutPanel3.ColumnCount = 2;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.14687F));
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.85313F));
-            this.tableLayoutPanel3.Controls.Add(this.button4, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.executeProgramButton, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 250);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -656,18 +663,28 @@ namespace actions_with_costs
             this.tableLayoutPanel3.Size = new System.Drawing.Size(463, 38);
             this.tableLayoutPanel3.TabIndex = 10;
             // 
-            // button4
+            // executeProgramButton
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.executeProgramButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.BackColor = System.Drawing.Color.Gainsboro;
-            this.button4.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(300, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(160, 32);
-            this.button4.TabIndex = 9;
-            this.button4.Text = "EXECUTE PROGRAM";
-            this.button4.UseVisualStyleBackColor = false;
+            this.executeProgramButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.executeProgramButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.executeProgramButton.Location = new System.Drawing.Point(300, 3);
+            this.executeProgramButton.Name = "executeProgramButton";
+            this.executeProgramButton.Size = new System.Drawing.Size(160, 32);
+            this.executeProgramButton.TabIndex = 9;
+            this.executeProgramButton.Text = "EXECUTE PROGRAM";
+            this.executeProgramButton.UseVisualStyleBackColor = false;
+            this.executeProgramButton.Click += new System.EventHandler(this.executeProgramButton_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.initialStateProgramComboBox);
+            this.panel1.Controls.Add(this.executeProgramComboBox);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(291, 32);
+            this.panel1.TabIndex = 10;
             // 
             // tableLayoutPanel7
             // 
@@ -741,6 +758,36 @@ namespace actions_with_costs
             this.visualizationButton.UseVisualStyleBackColor = false;
             this.visualizationButton.Click += new System.EventHandler(this.visualizationButton_Click);
             // 
+            // executeProgramComboBox
+            // 
+            this.executeProgramComboBox.AllowNull = true;
+            this.executeProgramComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.executeProgramComboBox.ComboBoxMode = Syncfusion.WinForms.ListView.Enums.ComboBoxMode.MultiSelection;
+            this.executeProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
+            this.executeProgramComboBox.Location = new System.Drawing.Point(4, 1);
+            this.executeProgramComboBox.Name = "executeProgramComboBox";
+            this.executeProgramComboBox.ShowToolTip = true;
+            this.executeProgramComboBox.Size = new System.Drawing.Size(156, 28);
+            this.executeProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.executeProgramComboBox.TabIndex = 0;
+            this.executeProgramComboBox.TabStop = false;
+            this.executeProgramComboBox.Text = "Choose actions";
+            this.executeProgramComboBox.Watermark = "Choose actions";
+            // 
+            // initialStateProgramComboBox
+            // 
+            this.initialStateProgramComboBox.AllowNull = true;
+            this.initialStateProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
+            this.initialStateProgramComboBox.Location = new System.Drawing.Point(166, 1);
+            this.initialStateProgramComboBox.Name = "initialStateProgramComboBox";
+            this.initialStateProgramComboBox.ShowToolTip = true;
+            this.initialStateProgramComboBox.Size = new System.Drawing.Size(122, 28);
+            this.initialStateProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.initialStateProgramComboBox.TabIndex = 1;
+            this.initialStateProgramComboBox.TabStop = false;
+            this.initialStateProgramComboBox.Text = "Choose state";
+            this.initialStateProgramComboBox.Watermark = "Choose state";
+            // 
             // deleteStatementButton
             // 
             this.deleteStatementButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -805,9 +852,12 @@ namespace actions_with_costs
             this.tableLayoutPanel18.ResumeLayout(false);
             this.tableLayoutPanel18.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.executeProgramComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -825,7 +875,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button addStatementButton;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button executeProgramButton;
         private System.Windows.Forms.CheckedListBox allStatementsCheckBox;
         private System.Windows.Forms.FlowLayoutPanel statementsPanel;
         private System.Windows.Forms.Button button1;
@@ -861,6 +911,9 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button visualizationButton;
+        private System.Windows.Forms.Panel panel1;
+        private Syncfusion.WinForms.ListView.SfComboBox executeProgramComboBox;
+        private Syncfusion.WinForms.ListView.SfComboBox initialStateProgramComboBox;
         private System.Windows.Forms.Button deleteAllStatementsButton;
     }
 }

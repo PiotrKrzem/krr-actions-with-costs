@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Syncfusion.WinForms.ListView;
 
 namespace actions_with_costs
 {
@@ -310,23 +311,37 @@ namespace actions_with_costs
         private ComboBox statementsComboBox;
         private CheckedListBox allStatementsCheckBox;
         private Button statementRemoveButton;
+        private Button statementAddButton;
         private Button statementRemoveAllButton;
+
+        // Elements of layout for specifying program to be executed
+        public SfComboBox programExecuteComboBox;
+        public SfComboBox programInitialStateComboBox;
+        public Button programExecuteButton;
 
         private Label inconsistentDomainLabel;
 
         public ActionModelView(
-            ref FlowLayoutPanel statementsPanel, 
-            ref ComboBox statementsComboBox, 
+            ref FlowLayoutPanel statementsPanel,
+            ref ComboBox statementsComboBox,
             ref List<string> positiveNegativeFluents,
             ref CheckedListBox allStatementsCheckBox,
             ref Label inconsistentDomainLabel,
             ref Button statementRemoveButton,
-            ref Button statementRemoveAllButton)
+            ref Button statementRemoveAllButton,
+            ref Button statementAddButton,
+            ref SfComboBox programExecuteComboBox,
+            ref SfComboBox programInitialStateComboBox,
+            ref Button programExecuteButton)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
             this.allStatementsCheckBox = allStatementsCheckBox;
+            this.statementAddButton = statementAddButton;
             this.statementRemoveButton = statementRemoveButton;
+            this.programExecuteComboBox = programExecuteComboBox;
+            this.programInitialStateComboBox = programInitialStateComboBox;
+            this.programExecuteButton = programExecuteButton;
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
 

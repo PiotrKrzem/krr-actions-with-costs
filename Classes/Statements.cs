@@ -101,7 +101,7 @@ namespace actions_with_costs
     {
         public AfterStatement(string text, string postcondition, string actions) : base(StatementType.AFTER, text)
         {
-            Postcondition = new Literal(postcondition.Replace("~", ""), postcondition.Contains(Delimeter)); ;
+            Postcondition = new Literal(postcondition.Replace("~", ""), postcondition.Contains(Delimeter));
             Actions = new List<string>();
             string[] words = actions.Split(',');
             foreach(string w in words)
