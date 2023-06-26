@@ -32,6 +32,12 @@ namespace actions_with_costs
                    IfHolds == literal.IfHolds;
         }
 
+        public override string ToString()
+        {
+            return IfHolds ? Fluent : "~" + Fluent;
+        }
+
+
         /// <summary>
         /// Method verifies if given literal is complementary to this one.
         /// </summary>
