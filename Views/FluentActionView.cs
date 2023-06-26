@@ -178,7 +178,7 @@ namespace actions_with_costs
         /// <param name="elements">list of all fluents/actions</param>
         /// <param name="postDeleteCall">method executed after deleting the fluent</param>
         /// <returns>boolean indicating if the element was successfuly removed</returns>
-        public bool deleteModelElement(ModelElementType type, List<string> elements, Action postDeleteCall)
+        public bool deleteModelElement(ModelElementType type, ref List<string> elements, Action postDeleteCall)
         {
             ref CheckedListBox checkBox = ref type == ModelElementType.FLUENT ? ref fluentCheckBox : ref actionCheckBox;
             ref Button removeButton = ref type == ModelElementType.FLUENT ? ref fluentRemoveButton : ref actionRemoveButton;

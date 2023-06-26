@@ -92,9 +92,9 @@ namespace actions_with_costs
             fluentActionView.addAction(updateCausesDropdown, allActions);
 
         private void deleteFluentButton_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteModelElement(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
+            fluentActionView.deleteModelElement(ModelElementType.FLUENT, ref allFluents, buildPositiveNegativeFluents);
         private void deleteActionButton_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteModelElement(ModelElementType.ACTION, allActions, updateCausesDropdown);
+            fluentActionView.deleteModelElement(ModelElementType.ACTION, ref allActions, updateCausesDropdown);
 
         private void removeAllFluents_Click(object sender, EventArgs e) =>
             fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);

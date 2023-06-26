@@ -77,12 +77,12 @@ namespace actions_with_costs
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
+            this.allStatementsListView = new System.Windows.Forms.CheckedListBox();
             this.deleteStatementButton = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.allStatementsListView = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -752,6 +752,17 @@ namespace actions_with_costs
             this.panel16.Size = new System.Drawing.Size(906, 172);
             this.panel16.TabIndex = 5;
             // 
+            // allStatementsListView
+            // 
+            this.allStatementsListView.CheckOnClick = true;
+            this.allStatementsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.allStatementsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
+            this.allStatementsListView.FormattingEnabled = true;
+            this.allStatementsListView.Location = new System.Drawing.Point(12, 0);
+            this.allStatementsListView.Name = "allStatementsListView";
+            this.allStatementsListView.Size = new System.Drawing.Size(894, 172);
+            this.allStatementsListView.TabIndex = 0;
+            // 
             // deleteStatementButton
             // 
             this.deleteStatementButton.Dock = System.Windows.Forms.DockStyle.Right;
@@ -762,16 +773,6 @@ namespace actions_with_costs
             this.deleteStatementButton.Text = "Delete";
             this.deleteStatementButton.UseVisualStyleBackColor = true;
             this.deleteStatementButton.Click += new System.EventHandler(this.deleteStatementButton_Click);
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(834, 230);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 26);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -817,17 +818,6 @@ namespace actions_with_costs
             this.label7.Size = new System.Drawing.Size(95, 33);
             this.label7.TabIndex = 9;
             this.label7.Text = "QUERY:";
-            // 
-            // allStatementsListView
-            // 
-            this.allStatementsListView.CheckOnClick = true;
-            this.allStatementsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allStatementsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
-            this.allStatementsListView.FormattingEnabled = true;
-            this.allStatementsListView.Location = new System.Drawing.Point(12, 0);
-            this.allStatementsListView.Name = "allStatementsListView";
-            this.allStatementsListView.Size = new System.Drawing.Size(894, 172);
-            this.allStatementsListView.TabIndex = 0;
             // 
             // Form1
             // 
@@ -915,7 +905,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.ListView allStatementsListView;
+        private System.Windows.Forms.CheckedListBox allStatementsListView;
         private System.Windows.Forms.ComboBox statementsComboBox;
         private System.Windows.Forms.FlowLayoutPanel statementsPanel;
         private System.Windows.Forms.Button button1;
@@ -942,7 +932,6 @@ namespace actions_with_costs
         private System.Windows.Forms.CheckedListBox allFluentsCheckBox;
         private System.Windows.Forms.CheckedListBox allActionsCheckBox;
         private System.Windows.Forms.Button deleteStatementButton;
-        private System.Windows.Forms.CheckedListBox allStatementsListView;
     }
 }
 
