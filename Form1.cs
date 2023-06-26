@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows;
 
 namespace actions_with_costs
 {
-
     public partial class Form1 : Form
     {
+        private FluentActionView fluentActionView;
         public List<string> allFluents;
         public List<string> positiveNegativeFluents;
         public List<string> allActions;
@@ -32,9 +28,24 @@ namespace actions_with_costs
         public Form1()
         {
             InitializeComponent();
+
             allFluents = new List<string>();
             allActions = new List<string>();
             positiveNegativeFluents = new List<string>();
+
+            // Initializing part of the view responsible for actions and fluents
+            fluentActionView = new FluentActionView(
+                ref addFluentTextBox,
+                ref addActionTextBox,
+                ref addFluentButton,
+                ref addActionButton,
+                ref deleteFluentButton,
+                ref deleteActionButton,
+                ref removeAllFluents,
+                ref removeAllActions,
+                ref allFluentsCheckBox,
+                ref allActionsCheckBox);
+
             font = new Font(fontType, fontSize);
         }
 
@@ -59,85 +70,38 @@ namespace actions_with_costs
             createInitialStatements();
         }
 
-        private void addFluentTextBox_TextChanged(object sender, EventArgs e)
-        {
-            addFluentButton.Enabled = addFluentTextBox.Text.Length > 0;
-        }
+        // ----------------------------- FORM METHODS OF FLUENT/ACTION SECTION ---------------------------------------------
+        private void addFluentTextBox_TextChanged(object sender, EventArgs e) => 
+            fluentActionView.updateAddButtonState(ModelElementType.FLUENT);
+        private void addActionTextBox_TextChanged(object sender, EventArgs e) => 
+            fluentActionView.updateAddButtonState(ModelElementType.ACTION);
 
-        private void addActionTextBox_TextChanged(object sender, EventArgs e)
-        {
-            addActionButton.Enabled = addActionTextBox.Text.Length > 0;
-        }
+        private void addFluentTextBox_KeyPress(object sender, KeyPressEventArgs e) => 
+            fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
+        private void addActionTextBox_KeyPress(object sender, KeyPressEventArgs e) => 
+            fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.ACTION, allActions, updateCausesDropdown);
 
-        private void addFluentButton_Click(object sender, EventArgs e)
-        {
-            if(!allFluents.Contains(addFluentTextBox.Text))
-            {
-                allFluents.Add(addFluentTextBox.Text);
-                allFluentsListView.Items.Add(addFluentTextBox.Text);
-                addFluentTextBox.Text = String.Empty;
-                buildPositiveNegativeFluents();
-            }
-            else
-            {
-                string message = "This fluent was already added";
-                MessageBox.Show(message, "", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
+        private void addFluentButton_Click(object sender, EventArgs e) =>
+            fluentActionView.addFluent(buildPositiveNegativeFluents, allFluents);
+        private void addActionButton_Click(object sender, EventArgs e) =>
+            fluentActionView.addAction(updateCausesDropdown, allActions);
 
-        private void addActionButton_Click(object sender, EventArgs e)
-        {
-            if (!allActions.Contains(addActionTextBox.Text))
-            {
-                allActions.Add(addActionTextBox.Text);
-                allActionsListView.Items.Add(addActionTextBox.Text);
-                addActionTextBox.Text = String.Empty;
-                causesAction.Items.Clear();
-                causesAction.Items.AddRange(allActions.ToArray());
-            }
-            else
-            {
-                string message = "This action was already added";
-                MessageBox.Show(message, String.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
+        private void deleteFluentButton_Click(object sender, EventArgs e) =>
+            fluentActionView.deleteModelElement(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
+        private void deleteActionButton_Click(object sender, EventArgs e) =>
+            fluentActionView.deleteModelElement(ModelElementType.ACTION, allActions, updateCausesDropdown);
 
-        private void deleteFluentButton_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in allFluentsListView.CheckedItems)
-            {
-                allFluentsListView.Items.Remove(item);
-            }
-            allFluents = allFluentsListView.Items.Cast<ListViewItem>()
-                                 .Select(item => item.Text)
-                                 .ToList();
-            deleteFluentButton.Enabled = false;
-            buildPositiveNegativeFluents();
-        }
+        private void removeAllFluents_Click(object sender, EventArgs e) =>
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
+        private void removeAllActions_Click(object sender, EventArgs e) =>
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, updateCausesDropdown);
 
-        private void deleteActionButton_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in allActionsListView.CheckedItems)
-            {
-                allActionsListView.Items.Remove(item);
-            }
-            allActions = allActionsListView.Items.Cast<ListViewItem>()
-                                 .Select(item => item.Text)
-                                 .ToList();
-            deleteActionButton.Enabled = false;
-            causesAction.Items.Clear();
-            causesAction.Items.AddRange(allActions.ToArray());
-        }
+        private void allFluentsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
+            fluentActionView.updateRemoveButtonState(ModelElementType.FLUENT, e);
+        private void allActionsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
+            fluentActionView.updateRemoveButtonState(ModelElementType.ACTION, e);
 
-        private void allFluentsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-            deleteFluentButton.Enabled = allFluentsListView.CheckedItems.Count > 0;
-        }
-
-        private void allActionsListView_ItemChecked(object sender, ItemCheckedEventArgs e)
-        {
-            deleteActionButton.Enabled = allActionsListView.CheckedItems.Count > 0;
-        }
+        // -------------------------------------------------------------------------------------------------------------------
 
         private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
@@ -230,6 +194,13 @@ namespace actions_with_costs
             statementsPanel.Controls.AddRange(new Control[] { causesAction, labelCauses, causesPostcondition, 
                                                 labelIf, causesPrecondition, labelCost, causesCost });
         }
+
+        private void updateCausesDropdown()
+        {
+            causesAction.Items.Clear();
+            causesAction.Items.AddRange(allActions.ToArray());
+        }
+
         private void buildPositiveNegativeFluents()
         {
             positiveNegativeFluents = new List<string>();
@@ -264,7 +235,7 @@ namespace actions_with_costs
             }
             else
             {
-                string statement = causesAction.Text + " causes " + causesPostcondition.Text + 
+                string statement = causesAction.Text + " causes " + causesPostcondition.Text +
                                     " if " + causesPrecondition.Text + " cost " + causesCost.Text;
                 allStatementsListView.Items.Add(statement);
                 causesAction.Text = "";
