@@ -172,8 +172,8 @@ namespace actions_with_costs
                 state += l.ToString();
             }
             state = state.Remove(0, 1);
-            FinalStateLabel.Text = "FINAL STATE: " + state;
-            FinalCostLabel.Text = "FINAL COST: " + currentCost.ToString();
+            finalState.Text = state;
+            finalCost.Text = currentCost.ToString();
 
         }
 
@@ -185,7 +185,8 @@ namespace actions_with_costs
         private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e) =>
             actionModelView.createStatementObject();
 
-        private void addStatementButton_Click(object sender, EventArgs e) =>
+        private void addStatementButton_Click(object sender, EventArgs e)
+        {
             actionModelView.addStatement(ref allStatements, allFluents, allActions);
 
             List<InitiallyStatement> initiallyStatements = allStatements

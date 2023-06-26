@@ -67,8 +67,8 @@ namespace actions_with_costs
             this.inconsistentDomainLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.FinalStateLabel = new System.Windows.Forms.Label();
-            this.FinalCostLabel = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
@@ -85,6 +85,10 @@ namespace actions_with_costs
             this.deleteStatementButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.clearMenuOption = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.finalState = new System.Windows.Forms.Label();
+            this.finalCost = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -108,6 +112,8 @@ namespace actions_with_costs
             this.tableLayoutPanel19.SuspendLayout();
             this.tableLayoutPanel20.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -649,8 +655,10 @@ namespace actions_with_costs
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel7.Controls.Add(this.FinalStateLabel, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.FinalCostLabel, 2, 0);
+            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.label9, 2, 0);
+            this.tableLayoutPanel7.Controls.Add(this.panel1, 1, 0);
+            this.tableLayoutPanel7.Controls.Add(this.panel2, 3, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 291);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
@@ -659,7 +667,7 @@ namespace actions_with_costs
             this.tableLayoutPanel7.Size = new System.Drawing.Size(463, 38);
             this.tableLayoutPanel7.TabIndex = 11;
             // 
-            // FinalStateLabel
+            // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -671,7 +679,7 @@ namespace actions_with_costs
             this.label6.Text = "FINAL STATE:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // FinalCostLabel
+            // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -715,7 +723,7 @@ namespace actions_with_costs
             this.tableLayoutPanel21.ColumnCount = 3;
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.90909F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.09091F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 170F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 171F));
             this.tableLayoutPanel21.Controls.Add(this.label13, 1, 0);
             this.tableLayoutPanel21.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.executeProgramButton, 2, 1);
@@ -738,7 +746,7 @@ namespace actions_with_costs
             this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label13.Location = new System.Drawing.Point(160, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(123, 29);
+            this.label13.Size = new System.Drawing.Size(122, 29);
             this.label13.TabIndex = 11;
             this.label13.Text = "INITIAL STATE";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -903,6 +911,42 @@ namespace actions_with_costs
             this.clearMenuOption.Text = "CLEAR ALL";
             this.clearMenuOption.Click += new System.EventHandler(this.clearMenuOption_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.finalState);
+            this.panel1.Location = new System.Drawing.Point(118, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(109, 32);
+            this.panel1.TabIndex = 11;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.finalCost);
+            this.panel2.Location = new System.Drawing.Point(348, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(112, 32);
+            this.panel2.TabIndex = 12;
+            // 
+            // finalState
+            // 
+            this.finalState.AutoSize = true;
+            this.finalState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalState.Location = new System.Drawing.Point(0, 0);
+            this.finalState.Name = "finalState";
+            this.finalState.Size = new System.Drawing.Size(41, 13);
+            this.finalState.TabIndex = 0;
+            this.finalState.Text = "label14";
+            // 
+            // finalCost
+            // 
+            this.finalCost.AutoSize = true;
+            this.finalCost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalCost.Location = new System.Drawing.Point(0, 0);
+            this.finalCost.Name = "finalCost";
+            this.finalCost.Size = new System.Drawing.Size(41, 13);
+            this.finalCost.TabIndex = 0;
+            this.finalCost.Text = "label15";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -939,8 +983,6 @@ namespace actions_with_costs
             this.tableLayoutPanel17.ResumeLayout(false);
             this.tableLayoutPanel18.ResumeLayout(false);
             this.tableLayoutPanel18.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
@@ -953,6 +995,10 @@ namespace actions_with_costs
             this.tableLayoutPanel20.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1002,8 +1048,8 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox statementsComboBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
-        private System.Windows.Forms.Label FinalStateLabel;
-        private System.Windows.Forms.Label FinalCostLabel;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button visualizationButton;
         private Syncfusion.WinForms.ListView.SfComboBox executeProgramComboBox;
@@ -1017,6 +1063,10 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem clearMenuOption;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label finalState;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label finalCost;
     }
 }
 
