@@ -359,6 +359,8 @@ namespace actions_with_costs
     /// </summary>
     class ActionModelView
     {
+        public List<State> initialStatesOfModels;
+
         // Statement object field groups
         public InitiallyStatementObject initiallyStatementObject;
         public AfterStatementObject afterStatementObject;
@@ -379,6 +381,7 @@ namespace actions_with_costs
         // Elements of layout relevant to visualization
         public Button displayVisualizationButton;
 
+        // Elements displayed with regard to model consistency
         public Label inconsistentDomainLabel;
 
         public ActionModelView(
@@ -405,6 +408,8 @@ namespace actions_with_costs
             this.inconsistentDomainLabel = inconsistentDomainLabel;
             this.displayVisualizationButton = displayVisualizationButton;
 
+            this.initialStatesOfModels = new List<State>();
+
             initiallyStatementObject = new InitiallyStatementObject(statementsPanel, positiveNegativeFluents);
             afterStatementObject = new AfterStatementObject(statementsPanel, positiveNegativeFluents);
             effectStatementObject = new EffectStatementObject(statementsPanel, positiveNegativeFluents);
@@ -424,7 +429,8 @@ namespace actions_with_costs
         /// </summary>
         /// <param name="allStatements">collection of all current statements</param>
         /// <param name="fluents">list of all fluents</param>
-        public void addStatement(ref List<Statement> allStatements, List<string> fluents, List<string> actions)
+        /// <returns>list of initial states of all models</returns>
+        public List<State> addStatement(ref List<Statement> allStatements, List<string> fluents, List<string> actions)
         {
             StatementObject statementObject = getStatementObjectForType();
             string statementText = statementObject.createStatementText(statementsPanel);
@@ -437,6 +443,7 @@ namespace actions_with_costs
                 statementRemoveAllButton.Enabled = true;
                 updateFunctionsStateBasedOnModelConsistency();
             }
+            return initialStatesOfModels;
         }
         /// <summary>
         /// Method updates the state of RemoveButton of statement.
@@ -451,7 +458,7 @@ namespace actions_with_costs
         /// Method removes the statement from the collection.
         /// </summary>
         /// <param name="elements">list of all statements</param>
-        public void deleteStatementElement(ref List<Statement> allStatements, List<string> fluents)
+        public List<State> deleteStatementElement(ref List<Statement> allStatements, List<string> fluents)
         {
             List<string> itemsToRemove = allStatementsCheckBox.CheckedItems.Cast<string>().ToList();
             foreach (string item in itemsToRemove)
@@ -473,6 +480,8 @@ namespace actions_with_costs
             }
             inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
             updateFunctionsStateBasedOnModelConsistency();
+
+            return initialStatesOfModels;
         }
 
         /// <summary>
@@ -601,6 +610,7 @@ namespace actions_with_costs
                     }
                 }
             }
+            initialStatesOfModels = allConsistentInitialStates;
             return isRestrictedByAfter ? allConsistentInitialStates.Count > 0 : currentConsistencyState;
         }
 
@@ -646,7 +656,7 @@ namespace actions_with_costs
 
         private void updateFunctionsStateBasedOnModelConsistency()
         {
-            bool functionsState = !inconsistentDomainLabel.Visible;
+            bool functionsState = !inconsistentDomainLabel.Visible && allStatementsCheckBox.Items.Count > 0;
             
             programExecuteButton.Enabled = functionsState;
             programExecuteComboBox.Enabled = functionsState;

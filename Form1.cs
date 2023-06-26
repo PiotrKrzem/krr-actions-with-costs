@@ -21,6 +21,7 @@ namespace actions_with_costs
         public List<string> positiveNegativeFluents;
         public List<string> allActions;
         public List<Statement> allStatements;
+        public List<State> initialStates;
 
         public Form1()
         {
@@ -29,6 +30,7 @@ namespace actions_with_costs
             allActions = new List<string>();
             allStatements = new List<Statement>();
             positiveNegativeFluents = new List<string>();
+            initialStates = new List<State>();
 
             // Initializing part of the view responsible for actions and fluents
             fluentActionView = new FluentActionView(
@@ -129,15 +131,18 @@ namespace actions_with_costs
             actionModelView.createStatementObject();
 
         private void addStatementButton_Click(object sender, EventArgs e) =>
-            actionModelView.addStatement(ref allStatements, allFluents, allActions);
+            initialStates = actionModelView.addStatement(ref allStatements, allFluents, allActions);
 
         private void allStatementsCheckBox_ItemCheck(object sender, ItemCheckEventArgs e) =>
             actionModelView.updateRemoveButtonState(e);
 
         private void deleteStatementButton_Click(object sender, EventArgs e) => 
-            actionModelView.deleteStatementElement(ref allStatements, allFluents);
-        private void deleteAllStatementsButton_Click(object sender, EventArgs e) =>
+            initialStates = actionModelView.deleteStatementElement(ref allStatements, allFluents);
+        private void deleteAllStatementsButton_Click(object sender, EventArgs e)
+        {
             actionModelView.deleteAllStatements(ref allStatements);
+            initialStates = new List<State>();
+        }
 
         // -------------------------------------------------------------------------------------------------------------------
 
@@ -145,13 +150,13 @@ namespace actions_with_costs
 
         private void visualizationButton_Click(object sender, EventArgs e)
         {
-            StateDiagram stateDiagramForm = new StateDiagram(allFluents, allActions, allStatements);
+            StateDiagram stateDiagramForm = new StateDiagram(allActions, allStatements, initialStates);
             stateDiagramForm.Show();
         }
 
         // -------------------------------------------------------------------------------------------------------------------
 
-        // ----------------------------- FORM MENI METHODS -------------------------------------------------------------------
+        // ----------------------------- FORM MAIN METHODS -------------------------------------------------------------------
         private void clearMenuOption_Click(object sender, EventArgs e)
         {
             actionModelView.deleteAllStatements(ref allStatements); 

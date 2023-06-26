@@ -15,18 +15,24 @@ namespace actions_with_costs
         }
         public List<Literal> Literals { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            return ((State)obj).Literals.Equals(Literals);
+        }
+
         /// <summary>
         /// Method returns the text displayed to describe the state.
         /// </summary>
         /// <returns>text describing the state</returns>
         public string getStateDescription()
         {
+            List<Literal> orderedLiterals = Literals.OrderBy(literal => literal.Fluent).ToList();
             string text = "";
-            for(int i=0; i< Literals.Count; i++)
+            for(int i=0; i< orderedLiterals.Count; i++)
             {
-                text += Literals[i].ToString();
+                text += orderedLiterals[i].ToString();
 
-                if(i != Literals.Count - 1)
+                if(i != orderedLiterals.Count - 1)
                 {
                     text += "\n";
                 }
