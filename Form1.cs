@@ -50,7 +50,11 @@ namespace actions_with_costs
                 ref positiveNegativeFluents,
                 ref allStatementsCheckBox,
                 ref inconsistentDomainLabel,
-                ref deleteStatementButton);
+                ref deleteStatementButton,
+                ref addStatementButton,
+                ref executeProgramComboBox,
+                ref initialStateProgramComboBox,
+                ref executeProgramButton);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -104,6 +108,16 @@ namespace actions_with_costs
             fluentActionView.updateRemoveButtonState(ModelElementType.FLUENT, e);
         private void allActionsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
             fluentActionView.updateRemoveButtonState(ModelElementType.ACTION, e);
+        private void executeProgramButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(initialStateProgramComboBox.Text);
+            List<Literal> initialState = new List<Literal>();
+            string[] fluents = initialStateProgramComboBox.Text.Split(',');
+            foreach(string w in fluents)
+            {
+                initialState.Add(new Literal(w.Replace("~", ""), w.Contains("~")));
+            }
+        }
 
         // -------------------------------------------------------------------------------------------------------------------
 
@@ -131,6 +145,9 @@ namespace actions_with_costs
             actionModelView.effectStatementObject.causesAction.Items.Clear();
             actionModelView.effectStatementObject.causesAction.Items.AddRange(allActions.ToArray());
             actionModelView.afterStatementObject.afterActions.DataSource = allActions.ToList();
+
+            actionModelView.programExecuteComboBox.DataSource = allActions.ToList();
+            actionModelView.programExecuteComboBox.SelectedItems.Clear();
         }
 
         private void buildPositiveNegativeFluents()
