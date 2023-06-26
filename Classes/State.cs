@@ -14,5 +14,6 @@ namespace actions_with_costs
             Literals = literals.ToList();
         }
         public List<Literal> Literals { get; set; }
+
     }
 }

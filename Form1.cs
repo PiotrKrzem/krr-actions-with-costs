@@ -48,7 +48,8 @@ namespace actions_with_costs
                 ref statementsPanel,
                 ref statementsComboBox,
                 ref positiveNegativeFluents,
-                ref allStatementsListView);
+                ref allStatementsListView,
+                ref inconsistentDomainLabel);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -112,7 +113,7 @@ namespace actions_with_costs
             actionModelView.createStatementObject();
 
         private void addStatementButton_Click(object sender, EventArgs e) =>
-            actionModelView.addStatement(ref allStatements);
+            actionModelView.addStatement(ref allStatements, allFluents);
 
         private void deleteStatementButton_Click(object sender, EventArgs e)
         {
