@@ -67,17 +67,17 @@ namespace actions_with_costs
             this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
             this.inconsistentDomainLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.deleteStatementButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.executeProgramButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.initialStateProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
+            this.executeProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.FinalStateLabel = new System.Windows.Forms.Label();
+            this.FinalCostLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.visualizationButton = new System.Windows.Forms.Button();
-            this.executeProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
-            this.initialStateProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
+            this.deleteStatementButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -95,10 +95,10 @@ namespace actions_with_costs
             this.tableLayoutPanel18.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.executeProgramComboBox)).BeginInit();
             this.tableLayoutPanel7.SuspendLayout();
             this.tableLayoutPanel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.executeProgramComboBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -647,20 +647,6 @@ namespace actions_with_costs
             this.label4.Text = "ACTION DOMAIN";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // deleteStatementButton
-            // 
-            this.deleteStatementButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteStatementButton.BackColor = System.Drawing.Color.Gainsboro;
-            this.deleteStatementButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteStatementButton.Location = new System.Drawing.Point(296, 3);
-            this.deleteStatementButton.Name = "deleteStatementButton";
-            this.deleteStatementButton.Size = new System.Drawing.Size(164, 25);
-            this.deleteStatementButton.TabIndex = 6;
-            this.deleteStatementButton.Text = "DELETE";
-            this.deleteStatementButton.UseVisualStyleBackColor = false;
-            this.deleteStatementButton.Click += new System.EventHandler(this.deleteStatementButton_Click);
-            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
@@ -699,6 +685,36 @@ namespace actions_with_costs
             this.panel1.Size = new System.Drawing.Size(291, 32);
             this.panel1.TabIndex = 10;
             // 
+            // initialStateProgramComboBox
+            // 
+            this.initialStateProgramComboBox.AllowNull = true;
+            this.initialStateProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
+            this.initialStateProgramComboBox.Location = new System.Drawing.Point(166, 1);
+            this.initialStateProgramComboBox.Name = "initialStateProgramComboBox";
+            this.initialStateProgramComboBox.ShowToolTip = true;
+            this.initialStateProgramComboBox.Size = new System.Drawing.Size(122, 28);
+            this.initialStateProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.initialStateProgramComboBox.TabIndex = 1;
+            this.initialStateProgramComboBox.TabStop = false;
+            this.initialStateProgramComboBox.Text = "Choose state";
+            this.initialStateProgramComboBox.Watermark = "Choose state";
+            // 
+            // executeProgramComboBox
+            // 
+            this.executeProgramComboBox.AllowNull = true;
+            this.executeProgramComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.executeProgramComboBox.ComboBoxMode = Syncfusion.WinForms.ListView.Enums.ComboBoxMode.MultiSelection;
+            this.executeProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
+            this.executeProgramComboBox.Location = new System.Drawing.Point(4, 1);
+            this.executeProgramComboBox.Name = "executeProgramComboBox";
+            this.executeProgramComboBox.ShowToolTip = true;
+            this.executeProgramComboBox.Size = new System.Drawing.Size(156, 28);
+            this.executeProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.executeProgramComboBox.TabIndex = 0;
+            this.executeProgramComboBox.TabStop = false;
+            this.executeProgramComboBox.Text = "Choose actions";
+            this.executeProgramComboBox.Watermark = "Choose actions";
+            // 
             // tableLayoutPanel7
             // 
             this.tableLayoutPanel7.ColumnCount = 4;
@@ -706,8 +722,8 @@ namespace actions_with_costs
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.label9, 2, 0);
+            this.tableLayoutPanel7.Controls.Add(this.FinalStateLabel, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.FinalCostLabel, 2, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel7.Location = new System.Drawing.Point(3, 294);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
@@ -716,29 +732,29 @@ namespace actions_with_costs
             this.tableLayoutPanel7.Size = new System.Drawing.Size(463, 48);
             this.tableLayoutPanel7.TabIndex = 11;
             // 
-            // label6
+            // FinalStateLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label6.Location = new System.Drawing.Point(3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(109, 48);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "FINAL STATE:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.FinalStateLabel.AutoSize = true;
+            this.FinalStateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FinalStateLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.FinalStateLabel.Location = new System.Drawing.Point(3, 0);
+            this.FinalStateLabel.Name = "FinalStateLabel";
+            this.FinalStateLabel.Size = new System.Drawing.Size(109, 48);
+            this.FinalStateLabel.TabIndex = 9;
+            this.FinalStateLabel.Text = "FINAL STATE:";
+            this.FinalStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label9
+            // FinalCostLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label9.Location = new System.Drawing.Point(233, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(109, 48);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "FINAL COST:";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.FinalCostLabel.AutoSize = true;
+            this.FinalCostLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.FinalCostLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.FinalCostLabel.Location = new System.Drawing.Point(233, 0);
+            this.FinalCostLabel.Name = "FinalCostLabel";
+            this.FinalCostLabel.Size = new System.Drawing.Size(109, 48);
+            this.FinalCostLabel.TabIndex = 10;
+            this.FinalCostLabel.Text = "FINAL COST:";
+            this.FinalCostLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tableLayoutPanel9
             // 
@@ -769,35 +785,19 @@ namespace actions_with_costs
             this.visualizationButton.UseVisualStyleBackColor = false;
             this.visualizationButton.Click += new System.EventHandler(this.visualizationButton_Click);
             // 
-            // executeProgramComboBox
+            // deleteStatementButton
             // 
-            this.executeProgramComboBox.AllowNull = true;
-            this.executeProgramComboBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.executeProgramComboBox.ComboBoxMode = Syncfusion.WinForms.ListView.Enums.ComboBoxMode.MultiSelection;
-            this.executeProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
-            this.executeProgramComboBox.Location = new System.Drawing.Point(4, 1);
-            this.executeProgramComboBox.Name = "executeProgramComboBox";
-            this.executeProgramComboBox.ShowToolTip = true;
-            this.executeProgramComboBox.Size = new System.Drawing.Size(156, 28);
-            this.executeProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.executeProgramComboBox.TabIndex = 0;
-            this.executeProgramComboBox.TabStop = false;
-            this.executeProgramComboBox.Text = "Choose actions";
-            this.executeProgramComboBox.Watermark = "Choose actions";
-            // 
-            // initialStateProgramComboBox
-            // 
-            this.initialStateProgramComboBox.AllowNull = true;
-            this.initialStateProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
-            this.initialStateProgramComboBox.Location = new System.Drawing.Point(166, 1);
-            this.initialStateProgramComboBox.Name = "initialStateProgramComboBox";
-            this.initialStateProgramComboBox.ShowToolTip = true;
-            this.initialStateProgramComboBox.Size = new System.Drawing.Size(122, 28);
-            this.initialStateProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.initialStateProgramComboBox.TabIndex = 1;
-            this.initialStateProgramComboBox.TabStop = false;
-            this.initialStateProgramComboBox.Text = "Choose state";
-            this.initialStateProgramComboBox.Watermark = "Choose state";
+            this.deleteStatementButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteStatementButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.deleteStatementButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteStatementButton.Location = new System.Drawing.Point(296, 3);
+            this.deleteStatementButton.Name = "deleteStatementButton";
+            this.deleteStatementButton.Size = new System.Drawing.Size(164, 25);
+            this.deleteStatementButton.TabIndex = 6;
+            this.deleteStatementButton.Text = "DELETE";
+            this.deleteStatementButton.UseVisualStyleBackColor = false;
+            this.deleteStatementButton.Click += new System.EventHandler(this.deleteStatementButton_Click);
             // 
             // Form1
             // 
@@ -835,11 +835,11 @@ namespace actions_with_costs
             this.tableLayoutPanel18.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.executeProgramComboBox)).EndInit();
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
             this.tableLayoutPanel9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.executeProgramComboBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -889,8 +889,8 @@ namespace actions_with_costs
         private System.Windows.Forms.ComboBox statementsComboBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label FinalStateLabel;
+        private System.Windows.Forms.Label FinalCostLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button visualizationButton;
         private System.Windows.Forms.Panel panel1;
