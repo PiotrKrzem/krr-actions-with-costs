@@ -310,6 +310,7 @@ namespace actions_with_costs
         private ComboBox statementsComboBox;
         private CheckedListBox allStatementsCheckBox;
         private Button statementRemoveButton;
+        private Button statementRemoveAllButton;
 
         private Label inconsistentDomainLabel;
 
@@ -319,12 +320,14 @@ namespace actions_with_costs
             ref List<string> positiveNegativeFluents,
             ref CheckedListBox allStatementsCheckBox,
             ref Label inconsistentDomainLabel,
-            ref Button statementRemoveButton)
+            ref Button statementRemoveButton,
+            ref Button statementRemoveAllButton)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
             this.allStatementsCheckBox = allStatementsCheckBox;
             this.statementRemoveButton = statementRemoveButton;
+            this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
 
             initiallyStatementObject = new InitiallyStatementObject(statementsPanel, positiveNegativeFluents);
@@ -356,10 +359,11 @@ namespace actions_with_costs
                 allStatementsCheckBox.Items.Add(statementText);
                 statementObject.clearStatementObjectState();
                 inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+                statementRemoveAllButton.Enabled = true;
             }
         }
         /// <summary>
-        /// Method updates the state of RemoveButton of fluents/actions.
+        /// Method updates the state of RemoveButton of statement.
         /// </summary>
         /// <param name="e">arguments of the event that triggered the method</param>
         public void updateRemoveButtonState(ItemCheckEventArgs e)
@@ -371,21 +375,40 @@ namespace actions_with_costs
         /// Method removes the statement from the collection.
         /// </summary>
         /// <param name="elements">list of all statements</param>
-        public void deleteModelElement(ref List<Statement> elements)
+        public void deleteStatementElement(ref List<Statement> allStatements, List<string> fluents)
         {
             List<string> itemsToRemove = allStatementsCheckBox.CheckedItems.Cast<string>().ToList();
             foreach (string item in itemsToRemove)
             {
                 allStatementsCheckBox.Items.Remove(item);
-                List<Statement> statementsToRemove = elements.ToList();
+                List<Statement> statementsToRemove = allStatements.ToList();
                 foreach (Statement statement in statementsToRemove)
                 {
                     if (statement.Text.Equals(item))
                     {
-                        elements.Remove(statement);
+                        allStatements.Remove(statement);
                     }
                 }
             }
+            if (statementRemoveAllButton.Enabled && allStatements.Count == 0)
+            {
+                statementRemoveAllButton.Enabled = false;
+            }
+            inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+        }
+
+        /// <summary>
+        /// Method removes all statements.
+        /// </summary>
+        /// <param name="allStatements">list of all statements</param>
+        /// <returns>boolean indicating if the statements were successfuly removed</returns>
+        public bool deleteAllStatements(ref List<Statement> allStatements)
+        {
+           allStatementsCheckBox.Items.Clear();
+            allStatements.Clear();
+            statementRemoveAllButton.Enabled = false;
+            statementRemoveButton.Enabled = false;
+            return true;
         }
 
         private bool verifyGlobalModelConsistency(List<Statement> allStatements, List<string> fluents)

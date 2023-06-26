@@ -50,7 +50,8 @@ namespace actions_with_costs
                 ref positiveNegativeFluents,
                 ref allStatementsCheckBox,
                 ref inconsistentDomainLabel,
-                ref deleteStatementButton);
+                ref deleteStatementButton,
+                ref deleteAllStatementsButton);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -120,7 +121,9 @@ namespace actions_with_costs
             actionModelView.updateRemoveButtonState(e);
 
         private void deleteStatementButton_Click(object sender, EventArgs e) => 
-            actionModelView.deleteModelElement(ref allStatements);
+            actionModelView.deleteStatementElement(ref allStatements, allFluents);
+        private void deleteAllStatementsButton_Click(object sender, EventArgs e) =>
+            actionModelView.deleteAllStatements(ref allStatements);
 
         // -------------------------------------------------------------------------------------------------------------------
 

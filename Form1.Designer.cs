@@ -67,7 +67,6 @@ namespace actions_with_costs
             this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
             this.inconsistentDomainLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.deleteStatementButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
@@ -75,6 +74,8 @@ namespace actions_with_costs
             this.label9 = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.visualizationButton = new System.Windows.Forms.Button();
+            this.deleteStatementButton = new System.Windows.Forms.Button();
+            this.deleteAllStatementsButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -641,20 +642,6 @@ namespace actions_with_costs
             this.label4.Text = "ACTION DOMAIN";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // deleteStatementButton
-            // 
-            this.deleteStatementButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteStatementButton.BackColor = System.Drawing.Color.Gainsboro;
-            this.deleteStatementButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteStatementButton.Location = new System.Drawing.Point(296, 3);
-            this.deleteStatementButton.Name = "deleteStatementButton";
-            this.deleteStatementButton.Size = new System.Drawing.Size(164, 25);
-            this.deleteStatementButton.TabIndex = 6;
-            this.deleteStatementButton.Text = "DELETE";
-            this.deleteStatementButton.UseVisualStyleBackColor = false;
-            this.deleteStatementButton.Click += new System.EventHandler(this.deleteStatementButton_Click);
-            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
@@ -725,16 +712,18 @@ namespace actions_with_costs
             // 
             // tableLayoutPanel9
             // 
-            this.tableLayoutPanel9.ColumnCount = 2;
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.ColumnCount = 3;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 36.71706F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.80562F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel9.Controls.Add(this.deleteAllStatementsButton, 0, 0);
             this.tableLayoutPanel9.Controls.Add(this.visualizationButton, 0, 0);
-            this.tableLayoutPanel9.Controls.Add(this.deleteStatementButton, 1, 0);
+            this.tableLayoutPanel9.Controls.Add(this.deleteStatementButton, 2, 0);
             this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 213);
             this.tableLayoutPanel9.Name = "tableLayoutPanel9";
             this.tableLayoutPanel9.RowCount = 1;
-            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel9.Size = new System.Drawing.Size(463, 31);
             this.tableLayoutPanel9.TabIndex = 12;
             // 
@@ -751,6 +740,35 @@ namespace actions_with_costs
             this.visualizationButton.Text = "OPEN VISUALIZATION";
             this.visualizationButton.UseVisualStyleBackColor = false;
             this.visualizationButton.Click += new System.EventHandler(this.visualizationButton_Click);
+            // 
+            // deleteStatementButton
+            // 
+            this.deleteStatementButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteStatementButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.deleteStatementButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteStatementButton.Location = new System.Drawing.Point(311, 3);
+            this.deleteStatementButton.Name = "deleteStatementButton";
+            this.deleteStatementButton.Size = new System.Drawing.Size(149, 25);
+            this.deleteStatementButton.TabIndex = 6;
+            this.deleteStatementButton.Text = "DELETE";
+            this.deleteStatementButton.UseVisualStyleBackColor = false;
+            this.deleteStatementButton.Click += new System.EventHandler(this.deleteStatementButton_Click);
+            // 
+            // deleteAllStatementsButton
+            // 
+            this.deleteAllStatementsButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteAllStatementsButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.deleteAllStatementsButton.Enabled = false;
+            this.deleteAllStatementsButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.deleteAllStatementsButton.Location = new System.Drawing.Point(173, 3);
+            this.deleteAllStatementsButton.Name = "deleteAllStatementsButton";
+            this.deleteAllStatementsButton.Size = new System.Drawing.Size(132, 25);
+            this.deleteAllStatementsButton.TabIndex = 8;
+            this.deleteAllStatementsButton.Text = "DELETE ALL";
+            this.deleteAllStatementsButton.UseVisualStyleBackColor = false;
+            this.deleteAllStatementsButton.Click += new System.EventHandler(this.deleteAllStatementsButton_Click);
             // 
             // Form1
             // 
@@ -843,6 +861,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button visualizationButton;
+        private System.Windows.Forms.Button deleteAllStatementsButton;
     }
 }
 
