@@ -63,7 +63,7 @@ namespace actions_with_costs
             this.statementsPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.statementsComboBox = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
-            this.allStatementsListView = new System.Windows.Forms.CheckedListBox();
+            this.allStatementsCheckBox = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel18 = new System.Windows.Forms.TableLayoutPanel();
             this.inconsistentDomainLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -568,7 +568,7 @@ namespace actions_with_costs
             this.tableLayoutPanel17.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.tableLayoutPanel17.ColumnCount = 1;
             this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel17.Controls.Add(this.allStatementsListView, 0, 1);
+            this.tableLayoutPanel17.Controls.Add(this.allStatementsCheckBox, 0, 1);
             this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel18, 0, 0);
             this.tableLayoutPanel17.Controls.Add(this.deleteStatementButton, 0, 2);
             this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel3, 0, 3);
@@ -585,16 +585,17 @@ namespace actions_with_costs
             this.tableLayoutPanel17.Size = new System.Drawing.Size(469, 345);
             this.tableLayoutPanel17.TabIndex = 1;
             // 
-            // allStatementsListView
+            // allStatementsCheckBox
             // 
-            this.allStatementsListView.CheckOnClick = true;
-            this.allStatementsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.allStatementsListView.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.allStatementsListView.FormattingEnabled = true;
-            this.allStatementsListView.Location = new System.Drawing.Point(3, 37);
-            this.allStatementsListView.Name = "allStatementsListView";
-            this.allStatementsListView.Size = new System.Drawing.Size(463, 170);
-            this.allStatementsListView.TabIndex = 0;
+            this.allStatementsCheckBox.CheckOnClick = true;
+            this.allStatementsCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.allStatementsCheckBox.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allStatementsCheckBox.FormattingEnabled = true;
+            this.allStatementsCheckBox.Location = new System.Drawing.Point(3, 37);
+            this.allStatementsCheckBox.Name = "allStatementsCheckBox";
+            this.allStatementsCheckBox.Size = new System.Drawing.Size(463, 170);
+            this.allStatementsCheckBox.TabIndex = 0;
+            this.allStatementsCheckBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.allStatementsCheckBox_ItemCheck);
             // 
             // tableLayoutPanel18
             // 
@@ -774,7 +775,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button addStatementButton;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.CheckedListBox allStatementsListView;
+        private System.Windows.Forms.CheckedListBox allStatementsCheckBox;
         private System.Windows.Forms.FlowLayoutPanel statementsPanel;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button deleteFluentButton;
