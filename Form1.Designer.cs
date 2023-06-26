@@ -719,7 +719,7 @@ namespace actions_with_costs
             this.tableLayoutPanel21.ColumnCount = 3;
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.90909F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.09091F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 173F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 172F));
             this.tableLayoutPanel21.Controls.Add(this.label13, 1, 0);
             this.tableLayoutPanel21.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.executeProgramButton, 2, 1);
@@ -740,7 +740,7 @@ namespace actions_with_costs
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label13.Location = new System.Drawing.Point(158, 0);
+            this.label13.Location = new System.Drawing.Point(159, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(122, 29);
             this.label13.TabIndex = 11;
@@ -754,7 +754,7 @@ namespace actions_with_costs
             this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(149, 29);
+            this.label11.Size = new System.Drawing.Size(150, 29);
             this.label11.TabIndex = 10;
             this.label11.Text = "ACTION SEQUENCE";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -764,6 +764,7 @@ namespace actions_with_costs
             this.executeProgramButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.executeProgramButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.executeProgramButton.Enabled = false;
             this.executeProgramButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.executeProgramButton.Location = new System.Drawing.Point(294, 32);
             this.executeProgramButton.Name = "executeProgramButton";
@@ -836,6 +837,7 @@ namespace actions_with_costs
             this.visualizationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.visualizationButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.visualizationButton.Enabled = false;
             this.visualizationButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.visualizationButton.Location = new System.Drawing.Point(3, 99);
             this.visualizationButton.Name = "visualizationButton";
@@ -939,7 +941,9 @@ namespace actions_with_costs
             this.ClientSize = new System.Drawing.Size(797, 650);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Actions with costs";
