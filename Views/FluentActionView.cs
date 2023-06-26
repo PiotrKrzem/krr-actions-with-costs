@@ -176,15 +176,35 @@ namespace actions_with_costs
         /// </summary>
         /// <param name="type">model item type (FLUENT/ACTION)</param>
         /// <param name="elements">list of all fluents/actions</param>
+        /// <param name="actionDomain">current action domain</param>
         /// <param name="postDeleteCall">method executed after deleting the fluent</param>
+        /// <param name="removeStatements">method executed to delete all statements</param>
         /// <returns>boolean indicating if the element was successfuly removed</returns>
-        public bool deleteModelElement(ModelElementType type, ref List<string> elements, Action postDeleteCall)
+        public bool deleteModelElement(ModelElementType type, ref List<string> elements, List<Statement> actionDomain, Action postDeleteCall, Action removeStatements)
         {
             ref CheckedListBox checkBox = ref type == ModelElementType.FLUENT ? ref fluentCheckBox : ref actionCheckBox;
             ref Button removeButton = ref type == ModelElementType.FLUENT ? ref fluentRemoveButton : ref actionRemoveButton;
             ref Button removeAllButton = ref type == ModelElementType.FLUENT ? ref fluentRemoveAllButton : ref actionRemoveAllButton;
 
             List<string> itemsToRemove = checkBox.CheckedItems.Cast<string>().ToList();
+            bool isInStatements = type == ModelElementType.FLUENT ?
+                itemsToRemove.Any(el => doesStatementsUseFluent(el, actionDomain)) :
+                itemsToRemove.Any(action => doesStatementsUseAction(action, actionDomain));
+
+            if(isInStatements)
+            {
+                string message = "You want to remove fluents or actions that are used in the currect action model. Do you want to clear the action model?";
+                if(MessageBox.Show(message, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    removeStatements.Invoke();
+                }
+                else
+                {
+                    string messageAfter = "Before removing fluents/actions, remove all relevant statements from the action model.";
+                    MessageBox.Show(messageAfter, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
 
             foreach (string item in itemsToRemove)
             {
@@ -197,6 +217,49 @@ namespace actions_with_costs
             {
                 removeAllButton.Enabled = false;
             }
+
+            postDeleteCall.Invoke();
+            return true;
+        }
+
+        /// <summary>
+        /// Method removes all fluents/actions.
+        /// </summary>
+        /// <param name="type">model item type (FLUENT/ACTION)</param>
+        /// <param name="elements">list of all fluents/actions</param>
+        /// <param name="actionDomain">current action domain</param>
+        /// <param name="postDeleteCall">method executed after deleting the fluent</param>
+        /// <param name="removeStatements">method executed to delete all statements</param>
+        /// <returns>boolean indicating if the elements were successfuly removed</returns>
+        public bool deleteAllModelElementsOfType(ModelElementType type, List<string> elements, List<Statement> actionDomain, Action postDeleteCall, Action removeStatements)
+        {
+            ref CheckedListBox checkBox = ref type == ModelElementType.FLUENT ? ref fluentCheckBox : ref actionCheckBox;
+            ref Button removeButton = ref type == ModelElementType.FLUENT ? ref fluentRemoveButton : ref actionRemoveButton;
+            ref Button removeAllButton = ref type == ModelElementType.FLUENT ? ref fluentRemoveAllButton : ref actionRemoveAllButton;
+
+            bool isInStatements = type == ModelElementType.FLUENT ?
+            elements.Any(el => doesStatementsUseFluent(el, actionDomain)) :
+                elements.Any(action => doesStatementsUseAction(action, actionDomain));
+
+            if (isInStatements)
+            {
+                string message = "You want to remove fluents or actions that are used in the currect action model. Do you want to clear the action model?";
+                if (MessageBox.Show(message, "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    removeStatements.Invoke();
+                }
+                else
+                {
+                    string messageAfter = "Before removing fluents/actions, remove all relevant statements from the action model.";
+                    MessageBox.Show(messageAfter, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+            }
+
+            checkBox.Items.Clear();
+            elements.Clear();
+            removeAllButton.Enabled = false;
+            removeButton.Enabled = false;
 
             postDeleteCall.Invoke();
             return true;
@@ -222,6 +285,49 @@ namespace actions_with_costs
 
             postDeleteCall.Invoke();
             return true;
+        }
+
+
+        private bool doesStatementsUseAction(string action, List<Statement> statements)
+        {
+            foreach (var statement in statements)
+            {
+                switch (statement.Type)
+                {
+                    case StatementType.AFTER:
+                        if (((AfterStatement)statement).Actions.Contains(action))
+                            return true;
+                        break;
+                    case StatementType.CAUSES:
+                        if (((CausesStatement)statement).Action == action)
+                            return true;
+                        break;
+                }
+            }
+            return false;
+        }
+
+        private bool doesStatementsUseFluent(string fluent, List<Statement> statements)
+        {
+            foreach(var statement in statements)
+            {
+                switch(statement.Type)
+                {
+                    case StatementType.INITIALLY:
+                        if (((InitiallyStatement)statement).Condition.Fluent == fluent)
+                            return true;
+                        break;
+                    case StatementType.AFTER:
+                        if (((AfterStatement)statement).Postcondition.Fluent == fluent)
+                            return true;
+                        break;
+                    case StatementType.CAUSES:
+                        if (((CausesStatement)statement).Postcondition.Fluent == fluent || ((CausesStatement)statement).Precondition.Select(l => l.Fluent).Contains(fluent))
+                            return true;
+                        break;
+                }
+            }
+            return false;
         }
     }
 }
