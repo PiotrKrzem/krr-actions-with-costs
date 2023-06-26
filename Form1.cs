@@ -12,22 +12,15 @@ namespace actions_with_costs
 {
     public partial class Form1 : Form
     {
+        // View sections
         private FluentActionView fluentActionView;
+        private ActionModelView actionModelView;
+
+        // Stored state
         public List<string> allFluents;
         public List<string> positiveNegativeFluents;
         public List<string> allActions;
         public List<Statement> allStatements;
-        private ComboBox initiallyCondition;
-        private ComboBox afterPostcondition;
-        private SfComboBox afterActions;
-        private ComboBox causesAction;
-        private ComboBox causesPostcondition;
-        private SfComboBox causesPrecondition;
-        private NumericUpDown causesCost;
-        private int fontSize = 10;
-        private string fontType = "Calibri Light";
-        private int offset = 20;
-        private Font font;
 
         public Form1()
         {
@@ -50,7 +43,12 @@ namespace actions_with_costs
                 ref allFluentsCheckBox,
                 ref allActionsCheckBox);
 
-            font = new Font(fontType, fontSize);
+            // Initializing part of the view responsible for creating action model
+            actionModelView = new ActionModelView(
+                ref statementsPanel,
+                ref statementsComboBox,
+                ref positiveNegativeFluents,
+                ref allStatementsListView);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -71,8 +69,7 @@ namespace actions_with_costs
             statementsComboBox.DisplayMember = "Text";
             statementsComboBox.ValueMember = "Value";
 
-            initializeComboBoxes();
-            createInitialStatements();
+            actionModelView.initiallyStatementObject.createStatementObject(statementsPanel);
         }
 
         // ----------------------------- FORM METHODS OF FLUENT/ACTION SECTION ---------------------------------------------
@@ -107,6 +104,16 @@ namespace actions_with_costs
             fluentActionView.updateRemoveButtonState(ModelElementType.ACTION, e);
 
         // -------------------------------------------------------------------------------------------------------------------
+
+
+        // ----------------------------- FORM METHODS OF ACTION MODEL --------------------------------------------------------
+
+        private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e) =>
+            actionModelView.createStatementObject();
+
+        private void addStatementButton_Click(object sender, EventArgs e) =>
+            actionModelView.addStatement(ref allStatements);
+
         private void deleteStatementButton_Click(object sender, EventArgs e)
         {
             //foreach(ListViewItem item in allStatementsListView.CheckedItems)
@@ -122,107 +129,16 @@ namespace actions_with_costs
             //}
             //MessageBox.Show(allStatements.Count.ToString());
         }
-        private void statementsComboBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (statementsComboBox.SelectedValue.ToString() == "initially")
-            {
-                createInitialStatements();
-            }
-            else if (statementsComboBox.SelectedValue.ToString() == "value")
-            {
-                createValueStatements();
-            }
-            else
-            {
-                createEffectStatements();
-            }
-        }
-        private void initializeComboBoxes()
-        {
-            initiallyCondition = new ComboBox();
-            initiallyCondition.Font = font;
-            initiallyCondition.Width = statementsPanel.Width - offset;
-            initiallyCondition.Items.Clear();
-            initiallyCondition.Items.AddRange(positiveNegativeFluents.ToArray());
 
-            afterPostcondition = new ComboBox();
-            afterPostcondition.Font = font;
-            afterPostcondition.Width = statementsPanel.Width - offset;
-            afterPostcondition.Items.Clear();
-            afterPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
+        // -------------------------------------------------------------------------------------------------------------------
 
-            afterActions = new SfComboBox();
-            afterActions.Font = font;
-            afterActions.Width = statementsPanel.Width - offset;
-            afterActions.ComboBoxMode = ComboBoxMode.MultiSelection;
 
-            causesAction = new ComboBox();
-            causesAction.Font = font;
-            causesAction.Width = statementsPanel.Width - offset;
-            causesAction.Items.Clear();
-            causesAction.Items.AddRange(allActions.ToArray());
-
-            causesPostcondition = new ComboBox();
-            causesPostcondition.Font = font;
-            causesPostcondition.Width = statementsPanel.Width - offset;
-            causesPostcondition.Items.Clear();
-            causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
-
-            causesPrecondition = new SfComboBox();
-            causesPrecondition.Font = font;
-            causesPrecondition.Width = statementsPanel.Width - offset;
-            causesPrecondition.ComboBoxMode = ComboBoxMode.MultiSelection;
-        }
-        private void createInitialStatements()
-        {
-            statementsPanel.Controls.Clear();
-            Label label = new Label();
-            label.Text = "initially";
-            label.Font = font;
-            //initiallyCondition.SelectionChangeCommitted += new EventHandler(initiallyCondition_SelectionChangeCommitted);
-
-            statementsPanel.Controls.AddRange(new Control[] { label, initiallyCondition });
-        }
-        private void initiallyCondition_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            
-        }
-        private void createValueStatements()
-        {
-            statementsPanel.Controls.Clear();
-            Label label = new Label();
-            label.Text = "after";
-            label.Font = font;
-
-            statementsPanel.Controls.AddRange(new Control[] { afterPostcondition, label, afterActions });
-        }
-        private void createEffectStatements()
-        {
-            statementsPanel.Controls.Clear();
-            Label labelCauses = new Label();
-            labelCauses.Text = "causes";
-            labelCauses.Font = font;
-            Label labelIf = new Label();
-            labelIf.Text = "if";
-            labelIf.Font = font;
-            Label labelCost = new Label();
-            labelCost.Text = "cost";
-            labelCost.Font = font;
-
-            causesCost = new NumericUpDown();
-            causesCost.Font = font;
-            causesCost.Width = statementsPanel.Width - offset;
-            causesCost.Value = 0;
-
-            statementsPanel.Controls.AddRange(new Control[] { causesAction, labelCauses, causesPostcondition, 
-                                                labelIf, causesPrecondition, labelCost, causesCost });
-        }
-
+        // ----------------------------- COMMON HELPER METHODS ---------------------------------------------------------------
         private void updateCausesDropdown()
         {
-            causesAction.Items.Clear();
-            causesAction.Items.AddRange(allActions.ToArray());
-            afterActions.DataSource = allActions.ToList();
+            actionModelView.effectStatementObject.causesAction.Items.Clear();
+            actionModelView.effectStatementObject.causesAction.Items.AddRange(allActions.ToArray());
+            actionModelView.afterStatementObject.afterActions.DataSource = allActions.ToList();
         }
 
         private void buildPositiveNegativeFluents()
@@ -234,61 +150,17 @@ namespace actions_with_costs
                 string negated = "~" + item;
                 positiveNegativeFluents.Add(negated);
             }
-            initiallyCondition.Items.Clear();
-            initiallyCondition.Items.AddRange(positiveNegativeFluents.ToArray());
-            afterPostcondition.Items.Clear();
-            afterPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
-            causesPostcondition.Items.Clear();
-            causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
-            causesPrecondition.DataSource = positiveNegativeFluents.ToList();
-            causesPrecondition.SelectedItems.Clear();
-        }
+            actionModelView.initiallyStatementObject.initiallyComboBox.Items.Clear();
+            actionModelView.initiallyStatementObject.initiallyComboBox.Items.AddRange(positiveNegativeFluents.ToArray());
 
-        private void addStatementButton_Click(object sender, EventArgs e)
-        {
-            if (statementsComboBox.SelectedValue.ToString() == "initially")
-            {
-                string statementText = "initially " + initiallyCondition.Text;
-                allStatementsListView.Items.Add(statementText);
-                InitiallyStatement statement = new InitiallyStatement("initially", statementText, initiallyCondition.Text);
-                allStatements.Add(statement);
-                initiallyCondition.Text = "";
-            }
-            else if (statementsComboBox.SelectedValue.ToString() == "value")
-            {
-                string statementText = afterPostcondition.Text + " after " + afterActions.Text;
-                allStatementsListView.Items.Add(statementText);
-                AfterStatement statement = new AfterStatement("after", statementText, afterPostcondition.Text, afterActions.Text);
-                allStatements.Add(statement);
-                afterPostcondition.Text = "";
-                afterActions.SelectedItems.Clear();
-            }
-            else
-            {
-                string statementText;
-                if (causesPrecondition.Text != String.Empty)
-                {
-                    statementText = causesAction.Text + " causes " + causesPostcondition.Text +
-                                 " if " + causesPrecondition.Text + " cost " + causesCost.Text;
-                }
-                else
-                {
-                    statementText = causesAction.Text + " causes " + causesPostcondition.Text + " cost " + causesCost.Text;
-                }        
-                allStatementsListView.Items.Add(statementText);
-                CausesStatement statement = new CausesStatement("causes", statementText, causesAction.Text, causesPostcondition.Text, 
-                                                                            causesPrecondition.Text, Convert.ToInt32(causesCost.Value));
-                allStatements.Add(statement);
-                causesAction.Text = "";
-                causesPostcondition.Text = "";
-                causesPrecondition.SelectedItems.Clear();
-                causesCost.Value = 0;
-                //MessageBox.Show(statement.Postcondition.Fluent);
-                //MessageBox.Show(statement.Postcondition.IfHolds.ToString());
-                //MessageBox.Show(statement.Precondition[0].Fluent);
-                //MessageBox.Show(statement.Precondition[0].IfHolds.ToString());
-                //MessageBox.Show(statement.Cost.ToString());
-            }
+            actionModelView.afterStatementObject.afterPostCondition.Items.Clear();
+            actionModelView.afterStatementObject.afterPostCondition.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            actionModelView.effectStatementObject.causesPostcondition.Items.Clear();
+            actionModelView.effectStatementObject.causesPostcondition.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            actionModelView.effectStatementObject.causesPrecondition.DataSource = positiveNegativeFluents.ToList();
+            actionModelView.effectStatementObject.causesPrecondition.SelectedItems.Clear();
         }
     }
 
