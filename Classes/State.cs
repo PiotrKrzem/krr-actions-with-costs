@@ -15,5 +15,56 @@ namespace actions_with_costs
         }
         public List<Literal> Literals { get; set; }
 
+        /// <summary>
+        /// Method returns the text displayed to describe the state.
+        /// </summary>
+        /// <returns>text describing the state</returns>
+        public string getStateDescription()
+        {
+            string text = "";
+            for(int i=0; i< Literals.Count; i++)
+            {
+                text += Literals[i].ToString();
+
+                if(i != Literals.Count - 1)
+                {
+                    text += "\n";
+                }
+            }
+            return text;
+
+        }
+
+        /// <summary>
+        /// Method generates all possible states of the system.
+        /// </summary>
+        /// <param name="allFluents">set of all available fluents</param>
+        /// <returns>list of states</returns>
+        public static List<State> getAllInitialStates(List<string> allFluents)
+        {
+            List<List<Literal>> complementaryFluents = allFluents.Select(fluent => new[] { new Literal(fluent, true), new Literal(fluent, false) }.ToList()).ToList();
+            List<State> allPossibleStartingStates = new List<State>();
+            generateAllPossibleInitialStates(complementaryFluents, 0, new List<Literal>(), allPossibleStartingStates);
+
+            return allPossibleStartingStates;
+        }
+
+        private static void generateAllPossibleInitialStates(List<List<Literal>> fluents, int depth, List<Literal> partialOutput, List<State> finalOutput)
+        {
+            if (depth < fluents.Count)
+            {
+                foreach (Literal value in fluents[depth])
+                {
+                    List<Literal> literals = new List<Literal>();
+                    literals.AddRange(partialOutput);
+                    literals.Add(value);
+                    if (literals.Count == fluents.Count)
+                    {
+                        finalOutput.Add(new State(literals));
+                    }
+                    generateAllPossibleInitialStates(fluents, depth + 1, literals, finalOutput);
+                }
+            }
+        }
     }
 }

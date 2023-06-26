@@ -133,6 +133,15 @@ namespace actions_with_costs
 
         // -------------------------------------------------------------------------------------------------------------------
 
+        // ----------------------------- FORM METHODS OF VISUALIZATION --------------------------------------------------------
+
+        private void visualizationButton_Click(object sender, EventArgs e)
+        {
+            StateDiagram stateDiagramForm = new StateDiagram(allFluents, allActions, allStatements);
+            stateDiagramForm.Show();
+        }
+
+        // -------------------------------------------------------------------------------------------------------------------
 
         // ----------------------------- COMMON HELPER METHODS ---------------------------------------------------------------
         private void updateCausesDropdown()

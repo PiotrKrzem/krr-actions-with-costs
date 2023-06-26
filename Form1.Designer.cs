@@ -73,6 +73,8 @@ namespace actions_with_costs
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
+            this.visualizationButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -90,6 +92,7 @@ namespace actions_with_costs
             this.tableLayoutPanel18.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
+            this.tableLayoutPanel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -570,9 +573,9 @@ namespace actions_with_costs
             this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel17.Controls.Add(this.allStatementsListView, 0, 1);
             this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel18, 0, 0);
-            this.tableLayoutPanel17.Controls.Add(this.deleteStatementButton, 0, 2);
             this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel7, 0, 4);
+            this.tableLayoutPanel17.Controls.Add(this.tableLayoutPanel9, 0, 2);
             this.tableLayoutPanel17.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel17.Location = new System.Drawing.Point(319, 3);
             this.tableLayoutPanel17.Name = "tableLayoutPanel17";
@@ -643,9 +646,9 @@ namespace actions_with_costs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteStatementButton.BackColor = System.Drawing.Color.Gainsboro;
             this.deleteStatementButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteStatementButton.Location = new System.Drawing.Point(302, 213);
+            this.deleteStatementButton.Location = new System.Drawing.Point(296, 3);
             this.deleteStatementButton.Name = "deleteStatementButton";
-            this.deleteStatementButton.Size = new System.Drawing.Size(164, 31);
+            this.deleteStatementButton.Size = new System.Drawing.Size(164, 25);
             this.deleteStatementButton.TabIndex = 6;
             this.deleteStatementButton.Text = "DELETE";
             this.deleteStatementButton.UseVisualStyleBackColor = false;
@@ -719,6 +722,35 @@ namespace actions_with_costs
             this.label9.Text = "FINAL COST:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // tableLayoutPanel9
+            // 
+            this.tableLayoutPanel9.ColumnCount = 2;
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.Controls.Add(this.visualizationButton, 0, 0);
+            this.tableLayoutPanel9.Controls.Add(this.deleteStatementButton, 1, 0);
+            this.tableLayoutPanel9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel9.Location = new System.Drawing.Point(3, 213);
+            this.tableLayoutPanel9.Name = "tableLayoutPanel9";
+            this.tableLayoutPanel9.RowCount = 1;
+            this.tableLayoutPanel9.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel9.Size = new System.Drawing.Size(463, 31);
+            this.tableLayoutPanel9.TabIndex = 12;
+            // 
+            // visualizationButton
+            // 
+            this.visualizationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.visualizationButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.visualizationButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visualizationButton.Location = new System.Drawing.Point(3, 3);
+            this.visualizationButton.Name = "visualizationButton";
+            this.visualizationButton.Size = new System.Drawing.Size(164, 25);
+            this.visualizationButton.TabIndex = 7;
+            this.visualizationButton.Text = "OPEN VISUALIZATION";
+            this.visualizationButton.UseVisualStyleBackColor = false;
+            this.visualizationButton.Click += new System.EventHandler(this.visualizationButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -756,6 +788,7 @@ namespace actions_with_costs
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
+            this.tableLayoutPanel9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -807,6 +840,8 @@ namespace actions_with_costs
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
+        private System.Windows.Forms.Button visualizationButton;
     }
 }
 

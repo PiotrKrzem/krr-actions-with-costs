@@ -372,18 +372,22 @@ namespace actions_with_costs
               .Cast<InitiallyStatement>()
               .ToList();
 
+            
             // Set of all possible initial states of different models
-            List<List<Literal>> allPossibleStartingStates = getInitialStates(initiallyStatements, fluents);
+            List<State> allPossibleStartingStates = getInitialStates(initiallyStatements, fluents);
+            List<State> allConsistentInitialStates = new List<State>();
+            bool isRestrictedByAfter = afterStatements.Count > 0;
+            bool currentConsistencyState = true;
 
             foreach(var state in allPossibleStartingStates)
             {
                 // Verifying if there are no causes statements and if the final state does not correspond to the initial one
                 if (!allStatements.Any(statement => statement.Type == StatementType.CAUSES))
                 {
-                    return !state.Any(st => afterStatements.Any(ast => ast.Postcondition.isComplementary(st)));
+                    return !state.Literals.Any(st => afterStatements.Any(ast => ast.Postcondition.isComplementary(st)));
                 }
 
-                State currentState = new State(state);
+                State currentState = new State(state.Literals);
                 List<CausesStatement> causesWithEffects = causesStatements.FindAll(causes => causes.doesMeetPreconditions(currentState.Literals));
 
                 // Verifying if there is no inconsistency between causes statements
@@ -395,8 +399,25 @@ namespace actions_with_costs
 
                     if(effectsOfAction.Any(effect => effectsOfAction.Any(otherEffect => otherEffect.isComplementary(effect))))
                     {
-                        return false;
+                        if(!isRestrictedByAfter)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            currentConsistencyState = false;
+                            break;
+                        }
+                    } 
+                    else if (isRestrictedByAfter)
+                    {
+                        currentConsistencyState = true;
                     }
+                }
+
+                if(currentConsistencyState == false)
+                {
+                    continue;
                 }
 
                 // Verifying if there is no inconsistency between after statetments and causes executed upon given initial state
@@ -410,18 +431,36 @@ namespace actions_with_costs
 
                         if (newState.Any(stateLiteral => stateLiteral.isComplementary(afterStatement.Postcondition)))
                         {
-                            return false;
+                            if (!isRestrictedByAfter)
+                            {
+                                return false;
+                            }
+                            else
+                            {
+                                currentConsistencyState = false;
+                                goto AfterVerification;
+                            }
+                        }
+                        else if (isRestrictedByAfter)
+                        {
+                            currentConsistencyState = true;
                         }
                         currentState = new State(newState);
                     }
                 }
+
+                AfterVerification:
+                if (currentConsistencyState == true)
+                {
+                    allConsistentInitialStates.Add(state);
+                }
             }
 
-            return true;
+            return isRestrictedByAfter ? allConsistentInitialStates.Count > 0 : currentConsistencyState;
         }
 
 
-        private List<List<Literal>> getInitialStates(List<InitiallyStatement> initiallyStatements, List<string> allFluents)
+        private List<State> getInitialStates(List<InitiallyStatement> initiallyStatements, List<string> allFluents)
         {
             List<Literal> initialState = initiallyStatements.Select(st => st.Condition).ToList();
             List<string> distinctFluents = initialState.GroupBy(literal => literal.Fluent).Select(group => group.Key).ToList();
@@ -429,13 +468,13 @@ namespace actions_with_costs
                 .FindAll(fluent => !distinctFluents.Contains(fluent))
                 .Select(fluent => new[] { new Literal(fluent, true), new Literal(fluent, false) }.ToList())
                 .ToList();
-            List<List<Literal>> allPossibleStartingStates = new List<List<Literal>>();
+            List<State> allPossibleStartingStates = new List<State>();
             generateAllPossibleInitialStates(initialState, missingFluents, 0, new List<Literal>(), allPossibleStartingStates);
 
             return allPossibleStartingStates;
         }
 
-        private static void generateAllPossibleInitialStates(List<Literal> initialState, List<List<Literal>> missingFluents, int depth, List<Literal> partialOutput, List<List<Literal>> finalOutput)
+        private static void generateAllPossibleInitialStates(List<Literal> initialState, List<List<Literal>> missingFluents, int depth, List<Literal> partialOutput, List<State> finalOutput)
         {
             if (depth < missingFluents.Count)
             {
@@ -446,7 +485,7 @@ namespace actions_with_costs
                     literals.Add(value);
                     if (literals.Count == missingFluents.Count)
                     {
-                        finalOutput.Add(literals.Union(initialState).ToList());
+                        finalOutput.Add(new State(literals.Union(initialState).ToList()));
                     }
                     generateAllPossibleInitialStates(initialState, missingFluents, depth + 1, literals, finalOutput);
                 }
