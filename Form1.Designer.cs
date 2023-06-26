@@ -77,8 +77,8 @@ namespace actions_with_costs
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.panel16 = new System.Windows.Forms.Panel();
-            this.allStatementsListView = new System.Windows.Forms.ListView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.allStatementsListView = new System.Windows.Forms.CheckedListBox();
+            this.deleteStatementButton = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.label8 = new System.Windows.Forms.Label();
@@ -578,9 +578,9 @@ namespace actions_with_costs
             this.tableLayoutPanel7.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel7.Name = "tableLayoutPanel7";
             this.tableLayoutPanel7.RowCount = 4;
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61.40351F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.59649F));
-            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 205F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 58.82353F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.17647F));
+            this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 210F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel7.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
@@ -595,7 +595,7 @@ namespace actions_with_costs
             this.panel13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel13.Location = new System.Drawing.Point(3, 3);
             this.panel13.Name = "panel13";
-            this.panel13.Size = new System.Drawing.Size(398, 64);
+            this.panel13.Size = new System.Drawing.Size(398, 58);
             this.panel13.TabIndex = 0;
             // 
             // label5
@@ -622,10 +622,10 @@ namespace actions_with_costs
             // 
             this.panel14.Controls.Add(this.statementsComboBox);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel14.Location = new System.Drawing.Point(3, 73);
+            this.panel14.Location = new System.Drawing.Point(3, 67);
             this.panel14.Name = "panel14";
             this.panel14.Padding = new System.Windows.Forms.Padding(0, 0, 12, 0);
-            this.panel14.Size = new System.Drawing.Size(398, 38);
+            this.panel14.Size = new System.Drawing.Size(398, 39);
             this.panel14.TabIndex = 1;
             // 
             // statementsComboBox
@@ -644,10 +644,10 @@ namespace actions_with_costs
             // 
             this.statementsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.statementsPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.statementsPanel.Location = new System.Drawing.Point(3, 126);
+            this.statementsPanel.Location = new System.Drawing.Point(3, 121);
             this.statementsPanel.Margin = new System.Windows.Forms.Padding(3, 12, 3, 3);
             this.statementsPanel.Name = "statementsPanel";
-            this.statementsPanel.Size = new System.Drawing.Size(398, 190);
+            this.statementsPanel.Size = new System.Drawing.Size(398, 195);
             this.statementsPanel.TabIndex = 7;
             // 
             // tableLayoutPanel3
@@ -658,7 +658,7 @@ namespace actions_with_costs
             this.tableLayoutPanel3.Controls.Add(this.panel3, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.panel4, 0, 4);
             this.tableLayoutPanel3.Controls.Add(this.panel16, 0, 1);
-            this.tableLayoutPanel3.Controls.Add(this.button1, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.deleteStatementButton, 0, 2);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -754,26 +754,25 @@ namespace actions_with_costs
             // 
             // allStatementsListView
             // 
-            this.allStatementsListView.CheckBoxes = true;
+            this.allStatementsListView.CheckOnClick = true;
             this.allStatementsListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.allStatementsListView.Font = new System.Drawing.Font("Calibri Light", 13F);
-            this.allStatementsListView.HideSelection = false;
+            this.allStatementsListView.FormattingEnabled = true;
             this.allStatementsListView.Location = new System.Drawing.Point(12, 0);
             this.allStatementsListView.Name = "allStatementsListView";
             this.allStatementsListView.Size = new System.Drawing.Size(894, 172);
             this.allStatementsListView.TabIndex = 0;
-            this.allStatementsListView.UseCompatibleStateImageBehavior = false;
-            this.allStatementsListView.View = System.Windows.Forms.View.List;
             // 
-            // button1
+            // deleteStatementButton
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.button1.Location = new System.Drawing.Point(834, 230);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 26);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Delete";
-            this.button1.UseVisualStyleBackColor = true;
+            this.deleteStatementButton.Dock = System.Windows.Forms.DockStyle.Right;
+            this.deleteStatementButton.Location = new System.Drawing.Point(834, 230);
+            this.deleteStatementButton.Name = "deleteStatementButton";
+            this.deleteStatementButton.Size = new System.Drawing.Size(75, 26);
+            this.deleteStatementButton.TabIndex = 6;
+            this.deleteStatementButton.Text = "Delete";
+            this.deleteStatementButton.UseVisualStyleBackColor = true;
+            this.deleteStatementButton.Click += new System.EventHandler(this.deleteStatementButton_Click);
             // 
             // groupBox5
             // 
@@ -906,7 +905,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Panel panel14;
         private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.ListView allStatementsListView;
+        private System.Windows.Forms.CheckedListBox allStatementsListView;
         private System.Windows.Forms.ComboBox statementsComboBox;
         private System.Windows.Forms.FlowLayoutPanel statementsPanel;
         private System.Windows.Forms.Button button1;
@@ -932,6 +931,7 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckedListBox allFluentsCheckBox;
         private System.Windows.Forms.CheckedListBox allActionsCheckBox;
+        private System.Windows.Forms.Button deleteStatementButton;
     }
 }
 
