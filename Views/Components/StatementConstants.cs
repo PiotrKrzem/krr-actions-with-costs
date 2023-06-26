@@ -21,6 +21,7 @@ namespace actions_with_costs
             Label label = new Label();
             label.Text = text;
             label.Font = FONT;
+            label.AutoSize = true;
 
             return label;
         }

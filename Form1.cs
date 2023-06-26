@@ -52,10 +52,10 @@ namespace actions_with_costs
                 ref inconsistentDomainLabel,
                 ref deleteStatementButton,
                 ref deleteAllStatementsButton,
-                ref addStatementButton,
                 ref executeProgramComboBox,
                 ref initialStateProgramComboBox,
-                ref executeProgramButton);
+                ref executeProgramButton,
+                ref visualizationButton);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -96,14 +96,14 @@ namespace actions_with_costs
             fluentActionView.addAction(updateCausesDropdown, allActions);
 
         private void deleteFluentButton_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteModelElement(ModelElementType.FLUENT, ref allFluents, buildPositiveNegativeFluents);
+            fluentActionView.deleteModelElement(ModelElementType.FLUENT, ref allFluents, allStatements, buildPositiveNegativeFluents, clearStatements);
         private void deleteActionButton_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteModelElement(ModelElementType.ACTION, ref allActions, updateCausesDropdown);
+            fluentActionView.deleteModelElement(ModelElementType.ACTION, ref allActions, allStatements, updateCausesDropdown, clearStatements);
 
         private void removeAllFluents_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, allStatements, buildPositiveNegativeFluents, clearStatements);
         private void removeAllActions_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, updateCausesDropdown);
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, allStatements, updateCausesDropdown, clearStatements);
 
         private void allFluentsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
             fluentActionView.updateRemoveButtonState(ModelElementType.FLUENT, e);
@@ -129,7 +129,7 @@ namespace actions_with_costs
             actionModelView.createStatementObject();
 
         private void addStatementButton_Click(object sender, EventArgs e) =>
-            actionModelView.addStatement(ref allStatements, allFluents);
+            actionModelView.addStatement(ref allStatements, allFluents, allActions);
 
         private void allStatementsCheckBox_ItemCheck(object sender, ItemCheckEventArgs e) =>
             actionModelView.updateRemoveButtonState(e);
@@ -151,7 +151,19 @@ namespace actions_with_costs
 
         // -------------------------------------------------------------------------------------------------------------------
 
+        // ----------------------------- FORM MENI METHODS -------------------------------------------------------------------
+        private void clearMenuOption_Click(object sender, EventArgs e)
+        {
+            actionModelView.deleteAllStatements(ref allStatements); 
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, updateCausesDropdown);
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
+        }
+        // -------------------------------------------------------------------------------------------------------------------
+
         // ----------------------------- COMMON HELPER METHODS ---------------------------------------------------------------
+
+        private void clearStatements() => actionModelView.deleteAllStatements(ref allStatements);
+
         private void updateCausesDropdown()
         {
             actionModelView.effectStatementObject.causesAction.Items.Clear();

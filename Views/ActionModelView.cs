@@ -40,6 +40,14 @@ namespace actions_with_costs
         public virtual void clearStatementObjectState() { }
 
         /// <summary>
+        /// Abstract method that verifies if the selection fields contain valid values of fluents or actions.
+        /// </summary>
+        /// <param name="allFluents">list of all acceptable fluent names</param>
+        /// <param name="allActions">list of all acceptable action names</param>
+        /// <returns>boolean indicating if the statement can be added</returns>
+        public virtual bool verifyFluentsAndActionsCorrectness(List<string> allFluents, List<string> allActions) { return true; }
+
+        /// <summary>
         /// Abstract method that verifies if the given statement can be added.
         /// </summary>
         /// <param name="statementForm">statement object formatted to Statement</param>
@@ -96,6 +104,20 @@ namespace actions_with_costs
         override public void clearStatementObjectState()
         {
             initiallyComboBox.Text = "";
+        }
+
+        public override bool verifyFluentsAndActionsCorrectness(List<string> allFluents, List<string> allActions)
+        {
+            string providedText = initiallyComboBox.Text;
+            List<string> acceptableTexts = allFluents.SelectMany(fluent => new[] { fluent, "~" + fluent }).ToList();
+
+            if(!acceptableTexts.Contains(providedText))
+            {
+                string message = "Literal provided in initially statement does not correspond to any existing fluents! Please use valid fluent names or add new fluents.";
+                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
         }
 
         override public bool verifyStatementCorrectness(Statement statementForm, List<Statement> allStatements)
@@ -164,6 +186,20 @@ namespace actions_with_costs
         {
             afterPostCondition.Text = "";
             afterActions.SelectedItems.Clear();
+        }
+
+        public override bool verifyFluentsAndActionsCorrectness(List<string> allFluents, List<string> allActions)
+        {
+            string providedText = afterPostCondition.Text;
+            List<string> acceptableTexts = allFluents.SelectMany(fluent => new[] { fluent, "~" + fluent }).ToList();
+
+            if (!acceptableTexts.Contains(providedText))
+            {
+                string message = "Literal provided in post-condition statement does not correspond to any existing fluents! Please use valid fluent names or add new fluents.";
+                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
         }
 
         override public bool verifyStatementCorrectness(Statement statementForm, List<Statement> allStatements)
@@ -265,6 +301,28 @@ namespace actions_with_costs
             causesCost.Value = 0;
         }
 
+        public override bool verifyFluentsAndActionsCorrectness(List<string> allFluents, List<string> allActions)
+        {
+            string providedText = causesPostcondition.Text;
+            List<string> acceptableTexts = allFluents.SelectMany(fluent => new[] { fluent, "~" + fluent }).ToList();
+
+            if (!acceptableTexts.Contains(providedText))
+            {
+                string message = "Literal provided in post-condition statement does not correspond to any existing fluents! Please use valid fluent names or add new fluents.";
+                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            if(!allActions.Contains(causesAction.Text))
+            {
+                string message = "Provided action does not correspond to any existing actions! Please use valid action name or add new actions.";
+                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
+
         override public bool verifyStatementCorrectness(Statement statementForm, List<Statement> allStatements)
         {
             if (base.verifyStatementCorrectness(statementForm, allStatements))
@@ -311,7 +369,6 @@ namespace actions_with_costs
         private ComboBox statementsComboBox;
         private CheckedListBox allStatementsCheckBox;
         private Button statementRemoveButton;
-        private Button statementAddButton;
         private Button statementRemoveAllButton;
 
         // Elements of layout for specifying program to be executed
@@ -319,7 +376,10 @@ namespace actions_with_costs
         public SfComboBox programInitialStateComboBox;
         public Button programExecuteButton;
 
-        private Label inconsistentDomainLabel;
+        // Elements of layout relevant to visualization
+        public Button displayVisualizationButton;
+
+        public Label inconsistentDomainLabel;
 
         public ActionModelView(
             ref FlowLayoutPanel statementsPanel,
@@ -329,21 +389,21 @@ namespace actions_with_costs
             ref Label inconsistentDomainLabel,
             ref Button statementRemoveButton,
             ref Button statementRemoveAllButton,
-            ref Button statementAddButton,
             ref SfComboBox programExecuteComboBox,
             ref SfComboBox programInitialStateComboBox,
-            ref Button programExecuteButton)
+            ref Button programExecuteButton,
+            ref Button displayVisualizationButton)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
             this.allStatementsCheckBox = allStatementsCheckBox;
-            this.statementAddButton = statementAddButton;
             this.statementRemoveButton = statementRemoveButton;
             this.programExecuteComboBox = programExecuteComboBox;
             this.programInitialStateComboBox = programInitialStateComboBox;
             this.programExecuteButton = programExecuteButton;
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
+            this.displayVisualizationButton = displayVisualizationButton;
 
             initiallyStatementObject = new InitiallyStatementObject(statementsPanel, positiveNegativeFluents);
             afterStatementObject = new AfterStatementObject(statementsPanel, positiveNegativeFluents);
@@ -364,17 +424,18 @@ namespace actions_with_costs
         /// </summary>
         /// <param name="allStatements">collection of all current statements</param>
         /// <param name="fluents">list of all fluents</param>
-        public void addStatement(ref List<Statement> allStatements, List<string> fluents)
+        public void addStatement(ref List<Statement> allStatements, List<string> fluents, List<string> actions)
         {
             StatementObject statementObject = getStatementObjectForType();
             string statementText = statementObject.createStatementText(statementsPanel);
             
-            if(statementObject.addStatementToCollection(statementText, ref allStatements))
+            if(statementObject.verifyFluentsAndActionsCorrectness(fluents, actions) && statementObject.addStatementToCollection(statementText, ref allStatements))
             {
                 allStatementsCheckBox.Items.Add(statementText);
                 statementObject.clearStatementObjectState();
                 inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
                 statementRemoveAllButton.Enabled = true;
+                updateFunctionsStateBasedOnModelConsistency();
             }
         }
         /// <summary>
@@ -405,11 +466,13 @@ namespace actions_with_costs
                     }
                 }
             }
+            statementRemoveButton.Enabled = false;
             if (statementRemoveAllButton.Enabled && allStatements.Count == 0)
             {
                 statementRemoveAllButton.Enabled = false;
             }
             inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+            updateFunctionsStateBasedOnModelConsistency();
         }
 
         /// <summary>
@@ -423,6 +486,8 @@ namespace actions_with_costs
             allStatements.Clear();
             statementRemoveAllButton.Enabled = false;
             statementRemoveButton.Enabled = false;
+            inconsistentDomainLabel.Visible = false;
+            updateFunctionsStateBasedOnModelConsistency();
             return true;
         }
 
@@ -452,54 +517,32 @@ namespace actions_with_costs
             foreach(var state in allPossibleStartingStates)
             {
                 // Verifying if there are no causes statements and if the final state does not correspond to the initial one
-                if (!allStatements.Any(statement => statement.Type == StatementType.CAUSES))
+                if (causesStatements.Count == 0)
                 {
-                    return !state.Literals.Any(st => afterStatements.Any(ast => ast.Postcondition.isComplementary(st)));
-                }
-
-                State currentState = new State(state.Literals);
-                List<CausesStatement> causesWithEffects = causesStatements.FindAll(causes => causes.doesMeetPreconditions(currentState.Literals));
-
-                // Verifying if there is no inconsistency between causes statements
-                var groupedCauses = causesWithEffects.GroupBy(statement => statement.Action).ToList();
-
-                foreach(var causeGroup in groupedCauses)
-                {
-                    List<Literal> effectsOfAction = causeGroup.Select(statement => statement.Postcondition).ToList();
-
-                    if(effectsOfAction.Any(effect => effectsOfAction.Any(otherEffect => otherEffect.isComplementary(effect))))
+                    if (state.Literals.Any(st => afterStatements.Any(ast => ast.Postcondition.isComplementary(st))))
                     {
-                        if(!isRestrictedByAfter)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            currentConsistencyState = false;
-                            break;
-                        }
-                    } 
-                    else if (isRestrictedByAfter)
+                        currentConsistencyState = false;
+                        continue;
+                    }
+                    else
                     {
-                        currentConsistencyState = true;
+                        allConsistentInitialStates.Add(state);
                     }
                 }
-
-                if(currentConsistencyState == false)
+                else
                 {
-                    continue;
-                }
 
-                // Verifying if there is no inconsistency between after statetments and causes executed upon given initial state
-                foreach (var afterStatement in afterStatements)
-                {
-                    foreach (var action in afterStatement.Actions)
+                    State currentState = new State(state.Literals);
+                    List<CausesStatement> causesWithEffects = causesStatements.FindAll(causes => causes.doesMeetPreconditions(currentState.Literals));
+
+                    // Verifying if there is no inconsistency between causes statements
+                    var groupedCauses = causesWithEffects.GroupBy(statement => statement.Action).ToList();
+
+                    foreach (var causeGroup in groupedCauses)
                     {
-                        List<Literal> effectsOfAction = causesWithEffects.Select(statement => statement.Postcondition).ToList();
-                        List<Literal> remainingLiterals = currentState.Literals.FindAll(literal => !effectsOfAction.Select(effect => effect.Fluent).Contains(literal.Fluent));
-                        List<Literal> newState = effectsOfAction.Union(remainingLiterals).ToList();
+                        List<Literal> effectsOfAction = causeGroup.Select(statement => statement.Postcondition).ToList();
 
-                        if (newState.Any(stateLiteral => stateLiteral.isComplementary(afterStatement.Postcondition)))
+                        if (effectsOfAction.Any(effect => effectsOfAction.Any(otherEffect => otherEffect.isComplementary(effect))))
                         {
                             if (!isRestrictedByAfter)
                             {
@@ -508,24 +551,56 @@ namespace actions_with_costs
                             else
                             {
                                 currentConsistencyState = false;
-                                goto AfterVerification;
+                                break;
                             }
                         }
                         else if (isRestrictedByAfter)
                         {
                             currentConsistencyState = true;
                         }
-                        currentState = new State(newState);
                     }
-                }
+
+                    if (currentConsistencyState == false)
+                    {
+                        continue;
+                    }
+
+                    // Verifying if there is no inconsistency between after statetments and causes executed upon given initial state
+                    foreach (var afterStatement in afterStatements)
+                    {
+                        foreach (var action in afterStatement.Actions)
+                        {
+                            List<Literal> effectsOfAction = causesWithEffects.Select(statement => statement.Postcondition).ToList();
+                            List<Literal> remainingLiterals = currentState.Literals.FindAll(literal => !effectsOfAction.Select(effect => effect.Fluent).Contains(literal.Fluent));
+                            List<Literal> newState = effectsOfAction.Union(remainingLiterals).ToList();
+
+                            if (newState.Any(stateLiteral => stateLiteral.isComplementary(afterStatement.Postcondition)))
+                            {
+                                if (!isRestrictedByAfter)
+                                {
+                                    return false;
+                                }
+                                else
+                                {
+                                    currentConsistencyState = false;
+                                    goto AfterVerification;
+                                }
+                            }
+                            else if (isRestrictedByAfter)
+                            {
+                                currentConsistencyState = true;
+                            }
+                            currentState = new State(newState);
+                        }
+                    }
 
                 AfterVerification:
-                if (currentConsistencyState == true)
-                {
-                    allConsistentInitialStates.Add(state);
+                    if (currentConsistencyState == true)
+                    {
+                        allConsistentInitialStates.Add(state);
+                    }
                 }
             }
-
             return isRestrictedByAfter ? allConsistentInitialStates.Count > 0 : currentConsistencyState;
         }
 
@@ -539,8 +614,15 @@ namespace actions_with_costs
                 .Select(fluent => new[] { new Literal(fluent, true), new Literal(fluent, false) }.ToList())
                 .ToList();
             List<State> allPossibleStartingStates = new List<State>();
-            generateAllPossibleInitialStates(initialState, missingFluents, 0, new List<Literal>(), allPossibleStartingStates);
 
+            if (missingFluents.Count == 0)
+            {
+                allPossibleStartingStates.Add(new State(initialState));
+            }
+            else
+            {
+                generateAllPossibleInitialStates(initialState, missingFluents, 0, new List<Literal>(), allPossibleStartingStates);
+            }
             return allPossibleStartingStates;
         }
 
@@ -560,6 +642,16 @@ namespace actions_with_costs
                     generateAllPossibleInitialStates(initialState, missingFluents, depth + 1, literals, finalOutput);
                 }
             }
+        }
+
+        private void updateFunctionsStateBasedOnModelConsistency()
+        {
+            bool functionsState = !inconsistentDomainLabel.Visible;
+            
+            programExecuteButton.Enabled = functionsState;
+            programExecuteComboBox.Enabled = functionsState;
+            programInitialStateComboBox.Enabled = functionsState;
+            displayVisualizationButton.Enabled = functionsState;
         }
 
         private StatementObject getStatementObjectForType()
