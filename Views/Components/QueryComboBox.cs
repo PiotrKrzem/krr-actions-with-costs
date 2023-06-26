@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace actions_with_costs
@@ -7,12 +6,12 @@ namespace actions_with_costs
     /// <summary>
     /// Class is a generic statement ComboBox object
     /// </summary>
-    class StatementComboBox : ComboBox
+    class QueryComboBox : ComboBox
     {
-        public StatementComboBox(FlowLayoutPanel statementsPanel, List<string> items) : base()
+        public QueryComboBox(FlowLayoutPanel queryPanel, List<string> items) : base()
         {
             Font = StatementConstants.FONT;
-            Width = statementsPanel.Width - StatementConstants.OFFSET;
+            Width = queryPanel.Width - StatementConstants.OFFSET;
             Items.Clear();
             Items.AddRange(items.ToArray());
         }

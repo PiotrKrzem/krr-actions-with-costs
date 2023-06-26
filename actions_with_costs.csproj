@@ -75,17 +75,30 @@
     <Compile Include="Classes\State.cs" />
     <Compile Include="Classes\Statements.cs" />
     <Compile Include="Views\ActionModelView.cs" />
+    <Compile Include="Views\Components\QueryInitStateBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\Components\QueryComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\Components\StatementComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\Components\StatementConstants.cs" />
+    <Compile Include="Views\Components\QueryNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\Components\StatementNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\Components\QuerySfComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\Components\StatementSfComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\FluentActionView.cs" />
+    <Compile Include="Views\QueryView.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

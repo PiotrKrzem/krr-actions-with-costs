@@ -22,6 +22,12 @@ namespace actions_with_costs
             Fluent = fluent;
             IfHolds = !ifHolds;
         }
+
+        public Literal(Literal other)
+        {
+            Fluent = other.Fluent;
+            IfHolds = other.IfHolds;
+        } 
         public string Fluent { get; set; }
         public bool IfHolds { get; set; }
 
