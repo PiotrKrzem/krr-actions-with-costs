@@ -308,7 +308,8 @@ namespace actions_with_costs
         // Elements of the layout on which statement values are displayed
         private FlowLayoutPanel statementsPanel;
         private ComboBox statementsComboBox;
-        private CheckedListBox allStatementsListView;
+        private CheckedListBox allStatementsCheckBox;
+        private Button statementRemoveButton;
 
         private Label inconsistentDomainLabel;
 
@@ -316,12 +317,14 @@ namespace actions_with_costs
             ref FlowLayoutPanel statementsPanel, 
             ref ComboBox statementsComboBox, 
             ref List<string> positiveNegativeFluents,
-            ref CheckedListBox allStatementsListView,
-            ref Label inconsistentDomainLabel)
+            ref CheckedListBox allStatementsCheckBox,
+            ref Label inconsistentDomainLabel,
+            ref Button statementRemoveButton)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
-            this.allStatementsListView = allStatementsListView;
+            this.allStatementsCheckBox = allStatementsCheckBox;
+            this.statementRemoveButton = statementRemoveButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
 
             initiallyStatementObject = new InitiallyStatementObject(statementsPanel, positiveNegativeFluents);
@@ -350,9 +353,38 @@ namespace actions_with_costs
             
             if(statementObject.addStatementToCollection(statementText, ref allStatements))
             {
-                allStatementsListView.Items.Add(statementText);
+                allStatementsCheckBox.Items.Add(statementText);
                 statementObject.clearStatementObjectState();
                 inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+            }
+        }
+        /// <summary>
+        /// Method updates the state of RemoveButton of fluents/actions.
+        /// </summary>
+        /// <param name="e">arguments of the event that triggered the method</param>
+        public void updateRemoveButtonState(ItemCheckEventArgs e)
+        {
+            statementRemoveButton.Enabled = e.NewValue == CheckState.Checked || (allStatementsCheckBox.CheckedItems.Count > 1);
+        }
+
+        /// <summary>
+        /// Method removes the statement from the collection.
+        /// </summary>
+        /// <param name="elements">list of all statements</param>
+        public void deleteModelElement(ref List<Statement> elements)
+        {
+            List<string> itemsToRemove = allStatementsCheckBox.CheckedItems.Cast<string>().ToList();
+            foreach (string item in itemsToRemove)
+            {
+                allStatementsCheckBox.Items.Remove(item);
+                List<Statement> statementsToRemove = elements.ToList();
+                foreach (Statement statement in statementsToRemove)
+                {
+                    if (statement.Text.Equals(item))
+                    {
+                        elements.Remove(statement);
+                    }
+                }
             }
         }
 

@@ -48,8 +48,9 @@ namespace actions_with_costs
                 ref statementsPanel,
                 ref statementsComboBox,
                 ref positiveNegativeFluents,
-                ref allStatementsListView,
-                ref inconsistentDomainLabel);
+                ref allStatementsCheckBox,
+                ref inconsistentDomainLabel,
+                ref deleteStatementButton);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -59,7 +60,7 @@ namespace actions_with_costs
             //addStatementButton.Enabled = false;
             deleteFluentButton.Enabled = false;
             deleteActionButton.Enabled = false;
-            //deleteStatementButton.Enabled = false;
+            deleteStatementButton.Enabled = false;
 
             List<Item> items = new List<Item>();
             items.Add(new Item() { Text = "Initially statement", Value = "initially" });
@@ -115,21 +116,11 @@ namespace actions_with_costs
         private void addStatementButton_Click(object sender, EventArgs e) =>
             actionModelView.addStatement(ref allStatements, allFluents);
 
-        private void deleteStatementButton_Click(object sender, EventArgs e)
-        {
-            //foreach(ListViewItem item in allStatementsListView.CheckedItems)
-            //{
-            //    allStatementsListView.Items.Remove(item);
-            //    foreach (Statement statement in allStatements)
-            //    {
-            //        if (statement.Text.Equals(item.Text))
-            //        {
-            //            allStatements.Remove(statement);
-            //        }
-            //    }
-            //}
-            //MessageBox.Show(allStatements.Count.ToString());
-        }
+        private void allStatementsCheckBox_ItemCheck(object sender, ItemCheckEventArgs e) =>
+            actionModelView.updateRemoveButtonState(e);
+
+        private void deleteStatementButton_Click(object sender, EventArgs e) => 
+            actionModelView.deleteModelElement(ref allStatements);
 
         // -------------------------------------------------------------------------------------------------------------------
 
