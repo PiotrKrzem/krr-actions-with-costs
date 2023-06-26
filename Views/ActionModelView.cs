@@ -401,6 +401,7 @@ namespace actions_with_costs
                     }
                 }
             }
+            statementRemoveButton.Enabled = false;
         }
 
         private bool verifyGlobalModelConsistency(List<Statement> allStatements, List<string> fluents)
