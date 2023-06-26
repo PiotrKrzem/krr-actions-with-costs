@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Syncfusion.WinForms.ListView;
+using Syncfusion.Windows.Forms.Tools;
 
 namespace actions_with_costs
 {
@@ -372,7 +373,7 @@ namespace actions_with_costs
         private Button statementRemoveAllButton;
 
         // Elements of layout for specifying program to be executed
-        public SfComboBox programExecuteComboBox;
+        public TextBoxExt programExecuteTextBox;
         public SfComboBox programInitialStateComboBox;
         public Button programExecuteButton;
 
@@ -389,7 +390,7 @@ namespace actions_with_costs
             ref Label inconsistentDomainLabel,
             ref Button statementRemoveButton,
             ref Button statementRemoveAllButton,
-            ref SfComboBox programExecuteComboBox,
+            ref TextBoxExt programExecuteTextBox,
             ref SfComboBox programInitialStateComboBox,
             ref Button programExecuteButton,
             ref Button displayVisualizationButton)
@@ -398,7 +399,7 @@ namespace actions_with_costs
             this.statementsComboBox = statementsComboBox;
             this.allStatementsCheckBox = allStatementsCheckBox;
             this.statementRemoveButton = statementRemoveButton;
-            this.programExecuteComboBox = programExecuteComboBox;
+            this.programExecuteTextBox = programExecuteTextBox;
             this.programInitialStateComboBox = programInitialStateComboBox;
             this.programExecuteButton = programExecuteButton;
             this.statementRemoveAllButton = statementRemoveAllButton;
@@ -649,7 +650,7 @@ namespace actions_with_costs
             bool functionsState = !inconsistentDomainLabel.Visible;
             
             programExecuteButton.Enabled = functionsState;
-            programExecuteComboBox.Enabled = functionsState;
+            programExecuteTextBox.Enabled = functionsState;
             programInitialStateComboBox.Enabled = functionsState;
             displayVisualizationButton.Enabled = functionsState;
         }
