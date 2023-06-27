@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Syncfusion.WinForms.ListView;
 using Syncfusion.Windows.Forms.Tools;
+using System.Drawing;
 
 namespace actions_with_costs
 {
@@ -378,6 +379,9 @@ namespace actions_with_costs
         public TextBoxExt programExecuteTextBox;
         public SfComboBox programInitialStateComboBox;
         public Button programExecuteButton;
+        public Label stateFinal;
+        public Label costFinal;
+
 
         // Elements of layout relevant to visualization
         public Button displayVisualizationButton;
@@ -396,7 +400,9 @@ namespace actions_with_costs
             ref TextBoxExt programExecuteTextBox,
             ref SfComboBox programInitialStateComboBox,
             ref Button programExecuteButton,
-            ref Button displayVisualizationButton)
+            ref Button displayVisualizationButton,
+            ref Label stateFinal,
+            ref Label costFinal)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
@@ -405,6 +411,8 @@ namespace actions_with_costs
             this.programExecuteTextBox = programExecuteTextBox;
             this.programInitialStateComboBox = programInitialStateComboBox;
             this.programExecuteButton = programExecuteButton;
+            this.stateFinal = stateFinal;
+            this.costFinal = costFinal;
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
             this.displayVisualizationButton = displayVisualizationButton;
@@ -480,6 +488,8 @@ namespace actions_with_costs
                 statementRemoveAllButton.Enabled = false;
             }
             inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+            stateFinal.Text = "";
+            costFinal.Text = "";
             updateFunctionsStateBasedOnModelConsistency();
 
             return initialStatesOfModels;
@@ -497,6 +507,8 @@ namespace actions_with_costs
             statementRemoveAllButton.Enabled = false;
             statementRemoveButton.Enabled = false;
             inconsistentDomainLabel.Visible = false;
+            stateFinal.Text = "";
+            costFinal.Text = "";
             updateFunctionsStateBasedOnModelConsistency();
             return true;
         }
@@ -663,6 +675,9 @@ namespace actions_with_costs
             programExecuteTextBox.Enabled = functionsState;
             programInitialStateComboBox.Enabled = functionsState;
             displayVisualizationButton.Enabled = functionsState;
+            programExecuteTextBox.Text = "Type in actions";
+            programInitialStateComboBox.Text = "Choose state";
+            programExecuteTextBox.ForeColor = SystemColors.ScrollBar;
         }
 
         private StatementObject getStatementObjectForType()

@@ -59,7 +59,9 @@ namespace actions_with_costs
                 ref executeProgramTextBox,
                 ref initialStateProgramComboBox,
                 ref executeProgramButton,
-                ref visualizationButton);
+                ref visualizationButton,
+                ref finalState,
+                ref finalCost);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -72,6 +74,7 @@ namespace actions_with_costs
             deleteStatementButton.Enabled = false;
             executeProgramButton.Enabled = false;
             initialStateProgramComboBox.Enabled = false;
+            executeProgramTextBox.Enabled = false;
 
             List<Item> items = new List<Item>();
             items.Add(new Item() { Text = "Initially statement", Value = "initially" });
@@ -125,6 +128,12 @@ namespace actions_with_costs
             int currentCost = 0;
             List<Literal> initialState = new List<Literal>();
             List<Literal> currentState = new List<Literal>();
+            if(initialStateProgramComboBox.Text == "Choose state")
+            {
+                string message = "There is no initital state specified";
+                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             string[] fluents = initialStateProgramComboBox.Text.Split(',');
             foreach(string f in fluents)
             {
@@ -142,13 +151,13 @@ namespace actions_with_costs
             string[] actions = executeProgramTextBox.Text.Split(',');
             foreach (string a in actions)
             {
-                if (a.Trim().Length == 0 || a.Contains(" "))
+                if (a.Trim().Length == 0)
                 {
-                    string message = "Actions have to be separated by a single comma without spaces";
+                    string message = "Actions have to be separated by a single comma";
                     MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                else if(!allActions.Contains(a))
+                else if(!allActions.Contains(a.Trim()))
                 {
                     string message = "Action '" + a + "' was not added to the list of actions";
                     MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -156,7 +165,7 @@ namespace actions_with_costs
                 }
                 else
                 {
-                    actionsList.Add(a);
+                    actionsList.Add(a.Trim());
                 }       
             }
            
@@ -293,20 +302,23 @@ namespace actions_with_costs
             if(allStatements.Count > 0)
             {
                 getInitialStatesStringified();
+                executeProgramTextBox.Text = "Type in actions";
+                finalState.Text = "";
+                finalCost.Text = "";
             }
 
 
         }
         private void getInitialStatesStringified()
         {
-            List<InitiallyStatement> initiallyStatements = allStatements
-                .FindAll(statement => statement.Type == StatementType.INITIALLY)
-                .Cast<InitiallyStatement>()
-                .ToList();
+            //List<InitiallyStatement> initiallyStatements = allStatements
+            //    .FindAll(statement => statement.Type == StatementType.INITIALLY)
+            //    .Cast<InitiallyStatement>()
+            //    .ToList();
 
             allInitialStatesStringified = new List<string>();
-            List<State> allInitialStates = actionModelView.getInitialStates(initiallyStatements, allFluents);
-            foreach (State s in allInitialStates)
+            //List<State> allInitialStates = actionModelView.getInitialStates(initiallyStatements, allFluents);
+            foreach (State s in initialStates)
             {
                 string state = String.Empty;
                 foreach (Literal l in s.Literals)
@@ -318,6 +330,7 @@ namespace actions_with_costs
                 allInitialStatesStringified.Add(state);
             }
             initialStateProgramComboBox.DataSource = allInitialStatesStringified;
+            initialStateProgramComboBox.Text = "Choose state";
             initialStateProgramComboBox.SelectedItems.Clear();
         }
 
