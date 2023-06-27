@@ -85,11 +85,23 @@
       <DependentUpon>StateDiagram.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\ActionModelView.cs" />
+    <Compile Include="Views\Components\QueryComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\Components\QueryComboBox.Designer.cs">
+      <DependentUpon>QueryComboBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Components\StatementComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\Components\StatementConstants.cs" />
+    <Compile Include="Views\Components\QueryNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Views\Components\StatementNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Views\Components\QuerySfComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Views\Components\StatementSfComboBox.cs">

@@ -177,15 +177,19 @@ namespace actions_with_costs
                .Cast<CausesStatement>()
                .ToList();
 
+            // Verifying if there exist causes statement for the same action, with the same post- and pre-conditions but different cos
+            bool causeWithDifferentCost= causesStatements
+                .Any(statement => statement.Action == Action && statement.Precondition.SequenceEqual(Precondition) && statement.Postcondition.Equals(Postcondition) && statement.Cost != Cost);
+
             // Verifying if there exist causes statement WITH pre-conditions for the same action that results in complementary literal
             bool complementaryCausesWith = causesStatements
-                .Any(statement => statement.Action == Action && statement.Precondition.Equals(Precondition) && statement.Postcondition.isComplementary(Postcondition));
+                .Any(statement => statement.Action == Action && statement.Precondition.SequenceEqual(Precondition) && statement.Postcondition.isComplementary(Postcondition));
 
             // Verifying if there exist causes statement WITHOUT pre-conditions for the same action that results in complementary literal
             bool complementaryCausesWithout = causesStatements
                 .Any(statement => statement.Action == Action && statement.Precondition.Count == 0 && statement.Postcondition.isComplementary(Postcondition));
 
-            if (complementaryCausesWith || complementaryCausesWithout)
+            if (complementaryCausesWith || complementaryCausesWithout || causeWithDifferentCost)
             {
                 return false;
             }

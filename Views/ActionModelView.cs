@@ -355,6 +355,67 @@ namespace actions_with_costs
         }
     }
 
+    class Query
+    {
+        public QuerySFComboBox queryActions;
+        public QueryComboBox initialStateSelectBox;
+
+        public Query(FlowLayoutPanel queryPanel)
+        {
+            this.queryActions = new QuerySFComboBox(queryPanel);
+            this.initialStateSelectBox = new QueryComboBox(queryPanel);
+        }
+        public virtual void createQueryObject(FlowLayoutPanel queryPanel) { }
+        public virtual string createQueryText() { return "<error query>"; }
+    }
+    class ValueQuery : Query
+    {
+        public QueryComboBox fluentSelectBox;
+
+        public ValueQuery(FlowLayoutPanel queryPanel, List<string> positiveNegativeFluents) : base(queryPanel)
+        {
+            this.fluentSelectBox = new QueryComboBox(queryPanel, positiveNegativeFluents);
+        }
+        public override void createQueryObject(FlowLayoutPanel queryPanel)
+        {
+            queryPanel.Controls.Clear();
+            queryPanel.Controls.AddRange(new Control[] {
+                fluentSelectBox,
+                StatementConstants.createStatementLabel("after"),
+                queryActions,
+                StatementConstants.createStatementLabel("from initial state"),
+                initialStateSelectBox});
+        }
+
+        public override string createQueryText()
+        {
+            return fluentSelectBox.Text + " after " + queryActions.Text + " from " + initialStateSelectBox.Text;
+        }
+    }
+    class CostQuery : Query
+    {
+        public QueryNumericUpDown costSelectBox;
+        public CostQuery(FlowLayoutPanel queryPanel) : base(queryPanel)
+        {
+            this.costSelectBox = new QueryNumericUpDown(queryPanel);
+        }
+        public override void createQueryObject(FlowLayoutPanel queryPanel)
+        {
+            queryPanel.Controls.Clear();
+            queryPanel.Controls.AddRange(new Control[] {
+                StatementConstants.createStatementLabel("sufficient"),
+                costSelectBox,
+                StatementConstants.createStatementLabel("after"),
+                queryActions,
+                StatementConstants.createStatementLabel("from initial state"),
+                initialStateSelectBox});
+        }
+
+        public override string createQueryText()
+        {
+            return costSelectBox.Text + " after " + queryActions.Text + " from " + initialStateSelectBox.Text;
+        }
+    }
 
     /// <summary>
     /// Class contains functionalities used in the Action Model section.
@@ -389,6 +450,15 @@ namespace actions_with_costs
         // Elements displayed with regard to model consistency
         public Label inconsistentDomainLabel;
 
+        // Elements of query
+        public FlowLayoutPanel queryPanel;
+        public ComboBox queryTypeComboBox;
+        public Button queryExecuteButton;
+
+        // Queries objects
+        public ValueQuery valueQuery;
+        public CostQuery costQuery;
+
         public ActionModelView(
             ref FlowLayoutPanel statementsPanel,
             ref ComboBox statementsComboBox,
@@ -401,6 +471,9 @@ namespace actions_with_costs
             ref SfComboBox programInitialStateComboBox,
             ref Button programExecuteButton,
             ref Button displayVisualizationButton,
+            ref FlowLayoutPanel queryPanel,
+            ref ComboBox queryTypeComboBox,
+            ref Button queryExecuteButton,
             ref Label stateFinal,
             ref Label costFinal)
         {
@@ -416,12 +489,19 @@ namespace actions_with_costs
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
             this.displayVisualizationButton = displayVisualizationButton;
+            this.queryPanel = queryPanel;
+            this.queryTypeComboBox = queryTypeComboBox;
+            this.queryExecuteButton = queryExecuteButton;
 
             this.initialStatesOfModels = new List<State>();
 
             initiallyStatementObject = new InitiallyStatementObject(statementsPanel, positiveNegativeFluents);
             afterStatementObject = new AfterStatementObject(statementsPanel, positiveNegativeFluents);
             effectStatementObject = new EffectStatementObject(statementsPanel, positiveNegativeFluents);
+
+            valueQuery = new ValueQuery(queryPanel, positiveNegativeFluents);
+            costQuery = new CostQuery(queryPanel);
+
         }
 
         /// <summary>
@@ -431,6 +511,12 @@ namespace actions_with_costs
         {
             StatementObject statementObject = getStatementObjectForType();
             statementObject.createStatementObject(statementsPanel);
+        }
+
+        public void createQueryObject()
+        {
+            Query query = getQueryForType();
+            query.createQueryObject(queryPanel);
         }
 
         /// <summary>
@@ -627,7 +713,6 @@ namespace actions_with_costs
             return isRestrictedByAfter ? allConsistentInitialStates.Count > 0 : currentConsistencyState;
         }
 
-
         public List<State> getInitialStates(List<InitiallyStatement> initiallyStatements, List<string> allFluents)
         {
             List<Literal> initialState = initiallyStatements.Select(st => st.Condition).ToList();
@@ -675,6 +760,7 @@ namespace actions_with_costs
             programExecuteTextBox.Enabled = functionsState;
             programInitialStateComboBox.Enabled = functionsState;
             displayVisualizationButton.Enabled = functionsState;
+            queryExecuteButton.Enabled = functionsState;
             programExecuteTextBox.Text = "Type in actions";
             programInitialStateComboBox.Text = "Choose state";
             programExecuteTextBox.ForeColor = SystemColors.ScrollBar;
@@ -694,6 +780,75 @@ namespace actions_with_costs
             {
                 return effectStatementObject;
             }
+        }
+
+        private Query getQueryForType()
+        {
+            if (queryTypeComboBox.SelectedValue.ToString() == "value")
+            {
+                return valueQuery;
+            }
+            else
+            {
+                return costQuery;
+            }
+        }
+
+        public bool ValidateValueQuery()
+        {
+            string message = string.Empty;
+            bool validation_succesful = false;
+            if (valueQuery.fluentSelectBox.Text == "")
+            {
+                message = "Value Query's fluent should not be empty";
+            } else if (!valueQuery.fluentSelectBox.Items.Contains(valueQuery.fluentSelectBox.Text))
+            {
+                message = "Value Query's fluent " + valueQuery.fluentSelectBox.Text + " does not exist";
+            // } else if (valueQuery.queryActions.Text == "")
+            // {
+            //     message = "Value Query's action selection should not be empty";
+            } else if (valueQuery.initialStateSelectBox.Text == "") {
+                message = "Value Query's initial state should not be empty";
+            } else if (!valueQuery.initialStateSelectBox.Items.Contains(valueQuery.initialStateSelectBox.Text)) 
+            {
+                message = "Value Query's initial state " + valueQuery.initialStateSelectBox.Text + " does not exist";
+            } else
+            {
+                validation_succesful = true;
+            }
+
+            if(!validation_succesful)
+                MessageBox.Show(message, "Query Execution Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return validation_succesful;
+        }
+
+        public bool ValidateCostQuery()
+        {
+            string message = string.Empty;
+            bool validation_succesful = false;
+            if (costQuery.costSelectBox.Text == "")
+            {
+                message = "Cost Query's cost should not be empty";
+            // } else if (costQuery.queryActions.Text == "")
+            // {
+            //     message = "Cost Query's action selection should not be empty";
+            }
+            else if (costQuery.initialStateSelectBox.Text == "")
+            {
+                message = "Cost Query's initial state should not be empty";
+            }
+            else if (!costQuery.initialStateSelectBox.Items.Contains(valueQuery.initialStateSelectBox.Text))
+            {
+                message = "Cost Query's initial state " + costQuery.initialStateSelectBox.Text + " does not exist";
+            }
+            else
+            {
+                validation_succesful = true;
+            }
+
+            if (!validation_succesful)
+                MessageBox.Show(message, "Query Execution Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return validation_succesful;
         }
     }
 }

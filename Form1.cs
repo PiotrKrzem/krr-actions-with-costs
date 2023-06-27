@@ -4,9 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows;
-using Syncfusion.WinForms.ListView;
-using Syncfusion.WinForms.ListView.Enums;
 
 namespace actions_with_costs
 {
@@ -60,6 +57,9 @@ namespace actions_with_costs
                 ref initialStateProgramComboBox,
                 ref executeProgramButton,
                 ref visualizationButton,
+                ref queryPanel,
+                ref queryTypeSelectBox,
+                ref executeQueryButton,
                 ref finalState,
                 ref finalCost);
         }
@@ -75,6 +75,7 @@ namespace actions_with_costs
             executeProgramButton.Enabled = false;
             initialStateProgramComboBox.Enabled = false;
             executeProgramTextBox.Enabled = false;
+            executeQueryButton.Enabled = false;
 
             List<Item> items = new List<Item>();
             items.Add(new Item() { Text = "Initially statement", Value = "initially" });
@@ -85,7 +86,17 @@ namespace actions_with_costs
             statementsComboBox.DisplayMember = "Text";
             statementsComboBox.ValueMember = "Value";
 
+            List<Item> queryItems = new List<Item>();
+            queryItems.Add(new Item() { Text = "Value query", Value = "value" });
+            queryItems.Add(new Item() { Text = "Cost query", Value = "cost" });
+
+            queryTypeSelectBox.DataSource = queryItems;
+            queryTypeSelectBox.DisplayMember = "Text";
+            queryTypeSelectBox.ValueMember = "Value";
+
             actionModelView.initiallyStatementObject.createStatementObject(statementsPanel);
+            actionModelView.valueQuery.createQueryObject(queryPanel);
+
         }
 
         // ----------------------------- FORM METHODS OF FLUENT/ACTION SECTION ---------------------------------------------
@@ -97,22 +108,22 @@ namespace actions_with_costs
         private void addFluentTextBox_KeyPress(object sender, KeyPressEventArgs e) => 
             fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
         private void addActionTextBox_KeyPress(object sender, KeyPressEventArgs e) => 
-            fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.ACTION, allActions, updateCausesDropdown);
+            fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.ACTION, allActions, updateActionSelections);
 
         private void addFluentButton_Click(object sender, EventArgs e) =>
             fluentActionView.addFluent(buildPositiveNegativeFluents, allFluents);
         private void addActionButton_Click(object sender, EventArgs e) =>
-            fluentActionView.addAction(updateCausesDropdown, allActions);
+            fluentActionView.addAction(updateActionSelections, allActions);
 
         private void deleteFluentButton_Click(object sender, EventArgs e) =>
             fluentActionView.deleteModelElement(ModelElementType.FLUENT, ref allFluents, allStatements, buildPositiveNegativeFluents, clearStatements);
         private void deleteActionButton_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteModelElement(ModelElementType.ACTION, ref allActions, allStatements, updateCausesDropdown, clearStatements);
+            fluentActionView.deleteModelElement(ModelElementType.ACTION, ref allActions, allStatements, updateActionSelections, clearStatements);
 
         private void removeAllFluents_Click(object sender, EventArgs e) =>
             fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, allStatements, buildPositiveNegativeFluents, clearStatements);
         private void removeAllActions_Click(object sender, EventArgs e) =>
-            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, allStatements, updateCausesDropdown, clearStatements);
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, allStatements, updateActionSelections, clearStatements);
 
         private void allFluentsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
             fluentActionView.updateRemoveButtonState(ModelElementType.FLUENT, e);
@@ -201,16 +212,123 @@ namespace actions_with_costs
                        .ToList();
                 }
             }
-            string state = String.Empty;
-            foreach (Literal l in currentState)
-            {
-                state += ",";
-                state += l.ToString();
-            }
-            state = state.Remove(0, 1);
+            string state = string.Join(",", currentState.Select(l => l.ToString()));
             finalState.Text = state;
             finalCost.Text = currentCost.ToString();
+        }
 
+        private void executeQueryButton_Click(object sender, EventArgs e)
+        {
+            Query query;
+            if (queryTypeSelectBox.SelectedValue.ToString() == "value")
+            {
+                if (!actionModelView.ValidateValueQuery()) return;
+                query = actionModelView.valueQuery;
+            }   
+            else
+            {
+                if (!actionModelView.ValidateCostQuery()) return;
+                query = actionModelView.costQuery;
+            }
+                
+
+            List<CausesStatement> causesStatements = allStatements
+              .FindAll(statement => statement.Type == StatementType.CAUSES)
+              .Cast<CausesStatement>()
+              .ToList();
+
+            int currentCost = 0;
+            List<Literal> initialState = new List<Literal>();
+            List<Literal> currentState = new List<Literal>();
+            string[] fluents = query.initialStateSelectBox.Text.Split(',');
+            foreach (string f in fluents)
+            {
+                initialState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
+                currentState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
+            }
+
+            List<string> actionsList = new List<string>();
+            string[] actions = query.queryActions.Text.Split(',');
+            foreach (string a in actions)
+            {
+                actionsList.Add(a);
+            }
+
+            foreach (string action in actionsList)
+            {
+                List<Literal> allPostconditions = new List<Literal>();
+                List<CausesStatement> matchedCausesStatements = causesStatements
+                    .FindAll(statement => statement.Action == action)
+                    .ToList();
+
+                foreach (CausesStatement statement in matchedCausesStatements)
+                {
+                    if (statement.Precondition.Count == 0)
+                    {
+                        allPostconditions.Add(statement.Postcondition);
+                        currentCost += statement.Cost;
+                    }
+                    else
+                    {
+                        bool ifPreconditionHolds = statement.Precondition.All(l => l.ExistsInCollection(currentState));
+                        if (ifPreconditionHolds)
+                        {
+                            allPostconditions.Add(statement.Postcondition);
+                            currentCost += statement.Cost;
+                        }
+                    }
+                }
+                foreach (Literal literal in allPostconditions)
+                {
+                    currentState
+                       .Where(l => l.Fluent == literal.Fluent)
+                       .Select(l => l.IfHolds = literal.IfHolds)
+                       .ToList();
+                }
+            }
+            string state = string.Join(",", currentState.Select(l => l.ToString()));
+            string output;
+            MessageBoxIcon icon;
+            if (query is ValueQuery)
+            {
+                List<string> query_fluents = (query as ValueQuery).fluentSelectBox.Text.Split(',').ToList();
+                List<string> current_state_fluents = currentState.Select(l => l.ToString()).ToList();
+                bool all_match = true;
+                output = "FINAL STATE: " + state + " ";
+                foreach (string query_fluent in query_fluents)
+                {
+                    if (!current_state_fluents.Contains(query_fluent))
+                    {
+                        all_match = false;
+                        break;
+                    }
+                }
+                if (all_match)
+                {
+                    output += "QUERY CORRECT";
+                    icon = MessageBoxIcon.Asterisk;
+                }
+                else
+                {
+                    output += "QUERY INCORRECT";
+                    icon = MessageBoxIcon.Error;
+                }
+            }
+            else
+            {
+                output = "FINAL COST: " + currentCost.ToString() + " ";
+                if ((int)((query as CostQuery).costSelectBox.Value) >= currentCost)
+                {
+                    output += "QUERY CORRECT";
+                    icon = MessageBoxIcon.Asterisk;
+                }
+                else
+                {
+                    output += "QUERY INCORRECT";
+                    icon = MessageBoxIcon.Error;
+                }
+            }
+            MessageBox.Show(output, "Query Result", MessageBoxButtons.OK, icon);
         }
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -262,7 +380,7 @@ namespace actions_with_costs
         private void clearMenuOption_Click(object sender, EventArgs e)
         {
             actionModelView.deleteAllStatements(ref allStatements); 
-            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, updateCausesDropdown);
+            fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, updateActionSelections);
             fluentActionView.deleteAllModelElementsOfType(ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
         }
         // -------------------------------------------------------------------------------------------------------------------
@@ -271,11 +389,17 @@ namespace actions_with_costs
 
         private void clearStatements() => actionModelView.deleteAllStatements(ref allStatements);
 
-        private void updateCausesDropdown()
+        private void updateActionSelections()
         {
             actionModelView.effectStatementObject.causesAction.Items.Clear();
             actionModelView.effectStatementObject.causesAction.Items.AddRange(allActions.ToArray());
             actionModelView.afterStatementObject.afterActions.DataSource = allActions.ToList();
+
+            actionModelView.valueQuery.queryActions.DataSource = allActions.ToList();
+            actionModelView.valueQuery.queryActions.SelectedItems.Clear();
+
+            actionModelView.costQuery.queryActions.DataSource = allActions.ToList();
+            actionModelView.costQuery.queryActions.SelectedItems.Clear();
         }
 
         private void buildPositiveNegativeFluents()
@@ -299,15 +423,16 @@ namespace actions_with_costs
             actionModelView.effectStatementObject.causesPrecondition.DataSource = positiveNegativeFluents.ToList();
             actionModelView.effectStatementObject.causesPrecondition.SelectedItems.Clear();
 
-            if(allStatements.Count > 0)
+            actionModelView.valueQuery.fluentSelectBox.Items.Clear();
+            actionModelView.valueQuery.fluentSelectBox.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            if (allStatements.Count > 0)
             {
                 getInitialStatesStringified();
                 executeProgramTextBox.Text = "Type in actions";
                 finalState.Text = "";
                 finalCost.Text = "";
             }
-
-
         }
         private void getInitialStatesStringified()
         {
@@ -332,7 +457,16 @@ namespace actions_with_costs
             initialStateProgramComboBox.DataSource = allInitialStatesStringified;
             initialStateProgramComboBox.Text = "Choose state";
             initialStateProgramComboBox.SelectedItems.Clear();
+
+            actionModelView.valueQuery.initialStateSelectBox.Items.Clear();
+            actionModelView.valueQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
+
+            actionModelView.costQuery.initialStateSelectBox.Items.Clear();
+            actionModelView.costQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
         }
+
+        private void queryTypeSelectBox_SelectionChangeCommitted(object sender, EventArgs e) =>
+            actionModelView.createQueryObject();
 
     }
 
