@@ -181,15 +181,117 @@ namespace actions_with_costs
                        .ToList();
                 }
             }
-            string state = String.Empty;
-            foreach (Literal l in currentState)
-            {
-                state += ",";
-                state += l.ToString();
-            }
-            state = state.Remove(0, 1);
+            string state = string.Join(",", currentState.Select(l => l.ToString()));
             finalState.Text = state;
             finalCost.Text = currentCost.ToString();
+        }
+
+        private void executeQueryButton_Click(object sender, EventArgs e)
+        {
+
+            Query query;
+            if (queryTypeSelectBox.SelectedValue.ToString() == "value")
+                query = actionModelView.valueQuery;
+            else
+                query = actionModelView.costQuery;
+
+            List<CausesStatement> causesStatements = allStatements
+              .FindAll(statement => statement.Type == StatementType.CAUSES)
+              .Cast<CausesStatement>()
+              .ToList();
+
+            int currentCost = 0;
+            List<Literal> initialState = new List<Literal>();
+            List<Literal> currentState = new List<Literal>();
+            string[] fluents = query.initialStateSelectBox.Text.Split(',');
+            foreach (string f in fluents)
+            {
+                initialState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
+                currentState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
+            }
+
+            List<string> actionsList = new List<string>();
+            string[] actions = query.queryActions.Text.Split(',');
+            foreach (string a in actions)
+            {
+                actionsList.Add(a);
+            }
+
+            foreach (string action in actionsList)
+            {
+                List<Literal> allPostconditions = new List<Literal>();
+                List<CausesStatement> matchedCausesStatements = causesStatements
+                    .FindAll(statement => statement.Action == action)
+                    .ToList();
+
+                foreach (CausesStatement statement in matchedCausesStatements)
+                {
+                    if (statement.Precondition.Count == 0)
+                    {
+                        allPostconditions.Add(statement.Postcondition);
+                        currentCost += statement.Cost;
+                    }
+                    else
+                    {
+                        bool ifPreconditionHolds = statement.Precondition.All(l => l.ExistsInCollection(currentState));
+                        if (ifPreconditionHolds)
+                        {
+                            allPostconditions.Add(statement.Postcondition);
+                            currentCost += statement.Cost;
+                        }
+                    }
+                }
+                foreach (Literal literal in allPostconditions)
+                {
+                    currentState
+                       .Where(l => l.Fluent == literal.Fluent)
+                       .Select(l => l.IfHolds = literal.IfHolds)
+                       .ToList();
+                }
+            }
+            string state = string.Join(",", currentState.Select(l => l.ToString()));
+            string output;
+            MessageBoxIcon icon;
+            if (query is ValueQuery)
+            {
+                List<string> query_fluents = (query as ValueQuery).fluentSelectBox.Text.Split(',').ToList();
+                List<string> current_state_fluents = currentState.Select(l => l.ToString()).ToList();
+                bool all_match = true;
+                output = "FINAL STATE: " + state + " ";
+                foreach (string query_fluent in query_fluents)
+                {
+                    if (!current_state_fluents.Contains(query_fluent))
+                    {
+                        all_match = false;
+                        break;
+                    }
+                }
+                if (all_match)
+                {
+                    output += "QUERY CORRECT";
+                    icon = MessageBoxIcon.Asterisk;
+                }
+                else
+                {
+                    output += "QUERY INCORRECT";
+                    icon = MessageBoxIcon.Error;
+                }
+            }
+            else
+            {
+                output = "FINAL COST: " + currentCost.ToString() + " ";
+                if ((int)((query as CostQuery).costSelectBox.Value) >= currentCost)
+                {
+                    output += "QUERY CORRECT";
+                    icon = MessageBoxIcon.Asterisk;
+                }
+                else
+                {
+                    output += "QUERY INCORRECT";
+                    icon = MessageBoxIcon.Error;
+                }
+            }
+            MessageBox.Show(output, "Query Result", MessageBoxButtons.OK, icon);
         }
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -310,8 +412,6 @@ namespace actions_with_costs
         private void queryTypeSelectBox_SelectionChangeCommitted(object sender, EventArgs e) =>
             actionModelView.createQueryObject();
 
-        private void executeQueryButton_Click(object sender, EventArgs e) =>
-            actionModelView.executeQuery();
     }
 
     public class Item
