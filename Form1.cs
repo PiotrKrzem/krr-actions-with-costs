@@ -210,12 +210,18 @@ namespace actions_with_costs
 
         private void executeQueryButton_Click(object sender, EventArgs e)
         {
-
             Query query;
             if (queryTypeSelectBox.SelectedValue.ToString() == "value")
+            {
+                if (!actionModelView.ValidateValueQuery()) return;
                 query = actionModelView.valueQuery;
+            }   
             else
+            {
+                if (!actionModelView.ValidateCostQuery()) return;
                 query = actionModelView.costQuery;
+            }
+                
 
             List<CausesStatement> causesStatements = allStatements
               .FindAll(statement => statement.Type == StatementType.CAUSES)
@@ -408,12 +414,13 @@ namespace actions_with_costs
             actionModelView.effectStatementObject.causesPrecondition.DataSource = positiveNegativeFluents.ToList();
             actionModelView.effectStatementObject.causesPrecondition.SelectedItems.Clear();
 
-            if(allStatements.Count > 0)
+            actionModelView.valueQuery.fluentSelectBox.Items.Clear();
+            actionModelView.valueQuery.fluentSelectBox.Items.AddRange(positiveNegativeFluents.ToArray());
+
+            if (allStatements.Count > 0)
             {
                 getInitialStatesStringified();
             }
-
-
         }
         private void getInitialStatesStringified()
         {
@@ -437,6 +444,12 @@ namespace actions_with_costs
             }
             initialStateProgramComboBox.DataSource = allInitialStatesStringified;
             initialStateProgramComboBox.SelectedItems.Clear();
+
+            actionModelView.valueQuery.initialStateSelectBox.Items.Clear();
+            actionModelView.valueQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
+
+            actionModelView.costQuery.initialStateSelectBox.Items.Clear();
+            actionModelView.costQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
         }
 
         private void queryTypeSelectBox_SelectionChangeCommitted(object sender, EventArgs e) =>

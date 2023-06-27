@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Syncfusion.WinForms.ListView;
 using Syncfusion.Windows.Forms.Tools;
+using System.Drawing;
 
 namespace actions_with_costs
 {
@@ -779,6 +780,63 @@ namespace actions_with_costs
             {
                 return costQuery;
             }
+        }
+
+        public bool ValidateValueQuery()
+        {
+            string message = string.Empty;
+            bool validation_succesful = false;
+            if (valueQuery.fluentSelectBox.Text == "")
+            {
+                message = "Value Query's fluent should not be empty";
+            } else if (!valueQuery.fluentSelectBox.Items.Contains(valueQuery.fluentSelectBox.Text))
+            {
+                message = "Value Query's fluent " + valueQuery.fluentSelectBox.Text + " does not exist";
+            // } else if (valueQuery.queryActions.Text == "")
+            // {
+            //     message = "Value Query's action selection should not be empty";
+            } else if (valueQuery.initialStateSelectBox.Text == "") {
+                message = "Value Query's initial state should not be empty";
+            } else if (!valueQuery.initialStateSelectBox.Items.Contains(valueQuery.initialStateSelectBox.Text)) 
+            {
+                message = "Value Query's initial state " + valueQuery.initialStateSelectBox.Text + " does not exist";
+            } else
+            {
+                validation_succesful = true;
+            }
+
+            if(!validation_succesful)
+                MessageBox.Show(message, "Query Execution Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return validation_succesful;
+        }
+
+        public bool ValidateCostQuery()
+        {
+            string message = string.Empty;
+            bool validation_succesful = false;
+            if (costQuery.costSelectBox.Text == "")
+            {
+                message = "Cost Query's cost should not be empty";
+            // } else if (costQuery.queryActions.Text == "")
+            // {
+            //     message = "Cost Query's action selection should not be empty";
+            }
+            else if (costQuery.initialStateSelectBox.Text == "")
+            {
+                message = "Cost Query's initial state should not be empty";
+            }
+            else if (!costQuery.initialStateSelectBox.Items.Contains(valueQuery.initialStateSelectBox.Text))
+            {
+                message = "Cost Query's initial state " + costQuery.initialStateSelectBox.Text + " does not exist";
+            }
+            else
+            {
+                validation_succesful = true;
+            }
+
+            if (!validation_succesful)
+                MessageBox.Show(message, "Query Execution Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return validation_succesful;
         }
     }
 }

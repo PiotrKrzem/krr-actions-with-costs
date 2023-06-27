@@ -709,7 +709,7 @@ namespace actions_with_costs
             this.tableLayoutPanel21.ColumnCount = 3;
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.90909F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.09091F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
             this.tableLayoutPanel21.Controls.Add(this.label13, 1, 0);
             this.tableLayoutPanel21.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.executeProgramButton, 2, 1);
@@ -732,7 +732,7 @@ namespace actions_with_costs
             this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label13.Location = new System.Drawing.Point(171, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(132, 33);
+            this.label13.Size = new System.Drawing.Size(131, 33);
             this.label13.TabIndex = 11;
             this.label13.Text = "INITIAL STATE";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
