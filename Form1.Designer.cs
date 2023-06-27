@@ -69,6 +69,8 @@ namespace actions_with_costs
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.finalState = new System.Windows.Forms.Label();
+            this.finalCost = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
             this.tableLayoutPanel21 = new System.Windows.Forms.TableLayoutPanel();
@@ -76,6 +78,7 @@ namespace actions_with_costs
             this.label11 = new System.Windows.Forms.Label();
             this.executeProgramButton = new System.Windows.Forms.Button();
             this.initialStateProgramComboBox = new Syncfusion.WinForms.ListView.SfComboBox();
+            this.executeProgramTextBox = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.tableLayoutPanel19 = new System.Windows.Forms.TableLayoutPanel();
             this.allStatementsCheckBox = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel20 = new System.Windows.Forms.TableLayoutPanel();
@@ -84,9 +87,6 @@ namespace actions_with_costs
             this.deleteStatementButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.clearMenuOption = new System.Windows.Forms.ToolStripMenuItem();
-            this.finalState = new System.Windows.Forms.Label();
-            this.finalCost = new System.Windows.Forms.Label();
-            this.executeProgramTextBox = new Syncfusion.Windows.Forms.Tools.TextBoxExt();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
@@ -106,10 +106,10 @@ namespace actions_with_costs
             this.tableLayoutPanel9.SuspendLayout();
             this.tableLayoutPanel21.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.executeProgramTextBox)).BeginInit();
             this.tableLayoutPanel19.SuspendLayout();
             this.tableLayoutPanel20.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.executeProgramTextBox)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -687,6 +687,30 @@ namespace actions_with_costs
             this.label9.Text = "FINAL COST:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // finalState
+            // 
+            this.finalState.AutoSize = true;
+            this.finalState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalState.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.finalState.ForeColor = System.Drawing.Color.Red;
+            this.finalState.Location = new System.Drawing.Point(91, 0);
+            this.finalState.Name = "finalState";
+            this.finalState.Size = new System.Drawing.Size(133, 38);
+            this.finalState.TabIndex = 11;
+            this.finalState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // finalCost
+            // 
+            this.finalCost.AutoSize = true;
+            this.finalCost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalCost.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.finalCost.ForeColor = System.Drawing.Color.Red;
+            this.finalCost.Location = new System.Drawing.Point(316, 0);
+            this.finalCost.Name = "finalCost";
+            this.finalCost.Size = new System.Drawing.Size(144, 38);
+            this.finalCost.TabIndex = 12;
+            this.finalCost.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // tableLayoutPanel9
             // 
             this.tableLayoutPanel9.ColumnCount = 1;
@@ -719,7 +743,7 @@ namespace actions_with_costs
             this.tableLayoutPanel21.ColumnCount = 3;
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.90909F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.09091F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 172F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 173F));
             this.tableLayoutPanel21.Controls.Add(this.label13, 1, 0);
             this.tableLayoutPanel21.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.executeProgramButton, 2, 1);
@@ -740,7 +764,7 @@ namespace actions_with_costs
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label13.Location = new System.Drawing.Point(159, 0);
+            this.label13.Location = new System.Drawing.Point(158, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(122, 29);
             this.label13.TabIndex = 11;
@@ -754,7 +778,7 @@ namespace actions_with_costs
             this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(150, 29);
+            this.label11.Size = new System.Drawing.Size(149, 29);
             this.label11.TabIndex = 10;
             this.label11.Text = "ACTION SEQUENCE";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -787,6 +811,21 @@ namespace actions_with_costs
             this.initialStateProgramComboBox.TabStop = false;
             this.initialStateProgramComboBox.Text = "Choose state";
             this.initialStateProgramComboBox.Watermark = "Choose state";
+            // 
+            // executeProgramTextBox
+            // 
+            this.executeProgramTextBox.BeforeTouchSize = new System.Drawing.Size(149, 23);
+            this.executeProgramTextBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.executeProgramTextBox.FocusBorderColor = System.Drawing.Color.Black;
+            this.executeProgramTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.executeProgramTextBox.ForeColor = System.Drawing.SystemColors.ScrollBar;
+            this.executeProgramTextBox.Location = new System.Drawing.Point(3, 32);
+            this.executeProgramTextBox.Metrocolor = System.Drawing.Color.White;
+            this.executeProgramTextBox.Name = "executeProgramTextBox";
+            this.executeProgramTextBox.Size = new System.Drawing.Size(149, 23);
+            this.executeProgramTextBox.TabIndex = 12;
+            this.executeProgramTextBox.Text = "Type in actions";
+            this.executeProgramTextBox.Click += new System.EventHandler(this.executeProgramTextBox_Click);
             // 
             // tableLayoutPanel19
             // 
@@ -893,45 +932,6 @@ namespace actions_with_costs
             this.clearMenuOption.Text = "CLEAR ALL";
             this.clearMenuOption.Click += new System.EventHandler(this.clearMenuOption_Click);
             // 
-            // finalState
-            // 
-            this.finalState.AutoSize = true;
-            this.finalState.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.finalState.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            this.finalState.ForeColor = System.Drawing.Color.Red;
-            this.finalState.Location = new System.Drawing.Point(91, 0);
-            this.finalState.Name = "finalState";
-            this.finalState.Size = new System.Drawing.Size(133, 38);
-            this.finalState.TabIndex = 11;
-            this.finalState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // finalCost
-            // 
-            this.finalCost.AutoSize = true;
-            this.finalCost.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.finalCost.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            this.finalCost.ForeColor = System.Drawing.Color.Red;
-            this.finalCost.Location = new System.Drawing.Point(316, 0);
-            this.finalCost.Name = "finalCost";
-            this.finalCost.Size = new System.Drawing.Size(144, 38);
-            this.finalCost.TabIndex = 12;
-            this.finalCost.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // executeProgramTextBox
-            // 
-            this.executeProgramTextBox.BeforeTouchSize = new System.Drawing.Size(149, 23);
-            this.executeProgramTextBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
-            this.executeProgramTextBox.FocusBorderColor = System.Drawing.Color.Black;
-            this.executeProgramTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.executeProgramTextBox.ForeColor = System.Drawing.SystemColors.ScrollBar;
-            this.executeProgramTextBox.Location = new System.Drawing.Point(3, 32);
-            this.executeProgramTextBox.Metrocolor = System.Drawing.Color.White;
-            this.executeProgramTextBox.Name = "executeProgramTextBox";
-            this.executeProgramTextBox.Size = new System.Drawing.Size(149, 23);
-            this.executeProgramTextBox.TabIndex = 12;
-            this.executeProgramTextBox.Text = "Type in actions";
-            this.executeProgramTextBox.Click += new System.EventHandler(this.executeProgramTextBox_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -977,11 +977,11 @@ namespace actions_with_costs
             this.tableLayoutPanel21.ResumeLayout(false);
             this.tableLayoutPanel21.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.initialStateProgramComboBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.executeProgramTextBox)).EndInit();
             this.tableLayoutPanel19.ResumeLayout(false);
             this.tableLayoutPanel20.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.executeProgramTextBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
