@@ -401,6 +401,7 @@ namespace actions_with_costs
         {
             queryPanel.Controls.Clear();
             queryPanel.Controls.AddRange(new Control[] {
+                StatementConstants.createStatementLabel("sufficient"),
                 costSelectBox,
                 StatementConstants.createStatementLabel("after"),
                 queryActions,
