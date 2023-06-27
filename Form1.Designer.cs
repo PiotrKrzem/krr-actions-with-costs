@@ -814,6 +814,7 @@ namespace actions_with_costs
             this.allStatementsCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.allStatementsCheckBox.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.allStatementsCheckBox.FormattingEnabled = true;
+            this.allStatementsCheckBox.HorizontalScrollbar = true;
             this.allStatementsCheckBox.Location = new System.Drawing.Point(3, 3);
             this.allStatementsCheckBox.Name = "allStatementsCheckBox";
             this.allStatementsCheckBox.Size = new System.Drawing.Size(320, 163);
