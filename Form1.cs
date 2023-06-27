@@ -348,12 +348,16 @@ namespace actions_with_costs
         private void allStatementsCheckBox_ItemCheck(object sender, ItemCheckEventArgs e) =>
             actionModelView.updateRemoveButtonState(e);
 
-        private void deleteStatementButton_Click(object sender, EventArgs e) => 
+        private void deleteStatementButton_Click(object sender, EventArgs e)
+        {
             initialStates = actionModelView.deleteStatementElement(ref allStatements, allFluents);
+            getInitialStatesStringified();
+        }     
         private void deleteAllStatementsButton_Click(object sender, EventArgs e)
         {
             actionModelView.deleteAllStatements(ref allStatements);
             initialStates = new List<State>();
+            getInitialStatesStringified();
         }
         private void executeProgramTextBox_Click(object sender, EventArgs e)
         {
@@ -436,13 +440,7 @@ namespace actions_with_costs
         }
         private void getInitialStatesStringified()
         {
-            //List<InitiallyStatement> initiallyStatements = allStatements
-            //    .FindAll(statement => statement.Type == StatementType.INITIALLY)
-            //    .Cast<InitiallyStatement>()
-            //    .ToList();
-
             allInitialStatesStringified = new List<string>();
-            //List<State> allInitialStates = actionModelView.getInitialStates(initiallyStatements, allFluents);
             foreach (State s in initialStates)
             {
                 string state = String.Empty;
