@@ -837,7 +837,7 @@ namespace actions_with_costs
             {
                 message = "Cost Query's initial state should not be empty";
             }
-            else if (!costQuery.initialStateSelectBox.Items.Contains(valueQuery.initialStateSelectBox.Text))
+            else if (!costQuery.initialStateSelectBox.Items.Contains(costQuery.initialStateSelectBox.Text))
             {
                 message = "Cost Query's initial state " + costQuery.initialStateSelectBox.Text + " does not exist";
             }
