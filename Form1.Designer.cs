@@ -645,7 +645,7 @@ namespace actions_with_costs
             // 
             this.label9.AutoSize = true;
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
             this.label9.Location = new System.Drawing.Point(235, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(82, 44);
@@ -657,21 +657,25 @@ namespace actions_with_costs
             // 
             this.finalState.AutoSize = true;
             this.finalState.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalState.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.finalState.ForeColor = System.Drawing.Color.Red;
             this.finalState.Location = new System.Drawing.Point(93, 0);
             this.finalState.Name = "finalState";
             this.finalState.Size = new System.Drawing.Size(136, 44);
-            this.finalState.TabIndex = 0;
-            this.finalState.Text = "label14";
+            this.finalState.TabIndex = 11;
+            this.finalState.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // finalCost
             // 
             this.finalCost.AutoSize = true;
             this.finalCost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalCost.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.finalCost.ForeColor = System.Drawing.Color.Red;
             this.finalCost.Location = new System.Drawing.Point(323, 0);
             this.finalCost.Name = "finalCost";
             this.finalCost.Size = new System.Drawing.Size(148, 44);
-            this.finalCost.TabIndex = 0;
-            this.finalCost.Text = "label15";
+            this.finalCost.TabIndex = 12;
+            this.finalCost.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tableLayoutPanel9
             // 
@@ -705,7 +709,7 @@ namespace actions_with_costs
             this.tableLayoutPanel21.ColumnCount = 3;
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 54.90909F));
             this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 45.09091F));
-            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 178F));
+            this.tableLayoutPanel21.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 161F));
             this.tableLayoutPanel21.Controls.Add(this.label13, 1, 0);
             this.tableLayoutPanel21.Controls.Add(this.label11, 0, 0);
             this.tableLayoutPanel21.Controls.Add(this.executeProgramButton, 2, 1);
@@ -726,9 +730,9 @@ namespace actions_with_costs
             this.label13.AutoSize = true;
             this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label13.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label13.Location = new System.Drawing.Point(162, 0);
+            this.label13.Location = new System.Drawing.Point(171, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(124, 33);
+            this.label13.Size = new System.Drawing.Size(132, 33);
             this.label13.TabIndex = 11;
             this.label13.Text = "INITIAL STATE";
             this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -740,7 +744,7 @@ namespace actions_with_costs
             this.label11.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label11.Location = new System.Drawing.Point(3, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(153, 33);
+            this.label11.Size = new System.Drawing.Size(162, 33);
             this.label11.TabIndex = 10;
             this.label11.Text = "ACTION SEQUENCE";
             this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -752,9 +756,9 @@ namespace actions_with_costs
             this.executeProgramButton.BackColor = System.Drawing.Color.Gainsboro;
             this.executeProgramButton.Enabled = false;
             this.executeProgramButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.executeProgramButton.Location = new System.Drawing.Point(305, 36);
+            this.executeProgramButton.Location = new System.Drawing.Point(309, 36);
             this.executeProgramButton.Name = "executeProgramButton";
-            this.executeProgramButton.Size = new System.Drawing.Size(160, 27);
+            this.executeProgramButton.Size = new System.Drawing.Size(156, 27);
             this.executeProgramButton.TabIndex = 9;
             this.executeProgramButton.Text = "EXECUTE PROGRAM";
             this.executeProgramButton.UseVisualStyleBackColor = false;
@@ -764,11 +768,10 @@ namespace actions_with_costs
             // 
             this.initialStateProgramComboBox.AllowNull = true;
             this.initialStateProgramComboBox.DropDownPosition = Syncfusion.WinForms.Core.Enums.PopupRelativeAlignment.Center;
-            this.initialStateProgramComboBox.Enabled = false;
-            this.initialStateProgramComboBox.Location = new System.Drawing.Point(162, 36);
+            this.initialStateProgramComboBox.Location = new System.Drawing.Point(171, 36);
             this.initialStateProgramComboBox.Name = "initialStateProgramComboBox";
             this.initialStateProgramComboBox.ShowToolTip = true;
-            this.initialStateProgramComboBox.Size = new System.Drawing.Size(122, 24);
+            this.initialStateProgramComboBox.Size = new System.Drawing.Size(121, 24);
             this.initialStateProgramComboBox.Style.TokenStyle.CloseButtonBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.initialStateProgramComboBox.TabIndex = 1;
             this.initialStateProgramComboBox.TabStop = false;
@@ -777,10 +780,18 @@ namespace actions_with_costs
             // 
             // executeProgramTextBox
             // 
+            this.executeProgramTextBox.BeforeTouchSize = new System.Drawing.Size(149, 23);
+            this.executeProgramTextBox.Border3DStyle = System.Windows.Forms.Border3DStyle.Flat;
+            this.executeProgramTextBox.FocusBorderColor = System.Drawing.Color.Black;
+            this.executeProgramTextBox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.executeProgramTextBox.ForeColor = System.Drawing.SystemColors.ScrollBar;
             this.executeProgramTextBox.Location = new System.Drawing.Point(3, 36);
+            this.executeProgramTextBox.Metrocolor = System.Drawing.Color.White;
             this.executeProgramTextBox.Name = "executeProgramTextBox";
-            this.executeProgramTextBox.Size = new System.Drawing.Size(100, 20);
+            this.executeProgramTextBox.Size = new System.Drawing.Size(149, 23);
             this.executeProgramTextBox.TabIndex = 12;
+            this.executeProgramTextBox.Text = "Type in actions";
+            this.executeProgramTextBox.Click += new System.EventHandler(this.executeProgramTextBox_Click);
             // 
             // tableLayoutPanel19
             // 
@@ -828,12 +839,12 @@ namespace actions_with_costs
             // 
             // deleteStatementButton
             // 
-            this.deleteStatementButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.deleteStatementButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.deleteStatementButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.deleteStatementButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteStatementButton.Location = new System.Drawing.Point(5, 3);
+            this.deleteStatementButton.Location = new System.Drawing.Point(3, 3);
             this.deleteStatementButton.Name = "deleteStatementButton";
-            this.deleteStatementButton.Size = new System.Drawing.Size(132, 48);
+            this.deleteStatementButton.Size = new System.Drawing.Size(136, 48);
             this.deleteStatementButton.TabIndex = 6;
             this.deleteStatementButton.Text = "DELETE";
             this.deleteStatementButton.UseVisualStyleBackColor = false;
@@ -841,14 +852,13 @@ namespace actions_with_costs
             // 
             // visualizationButton
             // 
-            this.visualizationButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.visualizationButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.visualizationButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.visualizationButton.Enabled = false;
             this.visualizationButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visualizationButton.Location = new System.Drawing.Point(7, 111);
+            this.visualizationButton.Location = new System.Drawing.Point(3, 111);
             this.visualizationButton.Name = "visualizationButton";
-            this.visualizationButton.Size = new System.Drawing.Size(132, 49);
+            this.visualizationButton.Size = new System.Drawing.Size(136, 49);
             this.visualizationButton.TabIndex = 7;
             this.visualizationButton.Text = "OPEN VISUALIZATION";
             this.visualizationButton.UseVisualStyleBackColor = false;
@@ -856,14 +866,13 @@ namespace actions_with_costs
             // 
             // deleteAllStatementsButton
             // 
-            this.deleteAllStatementsButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteAllStatementsButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.deleteAllStatementsButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.deleteAllStatementsButton.Enabled = false;
             this.deleteAllStatementsButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.deleteAllStatementsButton.Location = new System.Drawing.Point(7, 57);
+            this.deleteAllStatementsButton.Location = new System.Drawing.Point(3, 57);
             this.deleteAllStatementsButton.Name = "deleteAllStatementsButton";
-            this.deleteAllStatementsButton.Size = new System.Drawing.Size(132, 48);
+            this.deleteAllStatementsButton.Size = new System.Drawing.Size(136, 48);
             this.deleteAllStatementsButton.TabIndex = 8;
             this.deleteAllStatementsButton.Text = "DELETE ALL";
             this.deleteAllStatementsButton.UseVisualStyleBackColor = false;
