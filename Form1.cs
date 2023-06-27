@@ -4,9 +4,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Windows;
-using Syncfusion.WinForms.ListView;
-using Syncfusion.WinForms.ListView.Enums;
 
 namespace actions_with_costs
 {
@@ -22,6 +19,7 @@ namespace actions_with_costs
         public List<string> allActions;
         public List<Statement> allStatements;
         public List<State> initialStates;
+        public List<string> allInitialStatesStringified;
 
         public Form1()
         {
@@ -30,6 +28,7 @@ namespace actions_with_costs
             allActions = new List<string>();
             allStatements = new List<Statement>();
             positiveNegativeFluents = new List<string>();
+            allInitialStatesStringified = new List<string>();
             initialStates = new List<State>();
 
             // Initializing part of the view responsible for actions and fluents
@@ -54,7 +53,7 @@ namespace actions_with_costs
                 ref inconsistentDomainLabel,
                 ref deleteStatementButton,
                 ref deleteAllStatementsButton,
-                ref executeProgramComboBox,
+                ref executeProgramTextBox,
                 ref initialStateProgramComboBox,
                 ref executeProgramButton,
                 ref visualizationButton,
@@ -71,6 +70,8 @@ namespace actions_with_costs
             deleteFluentButton.Enabled = false;
             deleteActionButton.Enabled = false;
             deleteStatementButton.Enabled = false;
+            executeProgramButton.Enabled = false;
+            initialStateProgramComboBox.Enabled = false;
             executeQueryButton.Enabled = false;
 
             List<Item> items = new List<Item>();
@@ -143,12 +144,33 @@ namespace actions_with_costs
             }
 
             List<string> actionsList = new List<string>();
-            string[] actions = executeProgramComboBox.Text.Split(',');
+            if (executeProgramTextBox.Text == "")
+            {
+                string message = "There are no actions specified";
+                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            string[] actions = executeProgramTextBox.Text.Split(',');
             foreach (string a in actions)
             {
-                actionsList.Add(a);
+                if (a.Trim().Length == 0 || a.Contains(" "))
+                {
+                    string message = "Actions have to be separated by a single comma without spaces";
+                    MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else if(!allActions.Contains(a))
+                {
+                    string message = "Action '" + a + "' was not added to the list of actions";
+                    MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                else
+                {
+                    actionsList.Add(a);
+                }       
             }
-
+           
             foreach(string action in actionsList)
             {
                 List<Literal> allPostconditions = new List<Literal>();
@@ -305,31 +327,7 @@ namespace actions_with_costs
         private void addStatementButton_Click(object sender, EventArgs e)
         {
             initialStates = actionModelView.addStatement(ref allStatements, allFluents, allActions);
-
-            List<InitiallyStatement> initiallyStatements = allStatements
-            .FindAll(statement => statement.Type == StatementType.INITIALLY)
-            .Cast<InitiallyStatement>()
-            .ToList();
-
-            List<string> allInitialStatesStringified = new List<string>();
-            List<State> allInitialStates = actionModelView.getInitialStates(initiallyStatements, allFluents);
-            foreach(State s in allInitialStates)
-            {
-                string state = String.Empty;
-                foreach(Literal l in s.Literals)
-                {
-                    state += ",";
-                    state += l.ToString();
-                }
-                state = state.Remove(0, 1);
-                allInitialStatesStringified.Add(state);
-            }
-            initialStateProgramComboBox.DataSource = allInitialStatesStringified;
-            initialStateProgramComboBox.SelectedItems.Clear();
-            actionModelView.valueQuery.initialStateSelectBox.Items.Clear();
-            actionModelView.valueQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
-            actionModelView.costQuery.initialStateSelectBox.Items.Clear();
-            actionModelView.costQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
+            getInitialStatesStringified();
         }
 
         private void allStatementsCheckBox_ItemCheck(object sender, ItemCheckEventArgs e) =>
@@ -341,6 +339,14 @@ namespace actions_with_costs
         {
             actionModelView.deleteAllStatements(ref allStatements);
             initialStates = new List<State>();
+        }
+        private void executeProgramTextBox_Click(object sender, EventArgs e)
+        {
+            if(executeProgramTextBox.Text == "Type in actions")
+            {
+                executeProgramTextBox.Text = "";
+                executeProgramTextBox.ForeColor = SystemColors.WindowText;
+            }
         }
 
         // -------------------------------------------------------------------------------------------------------------------
@@ -374,9 +380,6 @@ namespace actions_with_costs
             actionModelView.effectStatementObject.causesAction.Items.AddRange(allActions.ToArray());
             actionModelView.afterStatementObject.afterActions.DataSource = allActions.ToList();
 
-            actionModelView.programExecuteComboBox.DataSource = allActions.ToList();
-            actionModelView.programExecuteComboBox.SelectedItems.Clear();
-
             actionModelView.valueQuery.queryActions.DataSource = allActions.ToList();
             actionModelView.valueQuery.queryActions.SelectedItems.Clear();
 
@@ -405,8 +408,35 @@ namespace actions_with_costs
             actionModelView.effectStatementObject.causesPrecondition.DataSource = positiveNegativeFluents.ToList();
             actionModelView.effectStatementObject.causesPrecondition.SelectedItems.Clear();
 
-            actionModelView.valueQuery.fluentSelectBox.Items.Clear();
-            actionModelView.valueQuery.fluentSelectBox.Items.AddRange(positiveNegativeFluents.ToArray());
+            if(allStatements.Count > 0)
+            {
+                getInitialStatesStringified();
+            }
+
+
+        }
+        private void getInitialStatesStringified()
+        {
+            List<InitiallyStatement> initiallyStatements = allStatements
+                .FindAll(statement => statement.Type == StatementType.INITIALLY)
+                .Cast<InitiallyStatement>()
+                .ToList();
+
+            allInitialStatesStringified = new List<string>();
+            List<State> allInitialStates = actionModelView.getInitialStates(initiallyStatements, allFluents);
+            foreach (State s in allInitialStates)
+            {
+                string state = String.Empty;
+                foreach (Literal l in s.Literals)
+                {
+                    state += ",";
+                    state += l.ToString();
+                }
+                state = state.Remove(0, 1);
+                allInitialStatesStringified.Add(state);
+            }
+            initialStateProgramComboBox.DataSource = allInitialStatesStringified;
+            initialStateProgramComboBox.SelectedItems.Clear();
         }
 
         private void queryTypeSelectBox_SelectionChangeCommitted(object sender, EventArgs e) =>

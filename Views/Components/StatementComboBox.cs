@@ -13,9 +13,14 @@ namespace actions_with_costs
             Font = StatementConstants.FONT;
             Width = statementsPanel.Width - StatementConstants.OFFSET;
             Items.Clear();
+            MouseClick += new MouseEventHandler(this.openDropdown);
             Items.AddRange(positiveNegativeFluents.ToArray());
         }
 
+        private void openDropdown(object sender, MouseEventArgs e)
+        {
+            DroppedDown = true;
+        }
 
     }
 }
