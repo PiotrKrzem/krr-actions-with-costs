@@ -225,7 +225,7 @@ namespace actions_with_costs
                     state += string.Join(",", stateCost.Item3.Literals.Select(l => l.ToString()));
                     state += "} => Final state: {";
                     state += string.Join(",", stateCost.Item1.Literals.Select(l => l.ToString()));
-                    state += "} cost: ";
+                    state += "}\ncost: ";
                     state += stateCost.Item2.ToString();
                     state += " \n\n";
                 }
