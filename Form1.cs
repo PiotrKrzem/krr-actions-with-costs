@@ -284,6 +284,7 @@ namespace actions_with_costs
                         if (statement.Precondition.Count == 0)
                         {
                             allPostconditions.Add(statement.Postcondition);
+                            currentCost += statement.Cost;
                         }
                         else
                         {
@@ -291,9 +292,10 @@ namespace actions_with_costs
                             if (ifPreconditionHolds)
                             {
                                 allPostconditions.Add(statement.Postcondition);
+                                currentCost += statement.Cost;
                             }
                         }
-                        currentCost += statement.Cost;
+                        
                     }
                     foreach (Literal literal in allPostconditions)
                     {
