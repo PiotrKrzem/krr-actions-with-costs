@@ -64,8 +64,8 @@ namespace actions_with_costs
             this.inconsistentDomainLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel7 = new System.Windows.Forms.TableLayoutPanel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.finalStateLabel = new System.Windows.Forms.Label();
+            this.finalCostLabel = new System.Windows.Forms.Label();
             this.finalState = new System.Windows.Forms.Label();
             this.finalCost = new System.Windows.Forms.Label();
             this.tableLayoutPanel9 = new System.Windows.Forms.TableLayoutPanel();
@@ -614,8 +614,8 @@ namespace actions_with_costs
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.23758F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 18.7905F));
             this.tableLayoutPanel7.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.18143F));
-            this.tableLayoutPanel7.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel7.Controls.Add(this.label9, 2, 0);
+            this.tableLayoutPanel7.Controls.Add(this.finalStateLabel, 0, 0);
+            this.tableLayoutPanel7.Controls.Add(this.finalCostLabel, 2, 0);
             this.tableLayoutPanel7.Controls.Add(this.finalState, 1, 0);
             this.tableLayoutPanel7.Controls.Add(this.finalCost, 3, 0);
             this.tableLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -626,29 +626,31 @@ namespace actions_with_costs
             this.tableLayoutPanel7.Size = new System.Drawing.Size(474, 44);
             this.tableLayoutPanel7.TabIndex = 11;
             // 
-            // label6
+            // finalStateLabel
             // 
-            this.label6.AutoSize = true;
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(84, 44);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "FINAL STATE:";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finalStateLabel.AutoSize = true;
+            this.finalStateLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalStateLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.finalStateLabel.Location = new System.Drawing.Point(3, 0);
+            this.finalStateLabel.Name = "finalStateLabel";
+            this.finalStateLabel.Size = new System.Drawing.Size(84, 44);
+            this.finalStateLabel.TabIndex = 9;
+            this.finalStateLabel.Text = "FINAL STATE:";
+            this.finalStateLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finalStateLabel.Visible = false;
             // 
-            // label9
+            // finalCostLabel
             // 
-            this.label9.AutoSize = true;
-            this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            this.label9.Location = new System.Drawing.Point(235, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 44);
-            this.label9.TabIndex = 10;
-            this.label9.Text = "FINAL COST:";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finalCostLabel.AutoSize = true;
+            this.finalCostLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.finalCostLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.finalCostLabel.Location = new System.Drawing.Point(235, 0);
+            this.finalCostLabel.Name = "finalCostLabel";
+            this.finalCostLabel.Size = new System.Drawing.Size(82, 44);
+            this.finalCostLabel.TabIndex = 10;
+            this.finalCostLabel.Text = "FINAL COST:";
+            this.finalCostLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finalCostLabel.Visible = false;
             // 
             // finalState
             // 
@@ -1051,8 +1053,8 @@ namespace actions_with_costs
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox statementsComboBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label finalStateLabel;
+        private System.Windows.Forms.Label finalCostLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel9;
         private System.Windows.Forms.Button visualizationButton;
         private System.Windows.Forms.Button deleteAllStatementsButton;

@@ -441,6 +441,8 @@ namespace actions_with_costs
         public Button programExecuteButton;
         public Label stateFinal;
         public Label costFinal;
+        public Label stateFinalLabel;
+        public Label costFinalLabel;
 
 
         // Elements of layout relevant to visualization
@@ -473,7 +475,9 @@ namespace actions_with_costs
             ref ComboBox queryTypeComboBox,
             ref Button queryExecuteButton,
             ref Label stateFinal,
-            ref Label costFinal)
+            ref Label costFinal,
+            ref Label stateFinalLabel,
+            ref Label costFinalLabel)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
@@ -483,6 +487,8 @@ namespace actions_with_costs
             this.programExecuteButton = programExecuteButton;
             this.stateFinal = stateFinal;
             this.costFinal = costFinal;
+            this.stateFinalLabel = stateFinalLabel;
+            this.costFinalLabel = costFinalLabel;
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
             this.displayVisualizationButton = displayVisualizationButton;
@@ -571,7 +577,9 @@ namespace actions_with_costs
                 statementRemoveAllButton.Enabled = false;
             }
             inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+            stateFinalLabel.Visible = false;
             stateFinal.Text = "";
+            costFinalLabel.Visible = false;
             costFinal.Text = "";
             updateFunctionsStateBasedOnModelConsistency();
 

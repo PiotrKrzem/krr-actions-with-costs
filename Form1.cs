@@ -60,7 +60,9 @@ namespace actions_with_costs
                 ref queryTypeSelectBox,
                 ref executeQueryButton,
                 ref finalState,
-                ref finalCost);
+                ref finalCost,
+                ref finalStateLabel,
+                ref finalCostLabel);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -209,7 +211,9 @@ namespace actions_with_costs
             if (currentStatesCosts.Count == 1)
             {
                 state = string.Join(",", currentStatesCosts[0].Item1.Literals.Select(l => l.ToString()));
+                finalStateLabel.Visible = true;
                 finalState.Text = state;
+                finalCostLabel.Visible = true;
                 finalCost.Text = currentStatesCosts[0].Item2.ToString();
             }
             else
