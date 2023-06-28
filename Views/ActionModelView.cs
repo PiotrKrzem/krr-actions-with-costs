@@ -358,12 +358,10 @@ namespace actions_with_costs
     class Query
     {
         public QuerySFComboBox queryActions;
-        public QueryComboBox initialStateSelectBox;
 
         public Query(FlowLayoutPanel queryPanel)
         {
             this.queryActions = new QuerySFComboBox(queryPanel);
-            this.initialStateSelectBox = new QueryComboBox(queryPanel);
         }
         public virtual void createQueryObject(FlowLayoutPanel queryPanel) { }
         public virtual string createQueryText() { return "<error query>"; }
@@ -382,14 +380,12 @@ namespace actions_with_costs
             queryPanel.Controls.AddRange(new Control[] {
                 fluentSelectBox,
                 StatementConstants.createStatementLabel("after"),
-                queryActions,
-                StatementConstants.createStatementLabel("from initial state"),
-                initialStateSelectBox});
+                queryActions});
         }
 
         public override string createQueryText()
         {
-            return fluentSelectBox.Text + " after " + queryActions.Text + " from " + initialStateSelectBox.Text;
+            return fluentSelectBox.Text + " after " + queryActions.Text;
         }
     }
     class CostQuery : Query
@@ -406,14 +402,12 @@ namespace actions_with_costs
                 StatementConstants.createStatementLabel("sufficient"),
                 costSelectBox,
                 StatementConstants.createStatementLabel("after"),
-                queryActions,
-                StatementConstants.createStatementLabel("from initial state"),
-                initialStateSelectBox});
+                queryActions});
         }
 
         public override string createQueryText()
         {
-            return costSelectBox.Text + " after " + queryActions.Text + " from " + initialStateSelectBox.Text;
+            return "sufficient " + costSelectBox.Text + " after " + queryActions.Text;
         }
     }
 
@@ -801,18 +795,16 @@ namespace actions_with_costs
             if (valueQuery.fluentSelectBox.Text == "")
             {
                 message = "Value Query's fluent should not be empty";
-            } else if (!valueQuery.fluentSelectBox.Items.Contains(valueQuery.fluentSelectBox.Text))
+            } 
+            else if (!valueQuery.fluentSelectBox.Items.Contains(valueQuery.fluentSelectBox.Text))
             {
                 message = "Value Query's fluent " + valueQuery.fluentSelectBox.Text + " does not exist";
-            // } else if (valueQuery.queryActions.Text == "")
+            // }
+            // else if (valueQuery.queryActions.Text == "")
             // {
             //     message = "Value Query's action selection should not be empty";
-            } else if (valueQuery.initialStateSelectBox.Text == "") {
-                message = "Value Query's initial state should not be empty";
-            } else if (!valueQuery.initialStateSelectBox.Items.Contains(valueQuery.initialStateSelectBox.Text)) 
-            {
-                message = "Value Query's initial state " + valueQuery.initialStateSelectBox.Text + " does not exist";
-            } else
+            } 
+            else
             {
                 validation_succesful = true;
             }
@@ -829,17 +821,10 @@ namespace actions_with_costs
             if (costQuery.costSelectBox.Text == "")
             {
                 message = "Cost Query's cost should not be empty";
-            // } else if (costQuery.queryActions.Text == "")
+            // }
+            // else if (costQuery.queryActions.Text == "")
             // {
             //     message = "Cost Query's action selection should not be empty";
-            }
-            else if (costQuery.initialStateSelectBox.Text == "")
-            {
-                message = "Cost Query's initial state should not be empty";
-            }
-            else if (!costQuery.initialStateSelectBox.Items.Contains(costQuery.initialStateSelectBox.Text))
-            {
-                message = "Cost Query's initial state " + costQuery.initialStateSelectBox.Text + " does not exist";
             }
             else
             {
