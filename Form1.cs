@@ -54,7 +54,6 @@ namespace actions_with_costs
                 ref deleteStatementButton,
                 ref deleteAllStatementsButton,
                 ref executeProgramTextBox,
-                ref initialStateProgramComboBox,
                 ref executeProgramButton,
                 ref visualizationButton,
                 ref queryPanel,
@@ -73,7 +72,6 @@ namespace actions_with_costs
             deleteActionButton.Enabled = false;
             deleteStatementButton.Enabled = false;
             executeProgramButton.Enabled = false;
-            initialStateProgramComboBox.Enabled = false;
             executeProgramTextBox.Enabled = false;
             executeQueryButton.Enabled = false;
 
@@ -100,14 +98,14 @@ namespace actions_with_costs
         }
 
         // ----------------------------- FORM METHODS OF FLUENT/ACTION SECTION ---------------------------------------------
-        private void addFluentTextBox_TextChanged(object sender, EventArgs e) => 
+        private void addFluentTextBox_TextChanged(object sender, EventArgs e) =>
             fluentActionView.updateAddButtonState(ModelElementType.FLUENT);
-        private void addActionTextBox_TextChanged(object sender, EventArgs e) => 
+        private void addActionTextBox_TextChanged(object sender, EventArgs e) =>
             fluentActionView.updateAddButtonState(ModelElementType.ACTION);
 
-        private void addFluentTextBox_KeyPress(object sender, KeyPressEventArgs e) => 
+        private void addFluentTextBox_KeyPress(object sender, KeyPressEventArgs e) =>
             fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.FLUENT, allFluents, buildPositiveNegativeFluents);
-        private void addActionTextBox_KeyPress(object sender, KeyPressEventArgs e) => 
+        private void addActionTextBox_KeyPress(object sender, KeyPressEventArgs e) =>
             fluentActionView.addModelItemAfterEnter(ref e, ModelElementType.ACTION, allActions, updateActionSelections);
 
         private void addFluentButton_Click(object sender, EventArgs e) =>
@@ -125,9 +123,9 @@ namespace actions_with_costs
         private void removeAllActions_Click(object sender, EventArgs e) =>
             fluentActionView.deleteAllModelElementsOfType(ModelElementType.ACTION, allActions, allStatements, updateActionSelections, clearStatements);
 
-        private void allFluentsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
+        private void allFluentsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) =>
             fluentActionView.updateRemoveButtonState(ModelElementType.FLUENT, e);
-        private void allActionsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) => 
+        private void allActionsCheckBox_ItemChecked(object sender, ItemCheckEventArgs e) =>
             fluentActionView.updateRemoveButtonState(ModelElementType.ACTION, e);
         private void executeProgramButton_Click(object sender, EventArgs e)
         {
@@ -136,22 +134,7 @@ namespace actions_with_costs
               .Cast<CausesStatement>()
               .ToList();
 
-            int currentCost = 0;
-            List<Literal> initialState = new List<Literal>();
-            List<Literal> currentState = new List<Literal>();
-            if(initialStateProgramComboBox.Text == "Choose state")
-            {
-                string message = "There is no initital state specified";
-                MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            string[] fluents = initialStateProgramComboBox.Text.Split(',');
-            foreach(string f in fluents)
-            {
-                initialState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
-                currentState.Add(new Literal(f.Replace("~", ""), f.Contains("~")));
-            }
-
+            List<(State, int, State)> currentStatesCosts = new List<(State, int, State)>();
             List<string> actionsList = new List<string>();
             if (executeProgramTextBox.Text == "")
             {
@@ -168,7 +151,7 @@ namespace actions_with_costs
                     MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                else if(!allActions.Contains(a.Trim()))
+                else if (!allActions.Contains(a.Trim()))
                 {
                     string message = "Action '" + a + "' was not added to the list of actions";
                     MessageBox.Show(message, string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -177,44 +160,75 @@ namespace actions_with_costs
                 else
                 {
                     actionsList.Add(a.Trim());
-                }       
+                }
             }
-           
-            foreach(string action in actionsList)
-            {
-                List<Literal> allPostconditions = new List<Literal>();
-                List<CausesStatement> matchedCausesStatements = causesStatements
-                    .FindAll(statement => statement.Action == action)
-                    .ToList();
 
-                foreach (CausesStatement statement in matchedCausesStatements)
+            foreach (State s in initialStates)
+            {
+                int currentCost = 0;
+                List<Literal> currentState = new List<Literal>();
+                foreach(Literal l in s.Literals)
                 {
-                    if(statement.Precondition.Count == 0)
+                    currentState.Add(new Literal(l));
+                }
+                foreach (string action in actionsList)
+                {
+                    List<Literal> allPostconditions = new List<Literal>();
+                    List<CausesStatement> matchedCausesStatements = causesStatements
+                        .FindAll(statement => statement.Action == action)
+                        .ToList();
+
+                    foreach (CausesStatement statement in matchedCausesStatements)
                     {
-                        allPostconditions.Add(statement.Postcondition);
-                        currentCost += statement.Cost;
-                    }
-                    else
-                    {
-                        bool ifPreconditionHolds = statement.Precondition.All(l => l.ExistsInCollection(currentState));
-                        if (ifPreconditionHolds)
+                        if (statement.Precondition.Count == 0)
                         {
                             allPostconditions.Add(statement.Postcondition);
                             currentCost += statement.Cost;
                         }
+                        else
+                        {
+                            bool ifPreconditionHolds = statement.Precondition.All(l => l.ExistsInCollection(currentState));
+                            if (ifPreconditionHolds)
+                            {
+                                allPostconditions.Add(statement.Postcondition);
+                                currentCost += statement.Cost;
+                            }
+                        }
+                    }
+                    foreach (Literal literal in allPostconditions)
+                    {
+                        currentState
+                           .Where(l => l.Fluent == literal.Fluent)
+                           .Select(l => l.IfHolds = literal.IfHolds)
+                           .ToList();
                     }
                 }
-                foreach(Literal literal in allPostconditions)
-                {
-                    currentState
-                       .Where(l => l.Fluent == literal.Fluent)
-                       .Select(l => l.IfHolds = literal.IfHolds)
-                       .ToList();
-                }
+                currentStatesCosts.Add((new State(currentState), currentCost, new State(s.Literals)));
             }
-            string state = string.Join(",", currentState.Select(l => l.ToString()));
-            finalState.Text = state;
-            finalCost.Text = currentCost.ToString();
+            string state = String.Empty;
+            if (currentStatesCosts.Count == 1)
+            {
+                state = string.Join(",", currentStatesCosts[0].Item1.Literals.Select(l => l.ToString()));
+                finalState.Text = state;
+                finalCost.Text = currentStatesCosts[0].Item2.ToString();
+            }
+            else
+            {
+                foreach ((State, int, State) stateCost in currentStatesCosts)
+                {
+                    state += "Initial state: {";
+                    allInitialStatesStringified.Add(state);
+                    state += string.Join(",", stateCost.Item3.Literals.Select(l => l.ToString()));
+                    state += "} => Final state: {";
+                    state += string.Join(",", stateCost.Item1.Literals.Select(l => l.ToString()));
+                    state += "} cost: ";
+                    state += stateCost.Item2.ToString();
+                    state += " \n\n";
+                }
+                MessageBox.Show(state, "Result of program execution", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
+            //string aa = "Initail state: loaded, alive => Final state: loaded,alive \n\nInitail state: loaded, alive Final state: loaded,~alive";
+            //MessageBox.Show(aa, "Result of program execution", MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
         }
 
         private void executeQueryButton_Click(object sender, EventArgs e)
@@ -452,9 +466,6 @@ namespace actions_with_costs
                 state = state.Remove(0, 1);
                 allInitialStatesStringified.Add(state);
             }
-            initialStateProgramComboBox.DataSource = allInitialStatesStringified;
-            initialStateProgramComboBox.Text = "Choose state";
-            initialStateProgramComboBox.SelectedItems.Clear();
 
             actionModelView.valueQuery.initialStateSelectBox.Items.Clear();
             actionModelView.valueQuery.initialStateSelectBox.Items.AddRange(allInitialStatesStringified.ToArray());
