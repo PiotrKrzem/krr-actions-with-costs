@@ -432,10 +432,11 @@ namespace actions_with_costs
 
         // Elements of layout for specifying program to be executed
         public TextBoxExt programExecuteTextBox;
-        public SfComboBox programInitialStateComboBox;
         public Button programExecuteButton;
         public Label stateFinal;
         public Label costFinal;
+        public Label stateFinalLabel;
+        public Label costFinalLabel;
 
 
         // Elements of layout relevant to visualization
@@ -462,24 +463,26 @@ namespace actions_with_costs
             ref Button statementRemoveButton,
             ref Button statementRemoveAllButton,
             ref TextBoxExt programExecuteTextBox,
-            ref SfComboBox programInitialStateComboBox,
             ref Button programExecuteButton,
             ref Button displayVisualizationButton,
             ref FlowLayoutPanel queryPanel,
             ref ComboBox queryTypeComboBox,
             ref Button queryExecuteButton,
             ref Label stateFinal,
-            ref Label costFinal)
+            ref Label costFinal,
+            ref Label stateFinalLabel,
+            ref Label costFinalLabel)
         {
             this.statementsPanel = statementsPanel;
             this.statementsComboBox = statementsComboBox;
             this.allStatementsCheckBox = allStatementsCheckBox;
             this.statementRemoveButton = statementRemoveButton;
             this.programExecuteTextBox = programExecuteTextBox;
-            this.programInitialStateComboBox = programInitialStateComboBox;
             this.programExecuteButton = programExecuteButton;
             this.stateFinal = stateFinal;
             this.costFinal = costFinal;
+            this.stateFinalLabel = stateFinalLabel;
+            this.costFinalLabel = costFinalLabel;
             this.statementRemoveAllButton = statementRemoveAllButton;
             this.inconsistentDomainLabel = inconsistentDomainLabel;
             this.displayVisualizationButton = displayVisualizationButton;
@@ -568,7 +571,9 @@ namespace actions_with_costs
                 statementRemoveAllButton.Enabled = false;
             }
             inconsistentDomainLabel.Visible = !verifyGlobalModelConsistency(allStatements, fluents);
+            stateFinalLabel.Visible = false;
             stateFinal.Text = "";
+            costFinalLabel.Visible = false;
             costFinal.Text = "";
             updateFunctionsStateBasedOnModelConsistency();
 
@@ -752,11 +757,9 @@ namespace actions_with_costs
             
             programExecuteButton.Enabled = functionsState;
             programExecuteTextBox.Enabled = functionsState;
-            programInitialStateComboBox.Enabled = functionsState;
             displayVisualizationButton.Enabled = functionsState;
             queryExecuteButton.Enabled = functionsState;
             programExecuteTextBox.Text = "Type in actions";
-            programInitialStateComboBox.Text = "Choose state";
             programExecuteTextBox.ForeColor = SystemColors.ScrollBar;
         }
 
