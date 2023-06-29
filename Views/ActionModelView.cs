@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Syncfusion.WinForms.ListView;
 using Syncfusion.Windows.Forms.Tools;
 using System.Drawing;
+using Syncfusion.DataSource.Extensions;
 
 namespace actions_with_costs
 {
@@ -798,14 +799,17 @@ namespace actions_with_costs
             if (valueQuery.fluentSelectBox.Text == "")
             {
                 message = "Value Query's fluent should not be empty";
-            } 
+            }
             else if (!valueQuery.fluentSelectBox.Items.Contains(valueQuery.fluentSelectBox.Text))
             {
                 message = "Value Query's fluent " + valueQuery.fluentSelectBox.Text + " does not exist";
-            // }
-            // else if (valueQuery.queryActions.Text == "")
-            // {
-            //     message = "Value Query's action selection should not be empty";
+                // }
+                // else if (valueQuery.queryActions.Text == "")
+                // {
+                //     message = "Value Query's action selection should not be empty";
+            } else if(!valueQuery.queryActions.Text.Split(',').Select(qa => valueQuery.queryActions.Actions.Contains(qa.Trim())).All(found => found == true))
+            {
+                message = "Value Query's actions " + valueQuery.queryActions.Text + " contain at least one unknown action";
             } 
             else
             {
@@ -828,6 +832,10 @@ namespace actions_with_costs
             // else if (costQuery.queryActions.Text == "")
             // {
             //     message = "Cost Query's action selection should not be empty";
+            }
+            else if (!costQuery.queryActions.Text.Split(',').Select(qa => costQuery.queryActions.Actions.Contains(qa.Trim())).All(found => found == true))
+            {
+                message = "Cost Query's actions " + costQuery.queryActions.Text + " contain at least one unknown action";
             }
             else
             {

@@ -101,9 +101,6 @@
     <Compile Include="Views\Components\StatementNumericUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Views\Components\QuerySfComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Views\Components\StatementSfComboBox.cs">
       <SubType>Component</SubType>
     </Compile>

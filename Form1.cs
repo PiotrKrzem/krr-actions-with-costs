@@ -405,11 +405,8 @@ namespace actions_with_costs
             actionModelView.effectStatementObject.causesAction.Items.AddRange(allActions.ToArray());
             actionModelView.afterStatementObject.afterActions.DataSource = allActions.ToList();
 
-            actionModelView.valueQuery.queryActions.DataSource = allActions.ToList();
-            actionModelView.valueQuery.queryActions.SelectedItems.Clear();
-
-            actionModelView.costQuery.queryActions.DataSource = allActions.ToList();
-            actionModelView.costQuery.queryActions.SelectedItems.Clear();
+            actionModelView.valueQuery.queryActions.Actions = allActions.ToList();
+            actionModelView.costQuery.queryActions.Actions = allActions.ToList();
         }
 
         private void buildPositiveNegativeFluents()
