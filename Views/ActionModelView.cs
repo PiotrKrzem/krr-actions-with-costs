@@ -624,6 +624,11 @@ namespace actions_with_costs
 
             foreach(var state in allPossibleStartingStates)
             {
+                if(isRestrictedByAfter)
+                {
+                    currentConsistencyState = true;
+                }
+
                 // Verifying if there are no causes statements and if the final state does not correspond to the initial one
                 if (causesStatements.Count == 0)
                 {
