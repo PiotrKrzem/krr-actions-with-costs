@@ -8,13 +8,14 @@ namespace actions_with_costs
     /// <summary>
     /// Class is a generic statement SfComboBox object
     /// </summary>
-    class QuerySFComboBox : SfComboBox
+    class QuerySFComboBox : TextBox
     {
+        public List<string> Actions { get; set; }
         public QuerySFComboBox(FlowLayoutPanel queryPanel) : base()
         {
             Font = StatementConstants.FONT;
             Width = queryPanel.Width - StatementConstants.OFFSET;
-            ComboBoxMode = ComboBoxMode.MultiSelection;
+            // ComboBoxMode = ComboBoxMode.MultiSelection;
         }
     }
 }
